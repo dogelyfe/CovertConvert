@@ -37,7 +37,19 @@ if (existsSync(seoDataPath)) {
   }
 }
 
-// 5. Build CSS with Tailwind
+// 5. Generate trust/content pages (when data exists)
+const trustDataPath = join(ROOT, 'data/trust-pages.json');
+if (existsSync(trustDataPath)) {
+  const { contentPage } = await import(join(ROOT, 'templates/content-page.js'));
+  const trustPages = JSON.parse(readFileSync(trustDataPath, 'utf8'));
+  for (const page of trustPages.pages || []) {
+    mkdirSync(join(ROOT, 'dist', page.slug), { recursive: true });
+    writeFileSync(join(ROOT, 'dist', page.slug, 'index.html'), contentPage(page));
+    console.log(`✓ Generated: dist/${page.slug}/index.html`);
+  }
+}
+
+// 6. Build CSS with Tailwind
 const tailwindBin = process.platform === 'darwin' ? './tailwindcss' : './tailwindcss-linux-x64';
 if (existsSync(join(ROOT, tailwindBin))) {
   execSync(`${tailwindBin} -i src/css/input.css -o dist/css/styles.css --minify`, { cwd: ROOT, stdio: 'inherit' });
@@ -46,7 +58,7 @@ if (existsSync(join(ROOT, tailwindBin))) {
   console.log('  Download from: https://github.com/tailwindlabs/tailwindcss/releases');
 }
 
-// 6. Copy static assets
+// 7. Copy static assets
 if (existsSync(join(ROOT, 'src/js'))) {
   cpSync(join(ROOT, 'src/js'), join(ROOT, 'dist/js'), { recursive: true });
   console.log('✓ Copied: src/js → dist/js');

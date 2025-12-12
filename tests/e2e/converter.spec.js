@@ -386,6 +386,77 @@ test.describe('CovertConvert - Home Page Schema', () => {
   });
 });
 
+test.describe('CovertConvert - Epic 4: Trust Pages', () => {
+  const trustPages = [
+    { slug: 'about', title: 'About', h1: 'About CovertConvert' },
+    { slug: 'privacy', title: 'Privacy', h1: 'Privacy Policy' },
+    { slug: 'how-it-works', title: 'How It Works', h1: 'How It Works' },
+  ];
+
+  for (const page of trustPages) {
+    test(`${page.slug} page loads with correct structure`, async ({ page: browserPage }) => {
+      await browserPage.goto(`/${page.slug}/`);
+
+      // Title contains page name
+      await expect(browserPage).toHaveTitle(new RegExp(page.title, 'i'));
+
+      // H1 matches
+      const h1 = browserPage.locator('h1');
+      await expect(h1).toContainText(page.h1);
+
+      // Has article content
+      await expect(browserPage.locator('article')).toBeVisible();
+
+      // Has CTA button to converter
+      await expect(browserPage.getByRole('link', { name: 'Convert Images Now' })).toBeVisible();
+    });
+  }
+
+  test('about page has key content sections', async ({ page }) => {
+    await page.goto('/about/');
+    await expect(page.locator('text=Why We Built This')).toBeVisible();
+    await expect(page.locator('text=What We Support')).toBeVisible();
+  });
+
+  test('privacy page explains data handling', async ({ page }) => {
+    await page.goto('/privacy/');
+    await expect(page.locator('text=What We Don\'t Collect')).toBeVisible();
+    await expect(page.locator('text=What We Do Collect')).toBeVisible();
+    await expect(page.locator('text=Verify It Yourself')).toBeVisible();
+  });
+
+  test('how-it-works page has HowTo schema', async ({ page }) => {
+    await page.goto('/how-it-works/');
+
+    const schemaScript = page.locator('script[type="application/ld+json"]');
+    const schemaContent = await schemaScript.textContent();
+
+    expect(schemaContent).toContain('HowTo');
+    expect(schemaContent).toContain('HowToStep');
+  });
+
+  test('how-it-works page explains technical approach', async ({ page }) => {
+    await page.goto('/how-it-works/');
+    await expect(page.getByRole('heading', { name: 'WebAssembly (WASM)' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Canvas API' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Verify It Yourself' })).toBeVisible();
+  });
+
+  test('trust pages have canonical URLs', async ({ page }) => {
+    await page.goto('/about/');
+    const canonical = page.locator('link[rel="canonical"]');
+    await expect(canonical).toHaveAttribute('href', 'https://covertconvert.com/about/');
+  });
+
+  test('trust pages have navigation footer', async ({ page }) => {
+    await page.goto('/privacy/');
+    await expect(page.locator('footer a[href="/"]')).toBeVisible();
+    await expect(page.locator('footer a[href="/about/"]')).toBeVisible();
+    await expect(page.locator('footer a[href="/privacy/"]')).toBeVisible();
+    await expect(page.locator('footer a[href="/how-it-works/"]')).toBeVisible();
+  });
+});
+
 test.describe('CovertConvert - SEO Page Conversion', () => {
   test('heic-to-jpg page outputs JPEG', async ({ page }) => {
     await page.goto('/heic-to-jpg/');
