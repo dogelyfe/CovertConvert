@@ -1,0 +1,23 @@
+{
+  "name": "covertconvert",
+  "version": "1.0.0",
+  "description": "Free, private, instant image converter - your files never leave your device",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run watch:css\" \"live-server dist --port=3000 --no-browser\"",
+    "watch:css": "./tailwindcss -i src/css/input.css -o dist/css/styles.css --watch",
+    "build": "node scripts/build.js",
+    "build:css": "./tailwindcss -i src/css/input.css -o dist/css/styles.css --minify",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "@playwright/test": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": true
+}

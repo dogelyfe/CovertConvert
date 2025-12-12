@@ -5,6 +5,15 @@ node_modules/
 dist/
 build/
 
+# Tailwind CLI binary (downloaded per platform)
+tailwindcss
+tailwindcss-*
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
 # Environment
 .env
 .env.local
