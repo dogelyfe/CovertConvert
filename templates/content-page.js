@@ -12,6 +12,20 @@ export const contentPage = ({ slug, title, description, h1, content, schema = nu
   <meta name="description" content="${description}">
   <link rel="canonical" href="https://covertconvert.com/${slug}/">
   <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Google Analytics 4 -->
+  <!-- Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- Google AdSense -->
+  <!-- Replace ca-pub-XXXXXXXXXX with your AdSense Publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
 ${schema ? `
   <!-- Schema Markup -->
   <script type="application/ld+json">
@@ -36,6 +50,20 @@ ${schema}
         </svg>
         Convert Images Now
       </a>
+    </div>
+
+    <!-- Below-Content Ad -->
+    <div class="mt-12" aria-label="Advertisement">
+      <div class="ad-container ad-container--content mx-auto">
+        <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
     </div>
   </main>
 

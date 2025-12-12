@@ -77,6 +77,19 @@ function getElements() {
 // ============================================================================
 
 /**
+ * Update selector text and aria-label together (a11y: label-content-name-mismatch)
+ * @param {string} text - Text to display and use for aria-label
+ */
+function updateSelectorText(text) {
+  const el = getElements();
+  if (el.selectorText) {
+    el.selectorText.textContent = text;
+  }
+  // Keep aria-label in sync with visible text for accessibility
+  el.fileSelector?.setAttribute('aria-label', text);
+}
+
+/**
  * Show file count after selection (active state)
  * @param {number} count - Number of files selected
  */
@@ -86,11 +99,8 @@ function showFileCount(count) {
   el.fileSelector?.classList.add('file-selector--active');
   el.fileSelector?.classList.remove('is-success', 'has-error', 'is-converting');
 
-  if (el.selectorText) {
-    el.selectorText.textContent = count === 1
-      ? '1 file selected'
-      : `${count} files selected`;
-  }
+  const text = count === 1 ? '1 file selected' : `${count} files selected`;
+  updateSelectorText(text);
 
   hideError();
   hideWarning();
@@ -107,11 +117,8 @@ function showConverting(current, total) {
   el.fileSelector?.classList.add('is-converting');
   el.fileSelector?.classList.remove('file-selector--active', 'is-success', 'has-error');
 
-  if (el.selectorText) {
-    el.selectorText.textContent = total === 1
-      ? 'Converting...'
-      : `Converting ${current} of ${total}...`;
-  }
+  const text = total === 1 ? 'Converting...' : `Converting ${current} of ${total}...`;
+  updateSelectorText(text);
 
   // Show progress bar for multiple files
   if (total > 1 && el.progressContainer) {
@@ -130,11 +137,8 @@ function showSuccess(count) {
   el.fileSelector?.classList.remove('is-converting', 'has-error');
   el.fileSelector?.classList.add('is-success');
 
-  if (el.selectorText) {
-    el.selectorText.textContent = count === 1
-      ? '✓ Done!'
-      : `✓ ${count} files converted!`;
-  }
+  const text = count === 1 ? 'Done!' : `${count} files converted!`;
+  updateSelectorText(text);
 
   // Complete progress bar
   if (el.progressFill) {
@@ -157,9 +161,8 @@ function showPartialSuccess(success, total) {
   el.fileSelector?.classList.remove('is-converting');
   el.fileSelector?.classList.add('is-success');
 
-  if (el.selectorText) {
-    el.selectorText.textContent = `Converted ${success} of ${total} files`;
-  }
+  const text = `Converted ${success} of ${total} files`;
+  updateSelectorText(text);
 }
 
 /**
@@ -192,12 +195,9 @@ function resetUI() {
     'has-error'
   );
 
-  // Reset selector text
-  if (el.selectorText) {
-    el.selectorText.textContent = hasTouch
-      ? 'Tap to select files'
-      : 'Drop files here or click to select';
-  }
+  // Reset selector text (with aria-label sync)
+  const text = hasTouch ? 'Tap to select files' : 'Drop files here or click to select';
+  updateSelectorText(text);
 
   // Reset file input
   if (el.fileInput) {
@@ -212,13 +212,13 @@ function resetUI() {
 
 /**
  * Update selector text for touch devices
+ * Uses updateSelectorText helper for aria-label sync
  */
 function updateSelectorTextForTouch() {
-  const el = getElements();
   const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  if (hasTouch && el.selectorText) {
-    el.selectorText.textContent = 'Tap to select files';
+  if (hasTouch) {
+    updateSelectorText('Tap to select files');
   }
 }
 

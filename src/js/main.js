@@ -11,6 +11,14 @@ import { setFiles, setOutputFormat, setQuality, convertAll, resetState } from '.
 import { triggerDownload } from './downloader.js';
 import { initPreload } from './codecs/loader.js';
 import { shouldWarnBatchSize, shouldWarnFileSize } from './platform.js';
+import {
+  trackFileSelected,
+  trackConversionStarted,
+  trackConversionCompleted,
+  trackConversionError,
+  trackBatchErrors,
+  trackDownloadTriggered,
+} from './analytics.js';
 
 // Import UI functions - single source of truth for DOM manipulation
 import {
@@ -159,6 +167,10 @@ async function processFiles(files) {
     formats: valid.map(v => v.format),
   });
 
+  // Track file selection (Story 5.1)
+  const formats = valid.map(v => v.format);
+  trackFileSelected(valid.length, formats);
+
   // Show error for invalid files
   if (invalid.length > 0) {
     const firstError = invalid[0];
@@ -203,6 +215,9 @@ async function startConversion(validatedFiles) {
   // Track conversion start time for progress threshold
   const startTime = Date.now();
 
+  // Track conversion started (Story 5.1)
+  trackConversionStarted(total, state.outputFormat);
+
   // Run conversion with progress callback
   const result = await convertAll((current, total, fileResult) => {
     // Only show progress if conversion takes > 500ms
@@ -213,8 +228,19 @@ async function startConversion(validatedFiles) {
 
   console.log('[CovertConvert] Conversion complete:', result);
 
+  // Calculate conversion duration
+  const durationMs = Date.now() - startTime;
+
   if (result.ok) {
     const { successful, failed, successCount, failCount } = result.data;
+
+    // Track conversion completed (Story 5.1)
+    trackConversionCompleted(successCount, durationMs, state.outputFormat);
+
+    // Track any conversion errors (aggregated to avoid flooding GA4)
+    if (failed.length > 0) {
+      trackBatchErrors(failed);
+    }
 
     if (failCount > 0 && successCount > 0) {
       // Partial success (Story 2.5)
@@ -255,6 +281,11 @@ async function startConversion(validatedFiles) {
       }
 
       console.log('[CovertConvert] Download complete:', downloadResult);
+
+      // Track download triggered (Story 5.1)
+      if (downloadResult.ok) {
+        trackDownloadTriggered(downloadResult.type || 'single', successful.length);
+      }
     }
 
     // Show any conversion errors (after download completes)
@@ -265,7 +296,9 @@ async function startConversion(validatedFiles) {
       showError(message, guidance);
     }
   } else {
-    // All failed
+    // All failed - track error
+    trackConversionError(ERROR_TYPES.DECODE_FAILED, 'batch');
+
     const message = getUserMessage(ERROR_TYPES.DECODE_FAILED);
     const guidance = getErrorGuidance(ERROR_TYPES.DECODE_FAILED);
     showError(message, guidance);

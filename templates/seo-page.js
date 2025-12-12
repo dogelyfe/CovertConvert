@@ -14,6 +14,32 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   <link rel="canonical" href="https://covertconvert.com/${slug}/">
   <link rel="stylesheet" href="/css/styles.css">
 
+  <!-- Theme initialization (prevents flash) -->
+  <script>
+    (function() {
+      var theme = localStorage.getItem('cc-theme');
+      // Default to dark mode if no preference saved
+      if (!theme) theme = 'dark';
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <!-- Google Analytics 4 -->
+  <!-- Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- Google AdSense -->
+  <!-- Replace ca-pub-XXXXXXXXXX with your AdSense Publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+
   <!-- FAQ Schema -->
   ${faqs.length > 0 ? `<script type="application/ld+json">
 {
@@ -33,7 +59,24 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
 </script>` : ''}
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900">
-  <main class="container mx-auto px-4 py-8 max-w-2xl">
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" role="group" aria-label="Theme switcher">
+    <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+    </svg>
+    <label class="theme-switch">
+      <input type="checkbox" id="theme-checkbox" aria-label="Toggle dark mode">
+      <span class="thumb"></span>
+    </label>
+    <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="lg:flex lg:gap-8 lg:justify-center">
+      <!-- Main Content -->
+      <main class="max-w-2xl w-full">
     <header class="text-center mb-8">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">${h1}</h1>
       <p class="text-gray-600">${description}</p>
@@ -82,7 +125,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
           aria-valuemax="100"
           aria-valuenow="92"
         >
-        <div class="flex justify-between w-48 mx-auto text-xs text-gray-400 mt-1">
+        <div class="flex justify-between w-48 mx-auto text-xs text-gray-600 mt-1">
           <span>Smaller</span>
           <span>Better</span>
         </div>
@@ -153,7 +196,37 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
       </div>
     </section>
     ` : ''}
-  </main>
+      </main>
+
+      <!-- Desktop Sidebar Ad (hidden on mobile) -->
+      <aside class="hidden lg:block flex-shrink-0" aria-label="Advertisement">
+        <div class="ad-container ad-container--sidebar sticky top-8">
+          <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-XXXXXXXXXX"
+               data-ad-slot="XXXXXXXXXX"
+               data-ad-format="auto"
+               data-full-width-responsive="false"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Mobile Below-Fold Ad (hidden on desktop) -->
+    <div class="lg:hidden mt-12" aria-label="Advertisement">
+      <div class="ad-container ad-container--mobile mx-auto">
+        <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="horizontal"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
 
   <footer class="text-center py-8 text-sm text-gray-500">
     <nav class="space-x-4">
@@ -165,5 +238,26 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   </footer>
 
   <script type="module" src="/js/main.js"></script>
+  <script>
+    // Theme toggle functionality
+    (function() {
+      var checkbox = document.getElementById('theme-checkbox');
+      var html = document.documentElement;
+
+      // Set initial checkbox state based on current theme
+      var isDark = html.getAttribute('data-theme') === 'dark';
+      checkbox.checked = isDark;
+
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          html.setAttribute('data-theme', 'dark');
+          localStorage.setItem('cc-theme', 'dark');
+        } else {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('cc-theme', 'light');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>`;
