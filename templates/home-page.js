@@ -15,6 +15,32 @@ export const homePage = () => `<!DOCTYPE html>
 
   <!-- Preconnect for potential codec CDN -->
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+  <!-- SoftwareApplication Schema -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CovertConvert",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free image converter that works in your browser. Convert HEIC, WebP, AVIF, TIFF to JPG or PNG. Your files never leave your device.",
+  "featureList": [
+    "Convert HEIC to JPG or PNG",
+    "Convert WebP to JPG or PNG",
+    "Convert AVIF to JPG or PNG",
+    "Convert TIFF to JPG or PNG",
+    "Batch conversion with ZIP download",
+    "100% private - files never uploaded",
+    "Works offline after initial load"
+  ]
+}
+</script>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900">
   <main class="container mx-auto px-4 py-8 max-w-2xl">

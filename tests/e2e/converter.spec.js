@@ -273,3 +273,157 @@ test.describe('CovertConvert - Mobile Viewport', () => {
     await expect(page.locator('#selector-text')).toBeVisible();
   });
 });
+
+test.describe('CovertConvert - Epic 3: SEO Landing Pages', () => {
+  const seoPages = [
+    { slug: 'heic-to-jpg', title: 'HEIC to JPG', outputFormat: 'jpeg', crossLinkTo: '/heic-to-png/' },
+    { slug: 'heic-to-png', title: 'HEIC to PNG', outputFormat: 'png', crossLinkTo: '/heic-to-jpg/' },
+    { slug: 'webp-to-jpg', title: 'WebP to JPG', outputFormat: 'jpeg', crossLinkTo: '/webp-to-png/' },
+    { slug: 'webp-to-png', title: 'WebP to PNG', outputFormat: 'png', crossLinkTo: '/webp-to-jpg/' },
+    { slug: 'avif-to-jpg', title: 'AVIF to JPG', outputFormat: 'jpeg', crossLinkTo: '/avif-to-png/' },
+    { slug: 'avif-to-png', title: 'AVIF to PNG', outputFormat: 'png', crossLinkTo: '/avif-to-jpg/' },
+    { slug: 'tiff-to-jpg', title: 'TIFF to JPG', outputFormat: 'jpeg', crossLinkTo: '/tiff-to-png/' },
+    { slug: 'tiff-to-png', title: 'TIFF to PNG', outputFormat: 'png', crossLinkTo: '/tiff-to-jpg/' },
+    { slug: 'png-to-jpg', title: 'PNG to JPG', outputFormat: 'jpeg', crossLinkTo: '/' },
+  ];
+
+  for (const page of seoPages) {
+    test(`${page.slug} page loads with correct structure`, async ({ page: browserPage }) => {
+      await browserPage.goto(`/${page.slug}/`);
+
+      // Title contains format
+      await expect(browserPage).toHaveTitle(new RegExp(page.title, 'i'));
+
+      // H1 matches intent
+      const h1 = browserPage.locator('h1');
+      await expect(h1).toContainText(/Convert/i);
+
+      // Converter has correct output format
+      const converter = browserPage.locator('#converter');
+      await expect(converter).toHaveAttribute('data-output', page.outputFormat);
+
+      // File selector is present
+      await expect(browserPage.locator('.file-selector')).toBeVisible();
+    });
+  }
+
+  test('JPEG pages show quality slider', async ({ page }) => {
+    await page.goto('/heic-to-jpg/');
+    await expect(page.locator('#quality-container')).toBeVisible();
+    await expect(page.locator('#quality-slider')).toBeVisible();
+  });
+
+  test('PNG pages hide quality slider', async ({ page }) => {
+    await page.goto('/heic-to-png/');
+    await expect(page.locator('#quality-container')).not.toBeVisible();
+  });
+
+  test('cross-links are present on SEO pages', async ({ page }) => {
+    await page.goto('/heic-to-jpg/');
+    const crossLink = page.locator('a[href="/heic-to-png/"]');
+    await expect(crossLink).toBeVisible();
+    await expect(crossLink).toContainText(/PNG/i);
+  });
+
+  test('FAQ section is present with schema', async ({ page }) => {
+    await page.goto('/heic-to-jpg/');
+
+    // FAQ section exists
+    const faqSection = page.locator('section:has(h2:text("Frequently Asked Questions"))');
+    await expect(faqSection).toBeVisible();
+
+    // At least 3 FAQ items
+    const faqItems = page.locator('details');
+    const faqCount = await faqItems.count();
+    expect(faqCount).toBeGreaterThanOrEqual(3);
+
+    // First 2 FAQs are open by default
+    const firstFaq = faqItems.first();
+    await expect(firstFaq).toHaveAttribute('open', '');
+
+    // Check schema markup exists
+    const schemaScript = page.locator('script[type="application/ld+json"]');
+    const schemaContent = await schemaScript.textContent();
+    expect(schemaContent).toContain('FAQPage');
+    expect(schemaContent).toContain('Question');
+  });
+
+  test('FAQ items expand and collapse', async ({ page }) => {
+    await page.goto('/heic-to-jpg/');
+
+    // Get a collapsed FAQ (3rd one)
+    const thirdFaq = page.locator('details').nth(2);
+
+    // Should be collapsed by default
+    await expect(thirdFaq).not.toHaveAttribute('open', '');
+
+    // Click to expand
+    await thirdFaq.locator('summary').click();
+    await expect(thirdFaq).toHaveAttribute('open', '');
+
+    // Click to collapse
+    await thirdFaq.locator('summary').click();
+    await expect(thirdFaq).not.toHaveAttribute('open', '');
+  });
+});
+
+test.describe('CovertConvert - Home Page Schema', () => {
+  test('home page has SoftwareApplication schema', async ({ page }) => {
+    await page.goto('/');
+
+    const schemaScript = page.locator('script[type="application/ld+json"]');
+    const schemaContent = await schemaScript.textContent();
+
+    expect(schemaContent).toContain('SoftwareApplication');
+    expect(schemaContent).toContain('CovertConvert');
+    expect(schemaContent).toContain('MultimediaApplication');
+  });
+
+  test('home page has format toggle (not on SEO pages)', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('[data-format="jpeg"]')).toBeVisible();
+    await expect(page.locator('[data-format="png"]')).toBeVisible();
+  });
+});
+
+test.describe('CovertConvert - SEO Page Conversion', () => {
+  test('heic-to-jpg page outputs JPEG', async ({ page }) => {
+    await page.goto('/heic-to-jpg/');
+
+    const converter = page.locator('#converter');
+    await expect(converter).toHaveAttribute('data-output', 'jpeg');
+
+    // Convert a PNG to verify JPEG output
+    const pngBuffer = createTestPNG();
+    const fileInput = page.locator('#file-input');
+
+    await fileInput.setInputFiles({
+      name: 'test.png',
+      mimeType: 'image/png',
+      buffer: pngBuffer,
+    });
+
+    // Should succeed and output JPG
+    await expect(page.locator('.file-selector')).toHaveClass(/is-success/, { timeout: 5000 });
+  });
+
+  test('heic-to-png page outputs PNG', async ({ page }) => {
+    await page.goto('/heic-to-png/');
+
+    const converter = page.locator('#converter');
+    await expect(converter).toHaveAttribute('data-output', 'png');
+
+    // Convert a PNG (passthrough but verifies output format)
+    const pngBuffer = createTestPNG();
+    const fileInput = page.locator('#file-input');
+
+    await fileInput.setInputFiles({
+      name: 'test.png',
+      mimeType: 'image/png',
+      buffer: pngBuffer,
+    });
+
+    // Should succeed
+    await expect(page.locator('.file-selector')).toHaveClass(/is-success/, { timeout: 5000 });
+  });
+});
