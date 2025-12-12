@@ -26,6 +26,11 @@ function initUI() {
     errorMessage: document.querySelector('#error-message'),
     errorGuidance: document.querySelector('#error-guidance'),
     trustMessage: document.querySelector('.trust-message'),
+    warningContainer: document.querySelector('#warning-container'),
+    warningMessage: document.querySelector('#warning-message'),
+    warningDismiss: document.querySelector('#warning-dismiss'),
+    qualitySlider: document.querySelector('#quality-slider'),
+    qualityValue: document.querySelector('#quality-value'),
   };
   return elements;
 }
@@ -233,6 +238,86 @@ function showFileCount(count) {
   hideError();
 }
 
+/**
+ * Show warning message (dismissible)
+ * @param {string} message - Warning text
+ */
+function showWarning(message) {
+  const el = getElements();
+
+  if (el.warningContainer) {
+    el.warningContainer.hidden = false;
+    el.warningContainer.classList.remove('hidden');
+  }
+
+  if (el.warningMessage) {
+    el.warningMessage.textContent = message;
+  }
+}
+
+/**
+ * Hide warning message
+ */
+function hideWarning() {
+  const el = getElements();
+
+  if (el.warningContainer) {
+    el.warningContainer.hidden = true;
+    el.warningContainer.classList.add('hidden');
+  }
+}
+
+/**
+ * Show downloading state (for sequential mobile downloads)
+ * @param {number} current - Current file being downloaded
+ * @param {number} total - Total files to download
+ */
+function showDownloading(current, total) {
+  const el = getElements();
+
+  if (el.selectorText) {
+    el.selectorText.textContent = `Downloading ${current} of ${total}...`;
+  }
+
+  if (el.progressText) {
+    el.progressText.textContent = `Downloading ${current} of ${total}...`;
+  }
+}
+
+/**
+ * Show info message (non-error, non-warning)
+ * @param {string} message - Info message text
+ */
+function showInfo(message) {
+  const el = getElements();
+
+  // Use warning container with info styling
+  if (el.warningContainer) {
+    el.warningContainer.hidden = false;
+    el.warningContainer.classList.remove('hidden');
+    el.warningContainer.classList.remove('bg-warning-bg', 'border-warning');
+    el.warningContainer.classList.add('bg-gray-100', 'border-gray-300');
+  }
+
+  if (el.warningMessage) {
+    el.warningMessage.textContent = message;
+    el.warningMessage.classList.remove('text-warning-text');
+    el.warningMessage.classList.add('text-gray-600');
+  }
+}
+
+/**
+ * Update quality slider display
+ * @param {number} value - Quality value (0-100)
+ */
+function updateQualityDisplay(value) {
+  const el = getElements();
+
+  if (el.qualityValue) {
+    el.qualityValue.textContent = `${value}%`;
+  }
+}
+
 // Named exports only (per architecture)
 export {
   initUI,
@@ -246,5 +331,10 @@ export {
   hideProgress,
   resetUI,
   showFileCount,
+  showWarning,
+  hideWarning,
+  showDownloading,
+  showInfo,
+  updateQualityDisplay,
   PROGRESS_THRESHOLD_MS,
 };

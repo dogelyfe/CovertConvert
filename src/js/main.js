@@ -1,13 +1,21 @@
 /**
  * CovertConvert - Main Entry Point
  * DOM initialization and event binding
+ *
+ * Epic 2: Batch Processing & Platform Downloads
  */
 
 import { validateFiles, getSupportedFormatsString } from './detector.js';
 import { getUserMessage, getErrorGuidance, ERROR_TYPES } from './errors.js';
-import { setFiles, setOutputFormat, convertAll } from './converter.js';
+import { setFiles, setOutputFormat, setQuality, convertAll, resetState } from './converter.js';
 import { triggerDownload } from './downloader.js';
 import { initPreload } from './codecs/loader.js';
+import {
+  shouldWarnBatchSize,
+  shouldWarnFileSize,
+  FILE_SIZE_WARNING_BYTES,
+  BATCH_WARNING_THRESHOLD,
+} from './platform.js';
 
 // Cache DOM elements at module load (per architecture pattern)
 const elements = {
@@ -22,13 +30,22 @@ const elements = {
   errorContainer: document.querySelector('#error-container'),
   errorMessage: document.querySelector('#error-message'),
   errorGuidance: document.querySelector('#error-guidance'),
+  warningContainer: document.querySelector('#warning-container'),
+  warningMessage: document.querySelector('#warning-message'),
+  warningDismiss: document.querySelector('#warning-dismiss'),
+  qualitySlider: document.querySelector('#quality-slider'),
+  qualityValue: document.querySelector('#quality-value'),
+  qualityContainer: document.querySelector('#quality-container'),
 };
 
-// State (will be moved to converter.js in Story 1.4+)
+// State
 let state = {
   outputFormat: 'jpeg',
+  quality: 0.92,
   files: [],
+  validatedFiles: [],
   status: 'idle',
+  warningDismissed: false,
 };
 
 /**
@@ -52,6 +69,9 @@ function init() {
   // Update UI for touch devices
   updateSelectorText();
 
+  // Update quality slider visibility
+  updateQualityVisibility();
+
   // Preload HEIC codec on fast connections
   initPreload();
 
@@ -65,7 +85,7 @@ function bindEvents() {
   // File input change
   elements.fileInput?.addEventListener('change', handleFileSelect);
 
-  // Drag and drop (dragenter + dragover for reliable hover state)
+  // Drag and drop
   elements.fileSelector?.addEventListener('dragenter', handleDragEnter);
   elements.fileSelector?.addEventListener('dragover', handleDragOver);
   elements.fileSelector?.addEventListener('dragleave', handleDragLeave);
@@ -86,6 +106,12 @@ function bindEvents() {
   elements.formatButtons?.forEach(btn => {
     btn.addEventListener('click', () => handleFormatChange(btn.dataset.format));
   });
+
+  // Quality slider
+  elements.qualitySlider?.addEventListener('input', handleQualityChange);
+
+  // Warning dismiss button
+  elements.warningDismiss?.addEventListener('click', dismissWarning);
 }
 
 /**
@@ -99,12 +125,28 @@ async function handleFileSelect(e) {
 }
 
 /**
- * Process selected files - validate, convert, and download
+ * Process selected files - validate, warn, convert, and download
  */
 async function processFiles(files) {
+  // Reset state for new batch
+  state.warningDismissed = false;
+  hideWarning();
+  hideError();
+
   // Immediate visual feedback (< 100ms per AC)
   showActiveState(files.length);
-  hideError();
+
+  // Check for batch size warning (FR28)
+  if (shouldWarnBatchSize(files.length)) {
+    showWarning(`Large batch (${files.length} files) — this may take a moment.`);
+  }
+
+  // Check for large file warning (FR29)
+  const largeFiles = files.filter(f => shouldWarnFileSize(f.size));
+  if (largeFiles.length > 0 && !shouldWarnBatchSize(files.length)) {
+    const sizeMB = Math.round(largeFiles[0].size / (1024 * 1024));
+    showWarning(`Large file (${sizeMB}MB) — conversion may take longer.`);
+  }
 
   // Validate all files
   const { valid, invalid } = await validateFiles(files);
@@ -152,6 +194,7 @@ async function startConversion(validatedFiles) {
   // Set up converter
   setFiles(validatedFiles);
   setOutputFormat(state.outputFormat);
+  setQuality(state.quality);
 
   // Track conversion start time for progress threshold
   const startTime = Date.now();
@@ -170,16 +213,25 @@ async function startConversion(validatedFiles) {
     const { successful, failed, successCount, failCount, total } = result.data;
 
     if (failCount > 0 && successCount > 0) {
-      // Partial success
+      // Partial success (Story 2.5)
       showPartialSuccess(successCount, total);
     } else {
       // Full success
       showSuccess(successCount);
     }
 
-    // Trigger download after 500ms success pause
+    // Trigger download with progress callback for sequential downloads
     if (successful.length > 0) {
-      await triggerDownload(successful);
+      const downloadResult = await triggerDownload(successful, (current, dlTotal) => {
+        showDownloadingState(current, dlTotal);
+      });
+
+      // Show mobile info message if applicable (Story 2.4)
+      if (downloadResult.message) {
+        showInfo(downloadResult.message);
+      }
+
+      console.log('[CovertConvert] Download complete:', downloadResult);
     }
 
     // Show any conversion errors
@@ -210,6 +262,19 @@ function showConvertingState(current, total) {
   if (total > 1 && elements.progressContainer) {
     elements.progressContainer.hidden = false;
     elements.progressContainer.classList.remove('hidden');
+  }
+}
+
+/**
+ * Show downloading state (for sequential mobile downloads)
+ */
+function showDownloadingState(current, total) {
+  if (elements.selectorText) {
+    elements.selectorText.textContent = `Downloading ${current} of ${total}...`;
+  }
+
+  if (elements.progressText) {
+    elements.progressText.textContent = `Downloading ${current} of ${total}...`;
   }
 }
 
@@ -256,7 +321,7 @@ function showSuccess(count) {
 }
 
 /**
- * Show partial success
+ * Show partial success (Story 2.5)
  */
 function showPartialSuccess(success, total) {
   elements.fileSelector?.classList.remove('is-converting');
@@ -272,6 +337,8 @@ function showPartialSuccess(success, total) {
  */
 function showActiveState(count) {
   elements.fileSelector?.classList.add('file-selector--active');
+  elements.fileSelector?.classList.remove('is-success', 'has-error', 'is-converting');
+
   if (elements.selectorText) {
     elements.selectorText.textContent = count === 1
       ? '1 file selected'
@@ -280,7 +347,7 @@ function showActiveState(count) {
 }
 
 /**
- * Handle drag enter (initial drag detection)
+ * Handle drag enter
  */
 function handleDragEnter(e) {
   e.preventDefault();
@@ -289,12 +356,11 @@ function handleDragEnter(e) {
 }
 
 /**
- * Handle drag over (required to allow drop)
+ * Handle drag over
  */
 function handleDragOver(e) {
   e.preventDefault();
   e.stopPropagation();
-  // Keep hover state active
   elements.fileSelector?.classList.add('file-selector--hover');
 }
 
@@ -337,7 +403,37 @@ function handleFormatChange(format) {
     btn.classList.toggle('text-gray-700', !isActive);
   });
 
+  // Update quality slider visibility (Story 1.7)
+  updateQualityVisibility();
+
   console.log('[CovertConvert] Output format changed:', format);
+}
+
+/**
+ * Handle quality slider change (Story 1.7 / Epic 2)
+ */
+function handleQualityChange(e) {
+  const value = parseInt(e.target.value, 10);
+  state.quality = value / 100;
+
+  // Update display
+  if (elements.qualityValue) {
+    elements.qualityValue.textContent = `${value}%`;
+  }
+
+  console.log('[CovertConvert] Quality changed:', state.quality);
+}
+
+/**
+ * Update quality slider visibility based on output format
+ */
+function updateQualityVisibility() {
+  if (elements.qualityContainer) {
+    // Show for JPEG, hide for PNG (PNG is lossless)
+    const showSlider = state.outputFormat === 'jpeg';
+    elements.qualityContainer.hidden = !showSlider;
+    elements.qualityContainer.classList.toggle('hidden', !showSlider);
+  }
 }
 
 /**
@@ -351,15 +447,63 @@ function updateSelectorText() {
 }
 
 /**
+ * Show warning message (Story 2.6)
+ */
+function showWarning(message) {
+  if (elements.warningContainer) {
+    elements.warningContainer.hidden = false;
+    elements.warningContainer.classList.remove('hidden');
+  }
+
+  if (elements.warningMessage) {
+    elements.warningMessage.textContent = message;
+  }
+}
+
+/**
+ * Hide warning message
+ */
+function hideWarning() {
+  if (elements.warningContainer) {
+    elements.warningContainer.hidden = true;
+    elements.warningContainer.classList.add('hidden');
+  }
+}
+
+/**
+ * Dismiss warning (FR30)
+ */
+function dismissWarning() {
+  state.warningDismissed = true;
+  hideWarning();
+}
+
+/**
+ * Show info message (non-blocking)
+ */
+function showInfo(message) {
+  if (elements.warningContainer) {
+    elements.warningContainer.hidden = false;
+    elements.warningContainer.classList.remove('hidden');
+    // Use neutral styling for info
+    elements.warningContainer.classList.remove('bg-warning-bg', 'border-warning');
+    elements.warningContainer.classList.add('bg-gray-100', 'border-gray-300');
+  }
+
+  if (elements.warningMessage) {
+    elements.warningMessage.textContent = message;
+    elements.warningMessage.classList.remove('text-warning-text');
+    elements.warningMessage.classList.add('text-gray-600');
+  }
+}
+
+/**
  * Show error message to user
- * @param {string} errorType - Error type from ERROR_TYPES
- * @param {string} filename - Name of the file that caused the error
  */
 function showError(errorType, filename) {
   const message = getUserMessage(errorType);
   const guidance = getErrorGuidance(errorType);
 
-  // Update error container
   if (elements.errorContainer) {
     elements.errorContainer.hidden = false;
     elements.errorContainer.classList.remove('hidden');
@@ -371,7 +515,6 @@ function showError(errorType, filename) {
     elements.errorGuidance.textContent = guidance;
   }
 
-  // Add error state to file selector
   elements.fileSelector?.classList.add('has-error');
   elements.fileSelector?.classList.remove('file-selector--active');
 
@@ -390,12 +533,18 @@ function hideError() {
 }
 
 /**
- * Reset UI to default state
+ * Reset UI to default state (Story 2.7)
  */
 function resetToDefault() {
   const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  elements.fileSelector?.classList.remove('file-selector--active', 'has-error', 'is-success');
+  // Reset file selector
+  elements.fileSelector?.classList.remove(
+    'file-selector--active',
+    'has-error',
+    'is-success',
+    'is-converting'
+  );
 
   if (elements.selectorText) {
     elements.selectorText.textContent = hasTouch
@@ -408,10 +557,28 @@ function resetToDefault() {
     elements.fileInput.value = '';
   }
 
-  // Reset state
+  // Hide progress
+  if (elements.progressContainer) {
+    elements.progressContainer.hidden = true;
+    elements.progressContainer.classList.add('hidden');
+  }
+
+  if (elements.progressFill) {
+    elements.progressFill.style.width = '0%';
+  }
+
+  // Hide errors and warnings
+  hideError();
+  hideWarning();
+
+  // Reset converter state
+  resetState();
+
+  // Reset local state
   state.files = [];
   state.validatedFiles = [];
   state.status = 'idle';
+  state.warningDismissed = false;
 }
 
 // Initialize when DOM is ready
@@ -422,4 +589,4 @@ if (document.readyState === 'loading') {
 }
 
 // Export for testing
-export { init, state };
+export { init, state, resetToDefault };
