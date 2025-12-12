@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works — CovertConvert Privacy-First Image Converter</title>
+  <meta name="description" content="Learn how CovertConvert converts images without uploading. All processing happens in your browser using WebAssembly technology.">
+
+  <link rel="canonical" href="https://covertconvert.app/how-it-works">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' } } } }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="min-h-screen bg-gray-50">
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="text-xl font-bold text-gray-900">
+        <span class="text-brand-600">Covert</span>Convert
+      </a>
+      <nav class="hidden sm:flex gap-6 text-sm text-gray-600">
+        <a href="/pages/heic-to-jpg.html" class="hover:text-gray-900">HEIC to JPG</a>
+        <a href="/pages/webp-to-jpg.html" class="hover:text-gray-900">WebP to JPG</a>
+        <a href="/pages/how-it-works.html" class="text-brand-600 font-medium">How It Works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">How CovertConvert Works</h1>
+
+    <p class="text-lg text-gray-600 mb-8">
+      Unlike most "free" online converters, CovertConvert processes your images entirely in your browser.
+      Your files <strong>never leave your device</strong>. Here's how.
+    </p>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">The Traditional Way (Risky)</h2>
+      <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+        <ol class="space-y-3 text-gray-700">
+          <li class="flex gap-3">
+            <span class="text-red-500 font-bold">1.</span>
+            <span>You upload your photo to their server</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-red-500 font-bold">2.</span>
+            <span>Their server processes and stores your file</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-red-500 font-bold">3.</span>
+            <span>You download the result</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-red-500 font-bold">4.</span>
+            <span>Your original file may remain on their servers indefinitely</span>
+          </li>
+        </ol>
+        <p class="mt-4 text-sm text-red-700">
+          <strong>The problem:</strong> You have no control over what happens to your photos. They could be stored, analyzed, or used for AI training without your knowledge.
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">The CovertConvert Way (Private)</h2>
+      <div class="bg-brand-50 border border-brand-200 rounded-xl p-6">
+        <ol class="space-y-3 text-gray-700">
+          <li class="flex gap-3">
+            <span class="text-brand-600 font-bold">1.</span>
+            <span>You drop your file onto CovertConvert</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-brand-600 font-bold">2.</span>
+            <span>Your browser reads the file locally (no upload)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-brand-600 font-bold">3.</span>
+            <span>WebAssembly code converts the image using your CPU</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-brand-600 font-bold">4.</span>
+            <span>The converted file is saved directly to your Downloads</span>
+          </li>
+        </ol>
+        <p class="mt-4 text-sm text-brand-700">
+          <strong>The result:</strong> Your files never touch our servers. We couldn't see them if we wanted to.
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">The Technical Details</h2>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h3 class="font-bold text-gray-900 mb-2">Client-Side Processing</h3>
+          <p class="text-gray-600 text-sm">
+            All image decoding and encoding happens in your browser using JavaScript and WebAssembly (WASM).
+            The heavy lifting is done by your device's CPU, not our servers.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h3 class="font-bold text-gray-900 mb-2">WebAssembly Codecs</h3>
+          <p class="text-gray-600 text-sm">
+            For formats like HEIC and AVIF, we use optimized WebAssembly libraries (compiled from C/C++)
+            that run at near-native speed in your browser. These are only loaded when needed.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h3 class="font-bold text-gray-900 mb-2">Canvas API</h3>
+          <p class="text-gray-600 text-sm">
+            For common formats like PNG, WebP, and GIF, we use your browser's built-in Canvas API.
+            It's fast, efficient, and requires no additional code to download.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h3 class="font-bold text-gray-900 mb-2">Blob URLs</h3>
+          <p class="text-gray-600 text-sm">
+            When you "download" your converted file, it's not downloading from our server.
+            The browser creates a temporary URL pointing to data in memory, then saves it to your Downloads folder.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Verify It Yourself</h2>
+      <p class="text-gray-600 mb-4">
+        Don't just take our word for it. Here's how to verify that your files aren't being uploaded:
+      </p>
+      <ol class="space-y-3 text-gray-700">
+        <li class="flex gap-3">
+          <span class="font-bold">1.</span>
+          <span>Open your browser's Developer Tools (F12 or right-click → Inspect)</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="font-bold">2.</span>
+          <span>Go to the Network tab</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="font-bold">3.</span>
+          <span>Convert a file and watch the network requests</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="font-bold">4.</span>
+          <span>You'll see no uploads — just the initial page load and lazy-loaded scripts</span>
+        </li>
+      </ol>
+      <p class="mt-4 text-sm text-gray-500">
+        You can even disconnect from the internet after the page loads. Conversion will still work.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Why We Built This</h2>
+      <p class="text-gray-600 mb-4">
+        We were tired of sketchy "free" converters that harvest user data.
+        Most people don't realize their personal photos are being uploaded to random servers.
+      </p>
+      <p class="text-gray-600">
+        CovertConvert proves that you can have a fast, free tool without sacrificing privacy.
+        Your photos are your business — not ours.
+      </p>
+    </section>
+  </main>
+
+  <footer class="border-t border-gray-200 mt-16">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-gray-500">&copy; 2025 CovertConvert. Your files stay on your device.</p>
+        <nav class="flex gap-6 text-sm text-gray-500">
+          <a href="/pages/privacy.html" class="hover:text-gray-700">Privacy</a>
+          <a href="/pages/how-it-works.html" class="hover:text-gray-700">How It Works</a>
+          <a href="/pages/about.html" class="hover:text-gray-700">About</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

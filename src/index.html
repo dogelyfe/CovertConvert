@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CovertConvert — Free Private Image Converter | No Upload Required</title>
+  <meta name="description" content="Convert HEIC, WebP, PNG, AVIF, TIFF to JPG or PNG instantly. Your files never leave your device — 100% private, no upload, no signup.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="CovertConvert — Private Image Converter">
+  <meta property="og:description" content="Convert images instantly. Your files never leave your device.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://covertconvert.app">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CovertConvert — Private Image Converter">
+  <meta name="twitter:description" content="Convert images instantly. Your files never leave your device.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Schema.org markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CovertConvert",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any (Web Browser)",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Privacy-first image converter that runs entirely in your browser. Convert HEIC, WebP, PNG, AVIF, TIFF to JPG or PNG without uploading files.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "1"
+    }
+  }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="text-xl font-bold text-gray-900">
+        <span class="text-brand-600">Covert</span>Convert
+      </a>
+      <nav class="hidden sm:flex gap-6 text-sm text-gray-600">
+        <a href="/pages/heic-to-jpg.html" class="hover:text-gray-900">HEIC to JPG</a>
+        <a href="/pages/webp-to-jpg.html" class="hover:text-gray-900">WebP to JPG</a>
+        <a href="/pages/how-it-works.html" class="hover:text-gray-900">How It Works</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="max-w-3xl mx-auto px-4 py-12">
+    <!-- Hero -->
+    <div class="text-center mb-10">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        Convert Images Privately
+      </h1>
+      <p class="text-lg text-gray-600 max-w-xl mx-auto">
+        Your files <strong>never leave your device</strong>. No upload, no signup, no limits.
+        <br>Convert HEIC, WebP, PNG, AVIF, TIFF to JPG or PNG instantly.
+      </p>
+    </div>
+
+    <!-- Converter card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+      <!-- Output format toggle -->
+      <div class="flex items-center justify-center gap-4 mb-6">
+        <span class="text-sm text-gray-600">Output format:</span>
+        <div class="inline-flex rounded-lg border border-gray-200 p-1">
+          <button id="btn-jpg" class="px-4 py-1.5 text-sm font-medium rounded-md bg-brand-600 text-white transition-colors">
+            JPEG
+          </button>
+          <button id="btn-png" class="px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:text-gray-900 transition-colors">
+            PNG
+          </button>
+        </div>
+      </div>
+
+      <!-- Drop zone -->
+      <div id="drop-zone" class="relative border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-brand-500 hover:bg-brand-50/30 transition-colors">
+        <input type="file" id="file-input" multiple accept="image/*,.heic,.heif,.webp,.avif,.tiff,.tif,.bmp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+
+        <div id="drop-prompt">
+          <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <p class="text-gray-600 mb-2">
+            <span class="font-medium text-brand-600">Click to browse</span> or drag and drop
+          </p>
+          <p class="text-sm text-gray-500">
+            HEIC, WebP, PNG, AVIF, TIFF, BMP, GIF supported
+          </p>
+        </div>
+
+        <div id="drop-active" class="hidden">
+          <svg class="mx-auto h-12 w-12 text-brand-500 mb-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+          <p class="text-brand-600 font-medium">Drop files here</p>
+        </div>
+      </div>
+
+      <!-- File list -->
+      <div id="file-list" class="hidden mt-6">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-medium text-gray-700">Files to convert</h3>
+          <button id="clear-files" class="text-sm text-gray-500 hover:text-gray-700">Clear all</button>
+        </div>
+        <div id="file-items" class="space-y-2 max-h-48 overflow-y-auto"></div>
+      </div>
+
+      <!-- Convert button -->
+      <button id="convert-btn" class="hidden w-full mt-6 py-3 px-6 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Convert
+      </button>
+
+      <!-- Progress -->
+      <div id="progress-section" class="hidden mt-6">
+        <div class="flex items-center justify-between text-sm mb-2">
+          <span class="text-gray-600">Converting...</span>
+          <span id="progress-text" class="text-gray-900 font-medium">0%</span>
+        </div>
+        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div id="progress-bar" class="h-full bg-brand-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Warning for large batches -->
+      <div id="batch-warning" class="hidden mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <p class="text-sm text-amber-800">
+          <strong>Heads up:</strong> Converting many large files uses your device's memory.
+          If your browser freezes, try fewer files at once.
+        </p>
+      </div>
+    </div>
+
+    <!-- Privacy callout -->
+    <div class="mt-8 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-50 text-brand-700 rounded-full text-sm">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        100% Private — Files never leave your device
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">How to Convert Images</h2>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="text-center">
+          <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-3 font-bold">1</div>
+          <h3 class="font-medium text-gray-900 mb-1">Drop your files</h3>
+          <p class="text-sm text-gray-600">Drag and drop or click to select images</p>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-3 font-bold">2</div>
+          <h3 class="font-medium text-gray-900 mb-1">Choose format</h3>
+          <p class="text-sm text-gray-600">Select JPG or PNG output</p>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-3 font-bold">3</div>
+          <h3 class="font-medium text-gray-900 mb-1">Download</h3>
+          <p class="text-sm text-gray-600">Get your converted files instantly</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="bg-white rounded-lg border border-gray-200 p-4">
+          <summary class="font-medium text-gray-900 cursor-pointer">Is it safe to convert images online?</summary>
+          <p class="mt-3 text-gray-600 text-sm">
+            Most online converters upload your files to their servers. CovertConvert is different — your files never leave your device.
+            Conversion happens entirely in your browser using your computer's processing power. We literally cannot see your files.
+          </p>
+        </details>
+        <details class="bg-white rounded-lg border border-gray-200 p-4">
+          <summary class="font-medium text-gray-900 cursor-pointer">What formats can I convert?</summary>
+          <p class="mt-3 text-gray-600 text-sm">
+            CovertConvert supports HEIC/HEIF (iPhone photos), WebP, PNG, AVIF, TIFF, BMP, and GIF.
+            You can convert any of these to either JPEG or PNG format.
+          </p>
+        </details>
+        <details class="bg-white rounded-lg border border-gray-200 p-4">
+          <summary class="font-medium text-gray-900 cursor-pointer">Why are my iPhone photos HEIC?</summary>
+          <p class="mt-3 text-gray-600 text-sm">
+            Apple uses HEIC (High Efficiency Image Container) because it produces smaller file sizes than JPEG while maintaining quality.
+            However, many apps and Windows computers don't support HEIC natively, which is why you might need to convert them.
+          </p>
+        </details>
+        <details class="bg-white rounded-lg border border-gray-200 p-4">
+          <summary class="font-medium text-gray-900 cursor-pointer">Is there a file size or quantity limit?</summary>
+          <p class="mt-3 text-gray-600 text-sm">
+            There's no artificial limit — convert as many files as your browser can handle.
+            Since processing happens on your device, very large batches (50+ large photos) might slow things down.
+            If that happens, just convert in smaller batches.
+          </p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 mt-16">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-gray-500">
+          &copy; 2025 CovertConvert. Your files stay on your device.
+        </p>
+        <nav class="flex gap-6 text-sm text-gray-500">
+          <a href="/pages/privacy.html" class="hover:text-gray-700">Privacy</a>
+          <a href="/pages/how-it-works.html" class="hover:text-gray-700">How It Works</a>
+          <a href="/pages/about.html" class="hover:text-gray-700">About</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/converter.js" type="module"></script>
+</body>
+</html>
