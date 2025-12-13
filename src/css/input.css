@@ -80,6 +80,8 @@
 [data-theme="dark"] .bg-gray-200:hover { background-color: #4b5563; } /* gray-600 */
 [data-theme="dark"] .hover\:bg-gray-300:hover { background-color: #4b5563; } /* gray-600 */
 [data-theme="dark"] .hover\:text-gray-700:hover { color: #f3f4f6; } /* gray-100 */
+[data-theme="dark"] .bg-white { background-color: var(--bg-surface); } /* FAQ cards, etc */
+[data-theme="dark"] .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } /* Darker shadow */
 
 /* ===== Base Styles ===== */
 body {
