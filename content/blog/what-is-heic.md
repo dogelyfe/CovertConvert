@@ -1,113 +1,67 @@
 ---
 title: "What is HEIC? (And Why Your iPhone Uses It)"
-description: "HEIC is Apple's default photo format since iOS 11. Learn what it is, why Apple uses it, and how to convert HEIC to JPG when you need compatibility."
+description: "HEIC is Apple's photo format—the reason your iPhone photos won't open on half the computers out there. Here's what it actually is and what to do about it."
 date: "2025-12-13"
 slug: "what-is-heic"
-author: "CovertConvert"
 tags: ["heic", "iphone", "apple", "image formats"]
 ---
 
-If you've ever tried to open an iPhone photo on Windows or upload it to a website, you've probably encountered the mysterious `.heic` file extension. What is this format, and why does Apple insist on using it?
+So you tried to open a photo from your iPhone and got hit with "file format not supported." Or maybe you tried uploading it somewhere and the site just... refused. Welcome to HEIC.
 
-## HEIC: The Basics
+## The short version
 
-HEIC stands for **High Efficiency Image Container**. It's based on the HEIF (High Efficiency Image Format) standard, which uses the same compression technology as HEVC video (H.265).
+HEIC is Apple's photo format. Every picture you take on a modern iPhone gets saved as a `.heic` file instead of a `.jpg`. Apple did this starting with iOS 11 back in 2017, and they didn't exactly ask permission.
 
-Apple adopted HEIC as the default photo format starting with iOS 11 in 2017. Every photo you take on a modern iPhone is saved as HEIC by default.
+The format itself is fine—good, even. The problem is that the rest of the world hasn't caught up yet.
 
-## Why Apple Uses HEIC
+## Why Apple switched
 
-Apple didn't switch to HEIC just to annoy Windows users. There are genuine technical benefits:
+Look, Apple didn't do this just to annoy Windows users (probably). There are actual reasons:
 
-### 1. Smaller File Sizes
+**The files are way smaller.** Like, roughly half the size of a JPG at the same quality. When you're storing thousands of photos on a phone, that adds up fast.
 
-HEIC images are typically **40-50% smaller** than equivalent JPEG files while maintaining the same visual quality. On a 128GB iPhone, this translates to thousands of extra photos.
+**Better image quality.** HEIC supports 16-bit color instead of JPG's 8-bit. More colors means smoother gradients and less of that banding you sometimes see in skies or shadows.
 
-### 2. Better Image Quality
+**Extra features.** Live Photos, depth data for portrait mode, transparency—HEIC can store all of it in one file. JPG can't.
 
-HEIC supports:
-- **16-bit color depth** (vs JPEG's 8-bit)
-- **Wide color gamut** (P3)
-- **HDR images**
-- **Transparency** (like PNG)
+So from Apple's perspective, this was a no-brainer. Better quality, smaller files, more features. Ship it.
 
-### 3. Advanced Features
+## The problem
 
-HEIC can store:
-- Multiple images in one file (Live Photos, bursts)
-- Depth maps for Portrait mode
-- Image sequences and animations
-- Non-destructive edits
+Nobody else got the memo.
 
-## The Compatibility Problem
+HEIC works great if you stay in the Apple ecosystem. Mac to iPhone to iPad, no issues. But the moment you try to do anything else:
 
-Here's the catch: HEIC isn't universally supported.
+- Windows won't open it (without installing extra stuff)
+- Half the websites won't accept it for uploads
+- Email attachments get rejected
+- Photo editing software throws errors
+- Your parents definitely can't open it
 
-**Works with HEIC:**
-- macOS 10.13+
-- iOS 11+
-- Windows 10/11 (with codec)
-- Modern Android (varies)
+I've hit this wall more times than I want to admit. You just want to upload a photo somewhere and suddenly you're troubleshooting file formats.
 
-**Doesn't work with HEIC:**
-- Older Windows versions
-- Many websites and web apps
-- Older photo editing software
-- Email clients (sometimes)
-- Social media uploads (sometimes)
+## What to do about it
 
-You'll see errors like:
-- "File format not supported"
-- "Cannot open this file"
-- "Upload failed"
+You've got a few options.
 
-## How to Convert HEIC to JPG
+**Option 1: Convert when you need to**
 
-When you need compatibility, converting HEIC to JPG is the simplest solution. JPG works everywhere.
+This is what I do. Keep the HEIC files (they're actually better), and just convert to JPG when you need compatibility. Takes a few seconds with the [right tool](/).
 
-### Option 1: Use CovertConvert (Recommended)
+**Option 2: Make your iPhone save as JPG**
 
-[CovertConvert](/) converts HEIC to JPG directly in your browser. Your files never leave your device—it's completely private.
+You can change this in Settings → Camera → Formats → Most Compatible. Now everything saves as JPG.
 
-1. Go to [CovertConvert](/)
-2. Drop your HEIC files
-3. Download your JPGs
+Downside: your photos take up twice the space and you lose some of the quality benefits. But if you never want to think about this again, its an option.
 
-### Option 2: Change iPhone Settings
+**Option 3: Install codecs on Windows**
 
-You can make your iPhone save photos as JPG instead of HEIC:
+Microsoft has HEIF extensions in the Store. Sometimes they work. Sometimes they want you to pay for an additional codec. Sometimes they just don't help with the thing you're actually trying to do (like upload to a website).
 
-1. Open **Settings**
-2. Go to **Camera** → **Formats**
-3. Select **Most Compatible**
+## My take
 
-The downside: you lose the storage savings and quality benefits of HEIC.
+Honestly? HEIC is the better format. Keep using it. Just accept that you'll need to convert sometimes when sharing with the non-Apple world.
 
-### Option 3: Install Windows Codec
+The good news is that converting is pretty painless if you have a [tool that doesn't require uploading your photos to some random server](/blog/is-online-converter-safe/). That's actually why I built this site—I got tired of the sketchiness of most converters and figured there had to be a better way.
 
-Microsoft offers [HEIF Image Extensions](https://www.microsoft.com/store/productId/9PMMSR1CGPWG) in the Microsoft Store. However:
-- Requires Windows 10/11
-- May require additional purchase for HEVC codec
-- Doesn't help with web uploads
-
-## Should You Keep Using HEIC?
-
-**Yes, keep HEIC as your default.** The storage savings are significant, and quality is better. Just convert to JPG when you need compatibility.
-
-Think of it like this: keep the high-quality HEIC as your "master" and export JPG copies when needed.
-
-## Quick Comparison
-
-| Feature | HEIC | JPG |
-|---------|------|-----|
-| File size | Smaller (~50%) | Larger |
-| Color depth | 16-bit | 8-bit |
-| Transparency | Yes | No |
-| Compatibility | Limited | Universal |
-| Quality at same size | Better | Good |
-
-## The Bottom Line
-
-HEIC is technically superior to JPG in almost every way. The only downside is compatibility—and that's easily solved by converting when needed.
-
-Your iPhone photos are stored in the best possible quality. When you need to share them with the rest of the world, [convert them to JPG](/) in seconds.
+There was. It runs in your browser. Your files never leave your device. [Check it out](/) if you're dealing with a pile of HEIC files right now.
