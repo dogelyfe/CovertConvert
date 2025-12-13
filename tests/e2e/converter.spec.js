@@ -445,7 +445,7 @@ test.describe('CovertConvert - Epic 4: Trust Pages', () => {
   test('trust pages have canonical URLs', async ({ page }) => {
     await page.goto('/about/');
     const canonical = page.locator('link[rel="canonical"]');
-    await expect(canonical).toHaveAttribute('href', 'https://covertconvert.com/about/');
+    await expect(canonical).toHaveAttribute('href', 'https://covertconvert.app/about/');
   });
 
   test('trust pages have navigation footer', async ({ page }) => {
