@@ -1,9 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './src/**/*.{html,js}',
+    './src/**/*.{html,js,css}',
     './templates/**/*.js',
     './dist/**/*.html'
+  ],
+  darkMode: ['selector', '[data-theme="dark"]'],
+  safelist: [
+    'theme-toggle',
+    'theme-switch',
+    'icon-sun',
+    'icon-moon',
+    'thumb',
+    'file-selector',
+    'file-selector--hover',
+    'file-selector--active',
+    'progress-batch',
+    'progress-batch__fill',
+    'trust-message',
+    'ad-container',
+    'ad-container--sidebar',
+    'ad-container--mobile',
+    'ad-container--content',
   ],
   theme: {
     extend: {

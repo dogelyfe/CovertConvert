@@ -68,4 +68,10 @@ if (existsSync(join(ROOT, 'src/assets'))) {
   console.log('✓ Copied: src/assets → dist/assets');
 }
 
+// 8. Copy public folder (static files: _headers, robots.txt, sitemap.xml, manifest.json)
+if (existsSync(join(ROOT, 'public'))) {
+  cpSync(join(ROOT, 'public'), join(ROOT, 'dist'), { recursive: true });
+  console.log('✓ Copied: public → dist (static files)');
+}
+
 console.log('\n✅ Build complete');
