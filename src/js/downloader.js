@@ -18,8 +18,11 @@ const DOWNLOAD_DELAY_MS = 500;
 // Sequential download delay between files
 const SEQUENTIAL_DELAY_MS = 500;
 
-// JSZip CDN URL - lazy loaded only when needed
-const JSZIP_CDN_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';
+// JSZip CDN with SRI hash for supply chain security
+const JSZIP_CDN = {
+  url: 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js',
+  integrity: 'sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG',
+};
 
 // Memory warning threshold (100MB total)
 const MEMORY_WARNING_BYTES = 100 * 1024 * 1024;
@@ -53,7 +56,9 @@ async function loadJSZip() {
     }
 
     const script = document.createElement('script');
-    script.src = JSZIP_CDN_URL;
+    script.src = JSZIP_CDN.url;
+    script.integrity = JSZIP_CDN.integrity;
+    script.crossOrigin = 'anonymous';
     script.async = true;
 
     // Timeout after 10 seconds

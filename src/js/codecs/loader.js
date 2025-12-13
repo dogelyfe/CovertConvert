@@ -7,11 +7,20 @@
 
 import { ERROR_TYPES } from '../errors.js';
 
-// Codec URLs - using CDN for WASM binaries
+// Codec URLs with SRI hashes for supply chain security
 const CODEC_URLS = {
-  heic: 'https://cdn.jsdelivr.net/npm/libheif-js@1.18.0/libheif/libheif.js',
-  avif: 'https://cdn.jsdelivr.net/npm/@aspect-ratio/avif-decoder@0.2.0/avif-decoder.js',
-  tiff: 'https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js',
+  heic: {
+    url: 'https://cdn.jsdelivr.net/npm/libheif-js@1.18.0/libheif/libheif.js',
+    integrity: 'sha384-ZtxS4OBdDAgj7qYhhHmg2NnUuFlkH3EHWi9kNuyCjAnLYR66JhAGUvdZe7gT+qG2',
+  },
+  avif: {
+    url: 'https://cdn.jsdelivr.net/npm/@aspect-ratio/avif-decoder@0.2.0/avif-decoder.js',
+    integrity: null, // Not used - native browser support preferred
+  },
+  tiff: {
+    url: 'https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js',
+    integrity: 'sha384-RyBmXHdfZ/Uon+ud+/AqSyWpUWnKYt2tkRG/P4gWoRUGDU+qIAV3tGBPNlYTBZEF',
+  },
 };
 
 // Module-scoped codec cache
@@ -31,12 +40,13 @@ function isCodecLoaded(format) {
 const SCRIPT_LOAD_TIMEOUT_MS = 10000;
 
 /**
- * Load a script dynamically with timeout
+ * Load a script dynamically with timeout and SRI verification
  * @param {string} url - Script URL
+ * @param {string|null} integrity - SRI hash (sha384-...) or null to skip
  * @param {number} timeoutMs - Timeout in milliseconds (default: 10000)
  * @returns {Promise<void>}
  */
-function loadScript(url, timeoutMs = SCRIPT_LOAD_TIMEOUT_MS) {
+function loadScript(url, integrity = null, timeoutMs = SCRIPT_LOAD_TIMEOUT_MS) {
   return new Promise((resolve, reject) => {
     // Check if already loaded
     if (document.querySelector(`script[src="${url}"]`)) {
@@ -52,6 +62,12 @@ function loadScript(url, timeoutMs = SCRIPT_LOAD_TIMEOUT_MS) {
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
+
+    // Add SRI if provided
+    if (integrity) {
+      script.integrity = integrity;
+      script.crossOrigin = 'anonymous';
+    }
 
     script.onload = () => {
       clearTimeout(timeoutId);
@@ -72,7 +88,7 @@ function loadScript(url, timeoutMs = SCRIPT_LOAD_TIMEOUT_MS) {
  * @returns {Promise<object>}
  */
 async function loadHeicCodec() {
-  await loadScript(CODEC_URLS.heic);
+  await loadScript(CODEC_URLS.heic.url, CODEC_URLS.heic.integrity);
 
   // libheif-js exposes global `libheif`
   if (typeof window.libheif === 'undefined') {
@@ -186,7 +202,7 @@ async function checkNativeAvifSupport() {
  * @returns {Promise<object>}
  */
 async function loadTiffCodec() {
-  await loadScript(CODEC_URLS.tiff);
+  await loadScript(CODEC_URLS.tiff.url, CODEC_URLS.tiff.integrity);
 
   // UTIF.js exposes global `UTIF`
   if (typeof window.UTIF === 'undefined') {
