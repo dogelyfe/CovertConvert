@@ -537,6 +537,11 @@ A week later, Alex has actual HEIC files from their iPhone. They remember Covert
 | Image editing/cropping | Scope creep into different product category |
 | Watermarking | Niche need, adds complexity |
 
+**FUTURE EXPLORATION — Requires Research**
+| Feature | Notes | Spec |
+|---------|-------|------|
+| Background Removal / Sticker Creator | Client-side ML (WASM), privacy-preserving alternative to remove.bg. Natural extension of privacy-first positioning. Significant complexity. | `docs/backlog/background-removal.md` |
+
 ### Phase Summary
 
 | Phase | Trigger | Features |
