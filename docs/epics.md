@@ -37,6 +37,10 @@ This document provides the complete epic and story breakdown for CovertConvert, 
 - Fixed frosted-glass header with wordmark + theme toggle
 - 48 E2E tests passing
 
+### Process Note
+
+BMad was used for planning (PRD, Architecture, UX, Epics) but implementation moved fast without formal sprint tracking. Progress was tracked via handoff documents in `docs/handoffs/2025-12/` rather than `sprint-status.yaml` and individual story files.
+
 ## Requirements Inventory
 
 ### Functional Requirements
