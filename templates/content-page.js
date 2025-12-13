@@ -13,6 +13,9 @@ export const contentPage = ({ slug, title, description, h1, content, schema = nu
   <link rel="canonical" href="https://covertconvert.app/${slug}/">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
   <link rel="stylesheet" href="/css/styles.css">
 
   <!-- Theme initialization (prevents flash) -->

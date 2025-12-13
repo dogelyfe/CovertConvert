@@ -13,6 +13,9 @@ export const homePage = () => `<!DOCTYPE html>
   <meta name="description" content="Convert HEIC, WebP, AVIF, TIFF to JPG or PNG instantly. Your files never leave your device - 100% private, no uploads.">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
   <link rel="stylesheet" href="/css/styles.css">
 
   <!-- Theme initialization (prevents flash) -->
