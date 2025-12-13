@@ -7,16 +7,10 @@ export const blogIndex = ({ posts }) => {
   const postsList = posts
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .map(post => {
-      const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
       return `
       <article class="py-6 border-b border-gray-200 last:border-0">
         <a href="/blog/${post.slug}/" class="block group">
           <h2 class="text-xl font-semibold text-gray-900 group-hover:text-gray-600 transition-colors">${post.title}</h2>
-          <time datetime="${post.date}" class="text-gray-500 text-sm mt-1 block">${formattedDate}</time>
           <p class="text-gray-600 mt-2">${post.description}</p>
         </a>
       </article>`;

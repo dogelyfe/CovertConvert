@@ -3,12 +3,13 @@
  * Markdown-based blog posts with Article schema
  */
 
-export const blogPost = ({ slug, title, description, date, content, author = 'CovertConvert', tags = [] }) => {
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+export const blogPost = ({ slug, title, description, date, updated, content, author = 'CovertConvert', tags = [] }) => {
+  // Format updated date if provided (shown to users)
+  const formattedUpdated = updated ? new Date(updated).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-  });
+  }) : null;
 
   const articleSchema = JSON.stringify({
     "@context": "https://schema.org",
@@ -16,7 +17,7 @@ export const blogPost = ({ slug, title, description, date, content, author = 'Co
     "headline": title,
     "description": description,
     "datePublished": date,
-    "dateModified": date,
+    "dateModified": updated || date,
     "author": {
       "@type": "Organization",
       "name": author
@@ -101,7 +102,7 @@ ${articleSchema}
     <article>
       <header class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">${title}</h1>
-        <time datetime="${date}" class="text-gray-500 text-sm">${formattedDate}</time>
+        ${formattedUpdated ? `<p class="text-gray-500 text-sm">Last updated: ${formattedUpdated}</p>` : ''}
       </header>
 
       <div class="prose prose-gray max-w-none blog-content">
