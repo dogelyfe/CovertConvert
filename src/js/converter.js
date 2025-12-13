@@ -12,6 +12,36 @@ import { getCodec } from './codecs/loader.js';
 const JPEG_DEFAULT_QUALITY = 0.92;
 const SUPPORTED_OUTPUT_FORMATS = ['jpeg', 'png'];
 
+// Reusable canvas for encoding (prevents memory pressure during batch processing)
+let encodingCanvas = null;
+
+/**
+ * Get or create the shared encoding canvas
+ * Reusing a single canvas prevents GC pressure during large batches
+ * @param {number} width - Required width
+ * @param {number} height - Required height
+ * @returns {HTMLCanvasElement}
+ */
+function getEncodingCanvas(width, height) {
+  if (!encodingCanvas) {
+    encodingCanvas = document.createElement('canvas');
+  }
+  encodingCanvas.width = width;
+  encodingCanvas.height = height;
+  return encodingCanvas;
+}
+
+/**
+ * Release canvas memory after batch processing
+ * Called by resetState to free pixel buffer
+ */
+function releaseEncodingCanvas() {
+  if (encodingCanvas) {
+    encodingCanvas.width = 0;
+    encodingCanvas.height = 0;
+  }
+}
+
 // Module-scoped state (per architecture)
 let state = {
   files: [],
@@ -62,6 +92,7 @@ function setQuality(quality) {
 
 /**
  * Reset state to initial values
+ * Also releases canvas memory to prevent accumulation
  */
 function resetState() {
   state = {
@@ -73,6 +104,9 @@ function resetState() {
     status: 'idle',
     results: [],
   };
+
+  // Release canvas memory after batch completes
+  releaseEncodingCanvas();
 }
 
 /**
@@ -101,6 +135,7 @@ function loadImage(file) {
 
 /**
  * Convert image to target format using Canvas API
+ * Uses shared canvas to prevent memory pressure during batch processing
  * @param {HTMLImageElement} img - Loaded image
  * @param {string} outputFormat - 'jpeg' or 'png'
  * @param {number} quality - JPEG quality (0.0-1.0)
@@ -108,9 +143,7 @@ function loadImage(file) {
  */
 function encodeToBlobFromImage(img, outputFormat, quality) {
   return new Promise((resolve, reject) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
+    const canvas = getEncodingCanvas(img.naturalWidth, img.naturalHeight);
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -141,6 +174,7 @@ function encodeToBlobFromImage(img, outputFormat, quality) {
 
 /**
  * Convert ImageData to blob (for Tier 2 codec output)
+ * Uses shared canvas to prevent memory pressure during batch processing
  * @param {ImageData} imageData - Decoded image data from WASM codec
  * @param {number} width - Image width
  * @param {number} height - Image height
@@ -150,9 +184,7 @@ function encodeToBlobFromImage(img, outputFormat, quality) {
  */
 function encodeToBlobFromImageData(imageData, width, height, outputFormat, quality) {
   return new Promise((resolve, reject) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    const canvas = getEncodingCanvas(width, height);
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {

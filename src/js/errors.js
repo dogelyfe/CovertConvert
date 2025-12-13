@@ -5,6 +5,27 @@
  * Architecture: Named exports only
  */
 
+/**
+ * Standard error object structure used throughout the application
+ * All modules should produce errors matching this shape for consistency
+ *
+ * @typedef {Object} ConversionError
+ * @property {string} type - One of ERROR_TYPES constants (required)
+ * @property {string} message - User-facing error message (required)
+ * @property {string} [file] - Original filename that caused the error
+ * @property {string} [inputFormat] - Detected input format (e.g., 'heic', 'avif')
+ * @property {string[]} [supportedFormats] - List of valid formats (for unsupported_format errors)
+ * @property {string} [originalError] - Original exception message for debugging
+ *
+ * @example
+ * // Error from detector.js
+ * { type: 'unsupported_format', message: "This file type isn't supported.", file: 'photo.psd', supportedFormats: ['heic', 'png', ...] }
+ *
+ * @example
+ * // Error from converter.js
+ * { type: 'decode_failed', message: "Couldn't convert this file.", file: 'photo.heic', inputFormat: 'heic' }
+ */
+
 // Error type constants
 const ERROR_TYPES = {
   UNSUPPORTED_FORMAT: 'unsupported_format',

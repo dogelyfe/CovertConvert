@@ -129,14 +129,14 @@ export function trackConversionError(errorType, inputFormat = 'unknown') {
 
 /**
  * Track batch conversion errors (aggregated to avoid flooding GA4)
- * @param {Array} failures - Array of { error: { type }, format } objects
+ * @param {Array} failures - Array of { file: string, error: { type, inputFormat } } objects
  */
 export function trackBatchErrors(failures) {
   if (!failures || failures.length === 0) return;
 
-  // Aggregate error types
+  // Aggregate error types and formats from nested error objects
   const errorTypes = [...new Set(failures.map(f => f.error?.type || 'unknown'))];
-  const formats = [...new Set(failures.map(f => f.format || 'unknown'))];
+  const formats = [...new Set(failures.map(f => f.error?.inputFormat || 'unknown'))];
 
   trackEvent('conversion_error', {
     error_type: errorTypes.join(','),

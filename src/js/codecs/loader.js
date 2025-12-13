@@ -27,12 +27,16 @@ function isCodecLoaded(format) {
   return loadedCodecs.has(format);
 }
 
+// Script load timeout (matches JSZip timeout in downloader.js)
+const SCRIPT_LOAD_TIMEOUT_MS = 10000;
+
 /**
- * Load a script dynamically
+ * Load a script dynamically with timeout
  * @param {string} url - Script URL
+ * @param {number} timeoutMs - Timeout in milliseconds (default: 10000)
  * @returns {Promise<void>}
  */
-function loadScript(url) {
+function loadScript(url, timeoutMs = SCRIPT_LOAD_TIMEOUT_MS) {
   return new Promise((resolve, reject) => {
     // Check if already loaded
     if (document.querySelector(`script[src="${url}"]`)) {
@@ -40,12 +44,24 @@ function loadScript(url) {
       return;
     }
 
+    // Set timeout for slow/blocked CDN
+    const timeoutId = setTimeout(() => {
+      reject(new Error('Codec load timed out. Please check your connection and try again.'));
+    }, timeoutMs);
+
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
 
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error(`Failed to load: ${url}`));
+    script.onload = () => {
+      clearTimeout(timeoutId);
+      resolve();
+    };
+
+    script.onerror = () => {
+      clearTimeout(timeoutId);
+      reject(new Error(`Failed to load codec. Please check your connection.`));
+    };
 
     document.head.appendChild(script);
   });
@@ -139,10 +155,16 @@ async function loadAvifCodec() {
     };
   }
 
-  // Fallback: load WASM decoder
-  await loadScript(CODEC_URLS.avif);
-  // AVIF decoder implementation would go here
-  throw new Error('AVIF WASM decoder not yet implemented - browser native support required');
+  // Fallback: Browser doesn't support AVIF natively
+  // Rather than load a complex WASM fallback for <7% of users,
+  // provide a clear error message guiding them to update their browser
+  return {
+    name: 'avif',
+    native: false,
+    decode: async () => {
+      throw new Error('Your browser doesn\'t support AVIF images. Please use Chrome 85+, Firefox 93+, Safari 16+, or Edge 85+.');
+    },
+  };
 }
 
 /**
@@ -263,12 +285,15 @@ async function getCodec(format) {
 /**
  * Preload a codec (non-blocking)
  * Used for connection-aware preloading
+ * Failure is intentionally silent - actual use will retry with proper error handling
  * @param {string} format - Format to preload
  */
 function preloadCodec(format) {
   if (!loadedCodecs.has(format) && !loadingPromises.has(format)) {
-    getCodec(format).catch(() => {
-      // Silently fail preload - will retry on actual use
+    getCodec(format).catch((err) => {
+      // Silent preload failure is intentional - will retry on actual use
+      // Debug log helps with troubleshooting without alarming users
+      console.debug(`[CovertConvert] Preload failed for ${format} (will retry on use):`, err.message);
     });
   }
 }
