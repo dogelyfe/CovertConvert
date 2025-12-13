@@ -50,13 +50,7 @@ if (existsSync(trustDataPath)) {
 }
 
 // 6. Build CSS with Tailwind
-const tailwindBin = process.platform === 'darwin' ? './tailwindcss' : './tailwindcss-linux-x64';
-if (existsSync(join(ROOT, tailwindBin))) {
-  execSync(`${tailwindBin} -i src/css/input.css -o dist/css/styles.css --minify`, { cwd: ROOT, stdio: 'inherit' });
-} else {
-  console.log('⚠ Tailwind CLI not found - skipping CSS build');
-  console.log('  Download from: https://github.com/tailwindlabs/tailwindcss/releases');
-}
+execSync('npx tailwindcss -i src/css/input.css -o dist/css/styles.css --minify', { cwd: ROOT, stdio: 'inherit' });
 
 // 7. Copy static assets
 if (existsSync(join(ROOT, 'src/js'))) {
