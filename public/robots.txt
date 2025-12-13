@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://covertconvert.com/sitemap.xml
+Sitemap: https://covertconvert.app/sitemap.xml
 
 # Crawl-delay (optional, be nice to crawlers)
 Crawl-delay: 1

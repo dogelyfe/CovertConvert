@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Home Page -->
   <url>
-    <loc>https://covertconvert.com/</loc>
+    <loc>https://covertconvert.app/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,13 +10,13 @@
 
   <!-- SEO Landing Pages - HEIC -->
   <url>
-    <loc>https://covertconvert.com/heic-to-jpg/</loc>
+    <loc>https://covertconvert.app/heic-to-jpg/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://covertconvert.com/heic-to-png/</loc>
+    <loc>https://covertconvert.app/heic-to-png/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -24,13 +24,13 @@
 
   <!-- SEO Landing Pages - WebP -->
   <url>
-    <loc>https://covertconvert.com/webp-to-jpg/</loc>
+    <loc>https://covertconvert.app/webp-to-jpg/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://covertconvert.com/webp-to-png/</loc>
+    <loc>https://covertconvert.app/webp-to-png/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -38,13 +38,13 @@
 
   <!-- SEO Landing Pages - AVIF -->
   <url>
-    <loc>https://covertconvert.com/avif-to-jpg/</loc>
+    <loc>https://covertconvert.app/avif-to-jpg/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://covertconvert.com/avif-to-png/</loc>
+    <loc>https://covertconvert.app/avif-to-png/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -52,13 +52,13 @@
 
   <!-- SEO Landing Pages - TIFF -->
   <url>
-    <loc>https://covertconvert.com/tiff-to-jpg/</loc>
+    <loc>https://covertconvert.app/tiff-to-jpg/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://covertconvert.com/tiff-to-png/</loc>
+    <loc>https://covertconvert.app/tiff-to-png/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -66,7 +66,7 @@
 
   <!-- SEO Landing Pages - PNG -->
   <url>
-    <loc>https://covertconvert.com/png-to-jpg/</loc>
+    <loc>https://covertconvert.app/png-to-jpg/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -74,19 +74,19 @@
 
   <!-- Trust Pages -->
   <url>
-    <loc>https://covertconvert.com/about/</loc>
+    <loc>https://covertconvert.app/about/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://covertconvert.com/privacy/</loc>
+    <loc>https://covertconvert.app/privacy/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://covertconvert.com/how-it-works/</loc>
+    <loc>https://covertconvert.app/how-it-works/</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
