@@ -80,9 +80,9 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   </header>
 
   <div class="container mx-auto px-4 py-8">
-    <div class="lg:flex lg:gap-8 lg:justify-center">
-      <!-- Main Content -->
-      <main class="max-w-2xl w-full">
+    <div class="tool-layout">
+      <!-- Main Content (centered) -->
+      <main class="tool-layout__main max-w-2xl w-full mx-auto lg:mx-0">
     <header class="text-center mb-8">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">${h1}</h1>
       <p class="text-gray-600">${description}</p>
@@ -205,8 +205,8 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
       </main>
 
       <!-- Desktop Sidebar Ad (hidden on mobile) -->
-      <aside class="hidden lg:block flex-shrink-0" aria-label="Advertisement">
-        <div class="ad-container ad-container--sidebar sticky top-8">
+      <aside class="tool-layout__sidebar hidden lg:block" aria-label="Advertisement">
+        <div class="ad-container ad-container--sidebar">
           <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
           <ins class="adsbygoogle"
                style="display:block"

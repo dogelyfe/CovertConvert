@@ -269,6 +269,30 @@ body {
   color: var(--text-muted);
 }
 
+/* ===== Tool-centered layout ===== */
+.tool-layout {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .tool-layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 42rem) 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .tool-layout__main {
+    grid-column: 2;
+  }
+
+  .tool-layout__sidebar {
+    grid-column: 3;
+    position: sticky;
+    top: 2rem;
+  }
+}
+
 /* ===== Ad containers ===== */
 .ad-container {
   border-radius: 0.5rem;
