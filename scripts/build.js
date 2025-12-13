@@ -5,10 +5,12 @@
  * ~50 lines as per architecture spec
  */
 
-import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync } from 'fs';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { marked } from 'marked';
+import matter from 'gray-matter';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -49,10 +51,40 @@ if (existsSync(trustDataPath)) {
   }
 }
 
-// 6. Build CSS with Tailwind
+// 6. Generate blog posts from markdown
+const blogDir = join(ROOT, 'content/blog');
+if (existsSync(blogDir)) {
+  const { blogPost } = await import(join(ROOT, 'templates/blog-post.js'));
+  const { blogIndex } = await import(join(ROOT, 'templates/blog-index.js'));
+
+  const posts = [];
+  const mdFiles = readdirSync(blogDir).filter(f => f.endsWith('.md'));
+
+  for (const file of mdFiles) {
+    const raw = readFileSync(join(blogDir, file), 'utf8');
+    const { data, content } = matter(raw);
+    const html = marked(content);
+
+    posts.push({ ...data, content: html });
+
+    mkdirSync(join(ROOT, 'dist/blog', data.slug), { recursive: true });
+    writeFileSync(
+      join(ROOT, 'dist/blog', data.slug, 'index.html'),
+      blogPost({ ...data, content: html })
+    );
+    console.log(`✓ Generated: dist/blog/${data.slug}/index.html`);
+  }
+
+  // Generate blog index
+  mkdirSync(join(ROOT, 'dist/blog'), { recursive: true });
+  writeFileSync(join(ROOT, 'dist/blog/index.html'), blogIndex({ posts }));
+  console.log('✓ Generated: dist/blog/index.html');
+}
+
+// 7. Build CSS with Tailwind
 execSync('npx tailwindcss -i src/css/input.css -o dist/css/styles.css --minify', { cwd: ROOT, stdio: 'inherit' });
 
-// 7. Copy static assets
+// 8. Copy static assets
 if (existsSync(join(ROOT, 'src/js'))) {
   cpSync(join(ROOT, 'src/js'), join(ROOT, 'dist/js'), { recursive: true });
   console.log('✓ Copied: src/js → dist/js');
@@ -62,7 +94,7 @@ if (existsSync(join(ROOT, 'src/assets'))) {
   console.log('✓ Copied: src/assets → dist/assets');
 }
 
-// 8. Copy public folder (static files: _headers, robots.txt, sitemap.xml, manifest.json)
+// 9. Copy public folder (static files: _headers, robots.txt, sitemap.xml, manifest.json)
 if (existsSync(join(ROOT, 'public'))) {
   cpSync(join(ROOT, 'public'), join(ROOT, 'dist'), { recursive: true });
   console.log('✓ Copied: public → dist (static files)');
