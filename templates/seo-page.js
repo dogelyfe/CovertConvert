@@ -11,7 +11,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
   <meta name="description" content="${description}">
-  <link rel="canonical" href="https://covertconvert.com/${slug}/">
+  <link rel="canonical" href="https://covertconvert.app/${slug}/">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0d0d0d">
   <link rel="stylesheet" href="/css/styles.css">
@@ -29,18 +29,16 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   </script>
 
   <!-- Google Analytics 4 -->
-  <!-- Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKXZE02VCC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
+    gtag('config', 'G-JKXZE02VCC');
   </script>
 
   <!-- Google AdSense -->
-  <!-- Replace ca-pub-XXXXXXXXXX with your AdSense Publisher ID -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8099101912328978" crossorigin="anonymous"></script>
 
   <!-- FAQ Schema -->
   ${faqs.length > 0 ? `<script type="application/ld+json">
@@ -209,7 +207,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
           <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
           <ins class="adsbygoogle"
                style="display:block"
-               data-ad-client="ca-pub-XXXXXXXXXX"
+               data-ad-client="ca-pub-8099101912328978"
                data-ad-slot="XXXXXXXXXX"
                data-ad-format="auto"
                data-full-width-responsive="false"></ins>
@@ -224,7 +222,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
         <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXX"
+             data-ad-client="ca-pub-8099101912328978"
              data-ad-slot="XXXXXXXXXX"
              data-ad-format="horizontal"
              data-full-width-responsive="true"></ins>

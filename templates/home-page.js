@@ -31,18 +31,16 @@ export const homePage = () => `<!DOCTYPE html>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
   <!-- Google Analytics 4 -->
-  <!-- Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKXZE02VCC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
+    gtag('config', 'G-JKXZE02VCC');
   </script>
 
   <!-- Google AdSense -->
-  <!-- Replace ca-pub-XXXXXXXXXX with your AdSense Publisher ID -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8099101912328978" crossorigin="anonymous"></script>
 
   <!-- SoftwareApplication Schema -->
   <script type="application/ld+json">
@@ -223,7 +221,7 @@ export const homePage = () => `<!DOCTYPE html>
           <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
           <ins class="adsbygoogle"
                style="display:block"
-               data-ad-client="ca-pub-XXXXXXXXXX"
+               data-ad-client="ca-pub-8099101912328978"
                data-ad-slot="XXXXXXXXXX"
                data-ad-format="auto"
                data-full-width-responsive="false"></ins>
@@ -238,7 +236,7 @@ export const homePage = () => `<!DOCTYPE html>
         <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXX"
+             data-ad-client="ca-pub-8099101912328978"
              data-ad-slot="XXXXXXXXXX"
              data-ad-format="horizontal"
              data-full-width-responsive="true"></ins>
