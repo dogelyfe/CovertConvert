@@ -281,6 +281,156 @@
           "a": "Yes! Select multiple files and they'll all be converted. Desktop users receive a single ZIP file containing all converted images."
         }
       ]
+    },
+    {
+      "slug": "gif-to-jpg",
+      "title": "GIF to JPG Converter - Free, Private, Instant",
+      "description": "Convert GIF images to JPG. Extracts the first frame from animated GIFs. Note: transparent areas become black. No uploads - runs in your browser.",
+      "h1": "Convert GIF to JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Need to keep transparency?",
+        "href": "/gif-to-png/",
+        "linkText": "Convert to PNG instead"
+      },
+      "faqs": [
+        {
+          "q": "What happens to animated GIFs?",
+          "a": "Only the first frame is extracted. The animation is lost. If you need to preserve the animation, keep the original GIF or convert to video format."
+        },
+        {
+          "q": "What happens to transparent areas?",
+          "a": "JPG doesn't support transparency. Transparent areas in your GIF will become black in the converted JPG. If you need to preserve transparency, convert to PNG instead."
+        },
+        {
+          "q": "Why would I convert GIF to JPG?",
+          "a": "GIF only supports 256 colors. For photographs or images with gradients, JPG often looks better and produces smaller files. GIF is best for simple graphics and animations."
+        },
+        {
+          "q": "Will the file be smaller?",
+          "a": "Usually yes, especially for photos. GIF's 256-color limit makes it inefficient for complex images. JPG handles color gradients much better."
+        }
+      ]
+    },
+    {
+      "slug": "gif-to-png",
+      "title": "GIF to PNG Converter - Free, Private, Instant",
+      "description": "Convert GIF to PNG with transparency preserved. Extracts the first frame from animated GIFs. Private browser-based conversion.",
+      "h1": "Convert GIF to PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Don't need transparency?",
+        "href": "/gif-to-jpg/",
+        "linkText": "Convert to JPG for smaller files"
+      },
+      "faqs": [
+        {
+          "q": "Will transparency be preserved?",
+          "a": "Yes. Unlike JPG conversion, PNG keeps transparent areas intact. This is the main reason to choose PNG over JPG for GIF conversion."
+        },
+        {
+          "q": "What happens to animated GIFs?",
+          "a": "Only the first frame is extracted. Animation data is lost. To preserve animation, keep the original GIF or convert to video format."
+        },
+        {
+          "q": "Why convert GIF to PNG?",
+          "a": "PNG supports millions of colors vs GIF's 256. Images with gradients or many colors will look significantly better as PNG. Plus, transparency is fully preserved."
+        },
+        {
+          "q": "Will the file size change?",
+          "a": "It depends. Simple graphics may stay similar or get smaller. Complex images with many colors will be larger as PNG but look much better."
+        }
+      ]
+    },
+    {
+      "slug": "bmp-to-jpg",
+      "title": "BMP to JPG Converter - Free, Private, Instant",
+      "description": "Convert BMP images to JPG for dramatically smaller files. A 10MB BMP becomes under 1MB. No uploads - conversion runs in your browser.",
+      "h1": "Convert BMP to JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Need lossless quality?",
+        "href": "/bmp-to-png/",
+        "linkText": "Convert to PNG"
+      },
+      "faqs": [
+        {
+          "q": "How much smaller will my file be?",
+          "a": "Typically 10-50x smaller. BMP stores every pixel uncompressed. A 10MB BMP screenshot often becomes 200-500KB as JPG with no visible quality loss."
+        },
+        {
+          "q": "Why are BMP files so huge?",
+          "a": "BMP (Bitmap) is Windows' original image format from the 1990s. It stores raw, uncompressed pixel data. Great for quality, terrible for file size."
+        },
+        {
+          "q": "Where do BMP files come from?",
+          "a": "Common sources: older Windows screenshots, scanners with default settings, legacy software exports, and some clipboard operations. Most can safely be converted to JPG."
+        },
+        {
+          "q": "Will I lose quality?",
+          "a": "JPG uses lossy compression, so technically yes. At 92% quality (our default), the difference is invisible for photos and screenshots. For precise graphics, consider PNG."
+        }
+      ]
+    },
+    {
+      "slug": "bmp-to-png",
+      "title": "BMP to PNG Converter - Free, Private, Instant",
+      "description": "Convert BMP to PNG for smaller files with zero quality loss. PNG compression reduces file size while keeping every pixel perfect.",
+      "h1": "Convert BMP to PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Want even smaller files?",
+        "href": "/bmp-to-jpg/",
+        "linkText": "Convert to JPG"
+      },
+      "faqs": [
+        {
+          "q": "Is this truly lossless?",
+          "a": "Yes. PNG uses lossless compression. Every pixel is preserved exactly. The file just takes less space because PNG compresses efficiently."
+        },
+        {
+          "q": "How much smaller will it be?",
+          "a": "Typically 2-10x smaller than BMP. Not as dramatic as JPG conversion, but you keep perfect quality. Screenshots and graphics compress especially well."
+        },
+        {
+          "q": "When should I choose PNG over JPG?",
+          "a": "Choose PNG when you need exact pixel preservation: screenshots with text, graphics with sharp edges, images you'll edit later, or anything where quality matters more than file size."
+        },
+        {
+          "q": "What about BMP files from scanners?",
+          "a": "Scanned documents convert well to PNG. You'll get significant size reduction while keeping the scan perfectly sharp for printing or archiving."
+        }
+      ]
+    },
+    {
+      "slug": "jpg-to-png",
+      "title": "JPG to PNG Converter - Free, Private, Instant",
+      "description": "Convert JPG to PNG for editing workflows. Prevents further quality loss from re-saving. Note: cannot restore detail lost to JPG compression.",
+      "h1": "Convert JPG to PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Need smaller files?",
+        "href": "/png-to-jpg/",
+        "linkText": "Convert PNG to JPG"
+      },
+      "faqs": [
+        {
+          "q": "Will this improve my image quality?",
+          "a": "No. Converting to PNG preserves what's there but cannot restore detail already lost to JPG compression. It prevents further degradation, not reverses it."
+        },
+        {
+          "q": "Why convert JPG to PNG then?",
+          "a": "Main reasons: (1) You're editing the image and don't want quality loss from re-saving as JPG, (2) You need a format that doesn't degrade with each save, (3) A tool or workflow requires PNG input."
+        },
+        {
+          "q": "Will the file get larger?",
+          "a": "Yes, usually 3-5x larger. PNG is lossless, so it stores more data. That's the tradeoff for preventing future quality loss."
+        },
+        {
+          "q": "Can I add transparency after converting?",
+          "a": "The conversion itself won't add transparency—your JPG has no transparent areas to preserve. But once it's PNG, you can edit it in Photoshop, GIMP, or similar tools to add transparency."
+        }
+      ]
     }
   ]
 }

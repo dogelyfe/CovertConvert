@@ -72,6 +72,42 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- SEO Landing Pages - GIF -->
+  <url>
+    <loc>https://covertconvert.app/gif-to-jpg/</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://covertconvert.app/gif-to-png/</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- SEO Landing Pages - BMP -->
+  <url>
+    <loc>https://covertconvert.app/bmp-to-jpg/</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://covertconvert.app/bmp-to-png/</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- SEO Landing Pages - JPG -->
+  <url>
+    <loc>https://covertconvert.app/jpg-to-png/</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Trust Pages -->
   <url>
     <loc>https://covertconvert.app/about/</loc>
@@ -120,6 +156,30 @@
   <url>
     <loc>https://covertconvert.app/blog/heic-vs-jpg/</loc>
     <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://covertconvert.app/blog/iphone-photo-wont-open-windows/</loc>
+    <lastmod>2025-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://covertconvert.app/blog/what-is-webp/</loc>
+    <lastmod>2025-12-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://covertconvert.app/blog/stop-iphone-saving-heic/</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://covertconvert.app/blog/photo-wont-upload-instagram/</loc>
+    <lastmod>2025-12-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
