@@ -23,7 +23,7 @@ const getToolCta = (slug) => {
   return ctas[slug] || { href: '/', text: 'Try the Converter' };
 };
 
-export const blogPost = ({ slug, title, description, date, updated, content, author = 'CovertConvert', tags = [] }) => {
+export const blogPost = ({ slug, title, description, date, updated, content, author = 'Alex Chen', tags = [] }) => {
   // Format updated date if provided (shown to users)
   const formattedUpdated = updated ? new Date(updated).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -39,13 +39,18 @@ export const blogPost = ({ slug, title, description, date, updated, content, aut
     "datePublished": date,
     "dateModified": updated || date,
     "author": {
-      "@type": "Organization",
-      "name": author
+      "@type": "Person",
+      "name": author,
+      "url": "https://covertconvert.app/about/"
     },
     "publisher": {
       "@type": "Organization",
       "name": "CovertConvert",
-      "url": "https://covertconvert.app"
+      "url": "https://covertconvert.app",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://covertconvert.app/assets/icon-192.png"
+      }
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -182,6 +187,7 @@ ${articleSchema}
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
+          <li><a href="/contact/">Contact</a></li>
         </ul>
       </div>
     </div>

@@ -70,6 +70,23 @@ export const homePage = () => `<!DOCTYPE html>
   ]
 }
 </script>
+
+  <!-- Organization Schema -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CovertConvert",
+  "url": "https://covertconvert.app",
+  "logo": "https://covertconvert.app/assets/icon-192.png",
+  "description": "Free private image converter. Your files never leave your device.",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "hello@covertconvert.app",
+    "contactType": "customer support"
+  }
+}
+</script>
 </head>
 <body class="min-h-screen">
   <!-- Site Header -->
@@ -403,6 +420,7 @@ export const homePage = () => `<!DOCTYPE html>
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
+          <li><a href="/contact/">Contact</a></li>
         </ul>
       </div>
     </div>

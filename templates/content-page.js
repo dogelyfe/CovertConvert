@@ -3,7 +3,15 @@
  * Epic 4: About, Privacy, How It Works
  */
 
-export const contentPage = ({ slug, title, description, h1, content, schema = null }) => `<!DOCTYPE html>
+export const contentPage = ({ slug, title, description, h1, content, schema = null, updated = null }) => {
+  // Format updated date if provided (shown to users)
+  const formattedUpdated = updated ? new Date(updated).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }) : null;
+
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -72,6 +80,7 @@ ${schema}
   <main class="container mx-auto px-4 py-8 max-w-2xl">
     <header class="text-center mb-8">
       <h1 class="font-bold text-gray-900 mb-2">${h1}</h1>
+      ${formattedUpdated ? `<p class="text-gray-500 text-sm">Last updated: ${formattedUpdated}</p>` : ''}
     </header>
 
     <article class="prose prose-gray max-w-none">
@@ -130,6 +139,7 @@ ${schema}
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
+          <li><a href="/contact/">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -161,3 +171,4 @@ ${schema}
   </script>
 </body>
 </html>`;
+};
