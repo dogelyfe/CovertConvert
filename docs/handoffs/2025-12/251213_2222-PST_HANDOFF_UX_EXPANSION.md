@@ -1,7 +1,7 @@
 ---
 handoff_version: "2.0"
 created: "2025-12-13 22:22 PST"
-updated: "2025-12-13 22:22 PST"
+updated: "2025-12-13 23:09 PST"
 status: "IN_PROGRESS"
 priority: "P1"
 
@@ -12,7 +12,7 @@ topic: "UX Expansion - Navigation, Typography, Content"
 type: "implementation"
 
 estimated_hours: 8
-actual_hours: 2
+actual_hours: 3
 completion_status: "PARTIAL"
 ---
 
@@ -82,22 +82,24 @@ CSS added to `src/css/input.css`:
 - `.site-header__nav` - flexbox nav container
 - `.site-header__nav-link` - nav link styling
 
-**STATUS:** Code complete, needs visual verification and possible color tweaks.
+**STATUS:** Complete and committed.
+
+### 5. Footer Expansion (Phase 4) - COMPLETED
+Implemented three-column responsive footer:
+- **Tools column:** HEIC to JPG, WebP to JPG, PNG to JPG, AVIF to JPG + "More tools →"
+- **Learn column:** What is HEIC?, HEIC vs JPG, Is Online Converter Safe?, Convert Without Uploading + "All articles →"
+- **Company column:** About, Privacy, How It Works
+- **Copyright:** © 2025 CovertConvert at bottom
+
+Files changed:
+- `src/css/input.css` - Added `.site-footer` component styles
+- All 5 templates updated with consistent footer
+
+**Commit:** `82d1f7e` - Add expanded site footer with three-column layout
 
 ---
 
 ## Remaining Tasks (Approved Plan)
-
-### Phase 4: Footer Expansion (~1 hr)
-Create expanded footer with site sections:
-```
-Tools                    Learn                     Company
-─────                    ─────                     ───────
-HEIC to JPG              What is HEIC?             About
-WebP to JPG              HEIC vs JPG               Privacy
-PNG to JPG               Is Online Converter Safe? How It Works
-[View all →]             [View all →]
-```
 
 ### Phase 5: Typography/Accessibility (~1 hr)
 Increase font sizes:
@@ -149,43 +151,31 @@ Add section below tool explaining:
 
 ## Git Status
 
-**Uncommitted changes:**
-- `src/css/input.css` - tool-layout, header nav styles
-- `src/js/main.js` - console log removal
-- `src/js/analytics.js` - console log removal
-- `src/js/codecs/loader.js` - console log removal
-- `templates/*.js` (5 files) - header updates
+**All changes committed.** Recent commits:
+- `82d1f7e` - Add expanded site footer with three-column layout
+- `73b3dc2` - Replace format buttons with pill toggle for clearer selection
 
-**Should commit:** Yes, all changes are working. Commit message suggestion:
-```
-UX expansion: header nav, centered layout, console cleanup
-
-- Add Blog link to header navigation
-- Two-tone wordmark styling (Covert/Convert)
-- Larger wordmark font (1.5rem, weight 700)
-- Remove console.log statements from production
-- CSS Grid centered tool layout (already committed)
-```
+**Branch:** main (up to date with origin)
 
 ---
 
 ## For Next Agent
 
 ### Immediate Actions
-1. **Verify header visually** - Start server, take screenshot
-2. **Commit current changes** - All code is working
-3. **Continue with footer expansion** - Phase 4
+1. **Continue with Phase 5: Typography/Accessibility** - Increase font sizes across the site
+2. **Then Phase 6: Homepage Explainer** - Add explanatory section below tool
+3. **Push changes when ready** - `git push origin main`
 
 ### Context
-- User wants site to feel less "compressed"
+- Header and footer are complete - all templates consistent
+- User wants site to feel less "compressed" - typography changes will help
 - Privacy messaging should focus on FILES, not claim site is tracking-free
 - Voice guide exists at `content/VOICE_GUIDE.md` for content work
-- All templates share the same header structure now
 
 ### Technical Notes
 - Server command: `npx serve dist -p 3457`
 - Build command: `npm run build`
-- Background server may be running on port 3457
+- Server may already be running on port 3457
 
 ---
 

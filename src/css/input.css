@@ -89,6 +89,34 @@ body {
   color: var(--text-primary);
   transition: background-color 0.2s ease, color 0.2s ease;
   padding-top: 60px; /* Offset for fixed header */
+  font-size: 1.125rem; /* 18px base - increased from 16px for readability */
+  line-height: 1.6;
+}
+
+/* ===== Typography Scale ===== */
+h1 {
+  font-size: 2.25rem; /* 36px - increased from 30px */
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.75rem; /* 28px - increased from 24px */
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.375rem; /* 22px */
+  line-height: 1.4;
+}
+
+/* Adjust Tailwind text-sm to be more readable */
+.text-sm {
+  font-size: 1rem; /* 16px - increased from 14px */
+}
+
+/* Keep extra-small text for truly minor elements */
+.text-xs {
+  font-size: 0.875rem; /* 14px */
 }
 
 /* ===== Site Header ===== */
@@ -397,7 +425,7 @@ body {
 
 /* ===== Blog Content Styling ===== */
 .blog-content h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem; /* 28px - matches global h2 */
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -405,7 +433,7 @@ body {
 }
 
 .blog-content h3 {
-  font-size: 1.25rem;
+  font-size: 1.375rem; /* 22px - matches global h3 */
   font-weight: 600;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
@@ -413,8 +441,8 @@ body {
 }
 
 .blog-content p {
-  margin-bottom: 1rem;
-  line-height: 1.75;
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
   color: var(--text-secondary);
 }
 
