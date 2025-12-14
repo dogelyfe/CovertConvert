@@ -54,6 +54,28 @@ export const blogIndex = ({ posts }) => {
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8099101912328978" crossorigin="anonymous"></script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://covertconvert.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://covertconvert.app/blog/"
+    }
+  ]
+}
+  </script>
 </head>
 <body class="min-h-screen">
   <!-- Site Header -->
@@ -116,6 +138,7 @@ export const blogIndex = ({ posts }) => {
         <ul>
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
           <li><a href="/contact/">Contact</a></li>
         </ul>

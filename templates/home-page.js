@@ -87,6 +87,29 @@ export const homePage = () => `<!DOCTYPE html>
   }
 }
 </script>
+
+  <!-- WebSite Schema with Sitelinks Search -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CovertConvert",
+  "url": "https://covertconvert.app",
+  "description": "Free private image converter. Convert HEIC, WebP, AVIF, TIFF to JPG or PNG. Your files never leave your device.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "CovertConvert"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://covertconvert.app/blog/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 </head>
 <body class="min-h-screen">
   <!-- Site Header -->
@@ -419,6 +442,7 @@ export const homePage = () => `<!DOCTYPE html>
         <ul>
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
           <li><a href="/contact/">Contact</a></li>
         </ul>

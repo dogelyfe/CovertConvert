@@ -100,6 +100,34 @@ export const blogPost = ({ slug, title, description, date, updated, content, aut
   <script type="application/ld+json">
 ${articleSchema}
   </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://covertconvert.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://covertconvert.app/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "${title.replace(/"/g, '\\"')}",
+      "item": "https://covertconvert.app/blog/${slug}/"
+    }
+  ]
+}
+  </script>
 </head>
 <body class="min-h-screen">
   <!-- Site Header -->
@@ -130,13 +158,32 @@ ${articleSchema}
     <article>
       <header class="mb-8">
         <h1 class="font-bold text-gray-900 mb-2">${title}</h1>
-        ${formattedUpdated ? `<p class="text-gray-500 text-sm">Last updated: ${formattedUpdated}</p>` : ''}
+        <div class="flex items-center gap-2 text-gray-500 text-sm">
+          <span>By <a href="/about/" class="text-gray-700 hover:text-gray-900">${author}</a></span>
+          ${formattedUpdated ? `<span>•</span><span>Updated ${formattedUpdated}</span>` : ''}
+        </div>
       </header>
 
       <div class="prose prose-gray max-w-none blog-content">
         ${content}
       </div>
     </article>
+
+    <!-- Author Bio -->
+    <div class="mt-12 p-6 bg-gray-50 rounded-lg border border-gray-200">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="font-medium text-gray-900">${author}</p>
+          <p class="text-sm text-gray-600 mt-1">Developer and privacy advocate. Writing about image formats, web technologies, and keeping your data yours.</p>
+          <a href="/about/" class="text-sm text-blue-600 hover:text-blue-800 mt-2 inline-block">Learn more about CovertConvert →</a>
+        </div>
+      </div>
+    </div>
 
     <div class="mt-12 p-6 bg-white rounded-lg border border-gray-200">
       <p class="text-gray-700 mb-4">Ready to convert your images?</p>
@@ -186,6 +233,7 @@ ${articleSchema}
         <ul>
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
           <li><a href="/contact/">Contact</a></li>
         </ul>

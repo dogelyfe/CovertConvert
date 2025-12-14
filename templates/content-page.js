@@ -55,6 +55,28 @@ ${schema ? `
 ${schema}
 </script>
 ` : ''}
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://covertconvert.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "${h1}",
+      "item": "https://covertconvert.app/${slug}/"
+    }
+  ]
+}
+  </script>
 </head>
 <body class="min-h-screen">
   <!-- Site Header -->
@@ -138,6 +160,7 @@ ${schema}
         <ul>
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
           <li><a href="/contact/">Contact</a></li>
         </ul>

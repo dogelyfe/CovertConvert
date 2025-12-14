@@ -84,6 +84,28 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8099101912328978" crossorigin="anonymous"></script>
 
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://covertconvert.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "${h1}",
+      "item": "https://covertconvert.app/${slug}/"
+    }
+  ]
+}
+</script>
+
   <!-- FAQ Schema -->
   ${faqs.length > 0 ? `<script type="application/ld+json">
 {
@@ -383,6 +405,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
         <ul>
           <li><a href="/about/">About</a></li>
           <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
           <li><a href="/contact/">Contact</a></li>
         </ul>
