@@ -4,6 +4,47 @@
  * Epic 2: Batch warnings, quality slider
  */
 
+// Map tool slugs to relevant blog articles
+const getRelatedArticles = (slug) => {
+  const articles = {
+    'heic': [
+      { href: '/blog/what-is-heic/', title: 'What is HEIC?' },
+      { href: '/blog/heic-vs-jpg/', title: 'HEIC vs JPG: Which is Better?' },
+      { href: '/blog/convert-iphone-photos-to-jpg/', title: 'Convert iPhone Photos to JPG' }
+    ],
+    'webp': [
+      { href: '/blog/what-is-webp/', title: 'What is WebP?' },
+      { href: '/blog/save-webp-as-jpg-chrome/', title: 'Save WebP as JPG in Chrome' }
+    ],
+    'avif': [
+      { href: '/blog/what-is-avif/', title: 'What is AVIF?' }
+    ],
+    'tiff': [
+      { href: '/blog/what-is-tiff/', title: 'What is TIFF?' }
+    ],
+    'png': [
+      { href: '/blog/png-vs-jpg/', title: 'PNG vs JPG: When to Use Each' }
+    ],
+    'gif': [
+      { href: '/blog/convert-gif-to-jpg/', title: 'How to Convert GIF to JPG' }
+    ],
+    'bmp': [
+      { href: '/blog/bmp-to-jpg/', title: 'BMP to JPG: Complete Guide' }
+    ]
+  };
+
+  // Find matching articles based on slug prefix
+  for (const [key, arts] of Object.entries(articles)) {
+    if (slug.startsWith(key)) return arts;
+  }
+
+  // Default articles for any tool
+  return [
+    { href: '/blog/is-online-converter-safe/', title: 'Is Online Image Conversion Safe?' },
+    { href: '/blog/convert-photos-without-uploading/', title: 'Convert Photos Without Uploading' }
+  ];
+};
+
 export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink, faqs = [] }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -205,6 +246,15 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
       </div>
     </section>
     ` : ''}
+
+    <section class="mt-12">
+      <h2 class="font-semibold text-gray-900 mb-4">Related Articles</h2>
+      <div class="space-y-2">
+        ${getRelatedArticles(slug).map(article => `
+        <a href="${article.href}" class="block text-gray-600 hover:text-gray-900 hover:underline">${article.title} &rarr;</a>
+        `).join('')}
+      </div>
+    </section>
       </main>
 
       <!-- Desktop Sidebar Ad (hidden on mobile) -->

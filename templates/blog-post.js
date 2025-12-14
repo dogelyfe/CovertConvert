@@ -3,6 +3,26 @@
  * Markdown-based blog posts with Article schema
  */
 
+// Map blog slugs to relevant tool CTAs
+const getToolCta = (slug) => {
+  const ctas = {
+    'what-is-heic': { href: '/heic-to-jpg/', text: 'Convert HEIC to JPG' },
+    'heic-vs-jpg': { href: '/heic-to-jpg/', text: 'Convert HEIC to JPG' },
+    'convert-iphone-photos-to-jpg': { href: '/heic-to-jpg/', text: 'Convert HEIC to JPG' },
+    'iphone-photo-wont-open-windows': { href: '/heic-to-jpg/', text: 'Convert HEIC to JPG' },
+    'stop-iphone-saving-heic': { href: '/heic-to-jpg/', text: 'Convert HEIC to JPG' },
+    'heic-on-android': { href: '/heic-to-jpg/', text: 'Convert HEIC to JPG' },
+    'what-is-webp': { href: '/webp-to-jpg/', text: 'Convert WebP to JPG' },
+    'save-webp-as-jpg-chrome': { href: '/webp-to-jpg/', text: 'Convert WebP to JPG' },
+    'what-is-avif': { href: '/avif-to-jpg/', text: 'Convert AVIF to JPG' },
+    'what-is-tiff': { href: '/tiff-to-jpg/', text: 'Convert TIFF to JPG' },
+    'png-vs-jpg': { href: '/png-to-jpg/', text: 'Convert PNG to JPG' },
+    'convert-gif-to-jpg': { href: '/gif-to-jpg/', text: 'Convert GIF to JPG' },
+    'bmp-to-jpg': { href: '/bmp-to-jpg/', text: 'Convert BMP to JPG' }
+  };
+  return ctas[slug] || { href: '/', text: 'Try the Converter' };
+};
+
 export const blogPost = ({ slug, title, description, date, updated, content, author = 'CovertConvert', tags = [] }) => {
   // Format updated date if provided (shown to users)
   const formattedUpdated = updated ? new Date(updated).toLocaleDateString('en-US', {
@@ -115,8 +135,8 @@ ${articleSchema}
 
     <div class="mt-12 p-6 bg-white rounded-lg border border-gray-200">
       <p class="text-gray-700 mb-4">Ready to convert your images?</p>
-      <a href="/" class="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors">
-        Convert Images Now &rarr;
+      <a href="${getToolCta(slug).href}" class="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors">
+        ${getToolCta(slug).text} &rarr;
       </a>
     </div>
 

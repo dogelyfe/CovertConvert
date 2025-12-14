@@ -252,6 +252,60 @@ export const homePage = () => `<!DOCTYPE html>
     </div>
   </div>
 
+  <!-- Explainer Section -->
+  <section class="explainer">
+    <div class="explainer__grid">
+      <div class="explainer__item">
+        <svg class="explainer__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+        <h3 class="explainer__title">Any Format, Instantly</h3>
+        <p class="explainer__text">Convert HEIC, WebP, AVIF, TIFF, and more to JPG or PNG. No software to install.</p>
+      </div>
+      <div class="explainer__item">
+        <svg class="explainer__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+        <h3 class="explainer__title">100% Private</h3>
+        <p class="explainer__text">Your files never leave your device. We never see, store, or process your images.</p>
+      </div>
+      <div class="explainer__item">
+        <svg class="explainer__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+        <h3 class="explainer__title">Fast & Free</h3>
+        <p class="explainer__text">Runs entirely in your browser using WebAssembly. No uploads, no waiting.</p>
+      </div>
+    </div>
+    <div class="explainer__cta">
+      <a href="/how-it-works/" class="explainer__link">How it works</a>
+      <a href="/privacy/" class="explainer__link">Privacy policy</a>
+    </div>
+  </section>
+
+  <!-- Featured Articles -->
+  <section class="featured-articles">
+    <h2 class="featured-articles__title">From the Blog</h2>
+    <div class="featured-articles__grid">
+      <a href="/blog/what-is-heic/" class="featured-articles__item">
+        <h3 class="featured-articles__item-title">What is HEIC?</h3>
+        <p class="featured-articles__item-desc">Why your iPhone photos won't open on Windows</p>
+      </a>
+      <a href="/blog/is-online-converter-safe/" class="featured-articles__item">
+        <h3 class="featured-articles__item-title">Is Online Conversion Safe?</h3>
+        <p class="featured-articles__item-desc">What to look for in a secure converter</p>
+      </a>
+      <a href="/blog/heic-vs-jpg/" class="featured-articles__item">
+        <h3 class="featured-articles__item-title">HEIC vs JPG</h3>
+        <p class="featured-articles__item-desc">Which format should you use?</p>
+      </a>
+      <a href="/blog/convert-photos-without-uploading/" class="featured-articles__item">
+        <h3 class="featured-articles__item-title">Convert Without Uploading</h3>
+        <p class="featured-articles__item-desc">How browser-based conversion works</p>
+      </a>
+    </div>
+  </section>
+
   <footer class="site-footer">
     <div class="site-footer__grid">
       <div class="site-footer__section">
