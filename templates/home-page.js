@@ -97,7 +97,7 @@ export const homePage = () => `<!DOCTYPE html>
       <!-- Main Content (centered) -->
       <main class="tool-layout__main max-w-2xl w-full mx-auto lg:mx-0">
     <header class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Free Image Converter</h1>
+      <h1 class="font-bold text-gray-900 mb-2">Free Image Converter</h1>
       <p class="text-gray-600">Convert HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF to JPG or PNG</p>
     </header>
 

@@ -10,7 +10,7 @@ export const blogIndex = ({ posts }) => {
       return `
       <article class="py-6 border-b border-gray-200 last:border-0">
         <a href="/blog/${post.slug}/" class="block group">
-          <h2 class="text-xl font-semibold text-gray-900 group-hover:text-gray-600 transition-colors">${post.title}</h2>
+          <h2 class="font-semibold text-gray-900 group-hover:text-gray-600 transition-colors">${post.title}</h2>
           <p class="text-gray-600 mt-2">${post.description}</p>
         </a>
       </article>`;
@@ -78,7 +78,7 @@ export const blogIndex = ({ posts }) => {
 
   <main class="container mx-auto px-4 py-8 max-w-2xl">
     <header class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Blog</h1>
+      <h1 class="font-bold text-gray-900 mb-2">Blog</h1>
       <p class="text-gray-600">Tips, guides, and everything about image formats.</p>
     </header>
 

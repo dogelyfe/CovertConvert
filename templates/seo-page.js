@@ -87,7 +87,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
       <!-- Main Content (centered) -->
       <main class="tool-layout__main max-w-2xl w-full mx-auto lg:mx-0">
     <header class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">${h1}</h1>
+      <h1 class="font-bold text-gray-900 mb-2">${h1}</h1>
       <p class="text-gray-600">${description}</p>
     </header>
 
@@ -194,7 +194,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
 
     ${faqs.length > 0 ? `
     <section class="mt-12">
-      <h2 class="text-xl font-semibold text-gray-900 mb-4">Frequently Asked Questions</h2>
+      <h2 class="font-semibold text-gray-900 mb-4">Frequently Asked Questions</h2>
       <div class="space-y-4">
         ${faqs.map((faq, i) => `
         <details class="bg-white rounded-lg p-4 shadow-sm" ${i < 2 ? 'open' : ''}>

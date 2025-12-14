@@ -104,7 +104,7 @@ ${articleSchema}
 
     <article>
       <header class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">${title}</h1>
+        <h1 class="font-bold text-gray-900 mb-2">${title}</h1>
         ${formattedUpdated ? `<p class="text-gray-500 text-sm">Last updated: ${formattedUpdated}</p>` : ''}
       </header>
 
