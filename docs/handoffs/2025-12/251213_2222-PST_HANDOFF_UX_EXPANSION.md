@@ -1,8 +1,8 @@
 ---
 handoff_version: "2.0"
 created: "2025-12-13 22:22 PST"
-updated: "2025-12-13 23:09 PST"
-status: "IN_PROGRESS"
+updated: "2025-12-13 23:45 PST"
+status: "COMPLETED"
 priority: "P1"
 
 source_handoff: "docs/handoffs/2025-12/251213_0313-PST_HANDOFF_POLISH_COMPLETE.md"
@@ -12,8 +12,8 @@ topic: "UX Expansion - Navigation, Typography, Content"
 type: "implementation"
 
 estimated_hours: 8
-actual_hours: 3
-completion_status: "PARTIAL"
+actual_hours: 4
+completion_status: "COMPLETED"
 ---
 
 # UX Expansion - Navigation, Typography, Content
@@ -99,42 +99,34 @@ Files changed:
 
 ---
 
-## Remaining Tasks (Approved Plan)
+## Completed Tasks
 
-### Phase 5: Typography/Accessibility (~1 hr)
-Increase font sizes:
-| Element | Current | Proposed |
-|---------|---------|----------|
-| Body text | 16px | 18px |
-| H1 | 30px | 36px |
-| H2 | 24px | 28px |
-| Small/muted | 14px | 16px |
+### Phase 5: Typography/Accessibility ✅
+- Body text: 16px → 18px
+- H1: 30px → 36px
+- H2: 24px → 28px
+- Small/muted: 14px → 16px
+- Fixed Tailwind specificity conflict
+- **Commit:** `32de61b`, `9c4d513`
 
-### Phase 6: Homepage Explainer (~1.5 hr)
-Add section below tool explaining:
-- What this tool does
-- Why we built it (privacy-first)
-- "Your files never leave your device"
+### Phase 6: Homepage Explainer ✅
+- 3-column explainer: Any Format, 100% Private, Fast & Free
 - Links to How It Works and Privacy
+- Featured blog articles grid (4 posts)
+- **Commit:** `56da96f`
 
-**Privacy messaging guidance:**
-- ✅ "Your files never leave your device"
-- ✅ "We never see, store, or process your images"
-- ❌ Don't claim "no tracking" (AdSense tracks)
-- Focus on FILE privacy, not site-wide claims
-
-### Phase 7: Inter-site Linking (~1.5 hr)
-- Tool pages → related blog posts
-- Blog posts → relevant tools
+### Phase 7: Inter-site Linking ✅
+- Tool pages → related blog posts (smart slug mapping)
+- Blog posts → contextual tool CTAs
 - Homepage → blog highlights
-- Related conversions cross-links
+- **Commit:** `56da96f`
 
-### Phase 8: Pillar Content (~2-3 hr)
-"Complete Guide to Image Formats"
-- Covers HEIC, AVIF, WebP, TIFF, PNG, JPG, GIF, BMP
-- Links to all tool pages
-- Links to relevant blog posts
-- Follows voice guide
+### Phase 8: Pillar Content ✅
+- "Image Formats Explained: The Complete Guide"
+- Covers all 8 formats (HEIC, AVIF, WebP, TIFF, PNG, JPG, GIF, BMP)
+- 14 tool links, 10 blog links
+- Voice guide compliant
+- **Commit:** `03dbea1`
 
 ---
 
