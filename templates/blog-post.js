@@ -134,13 +134,40 @@ ${articleSchema}
     </div>
   </main>
 
-  <footer class="text-center py-8 text-sm text-gray-500">
-    <nav class="space-x-4">
-      <a href="/" class="hover:text-gray-700">Home</a>
-      <a href="/blog/" class="hover:text-gray-700">Blog</a>
-      <a href="/about/" class="hover:text-gray-700">About</a>
-      <a href="/privacy/" class="hover:text-gray-700">Privacy</a>
-    </nav>
+  <footer class="site-footer">
+    <div class="site-footer__grid">
+      <div class="site-footer__section">
+        <h3>Tools</h3>
+        <ul>
+          <li><a href="/heic-to-jpg/">HEIC to JPG</a></li>
+          <li><a href="/webp-to-jpg/">WebP to JPG</a></li>
+          <li><a href="/png-to-jpg/">PNG to JPG</a></li>
+          <li><a href="/avif-to-jpg/">AVIF to JPG</a></li>
+        </ul>
+        <a href="/heic-to-png/" class="site-footer__view-all">More tools &rarr;</a>
+      </div>
+      <div class="site-footer__section">
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="/blog/what-is-heic/">What is HEIC?</a></li>
+          <li><a href="/blog/heic-vs-jpg/">HEIC vs JPG</a></li>
+          <li><a href="/blog/is-online-converter-safe/">Is Online Converter Safe?</a></li>
+          <li><a href="/blog/convert-photos-without-uploading/">Convert Without Uploading</a></li>
+        </ul>
+        <a href="/blog/" class="site-footer__view-all">All articles &rarr;</a>
+      </div>
+      <div class="site-footer__section">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/how-it-works/">How It Works</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2025 CovertConvert. All rights reserved.</p>
+    </div>
   </footer>
 
   <script>
