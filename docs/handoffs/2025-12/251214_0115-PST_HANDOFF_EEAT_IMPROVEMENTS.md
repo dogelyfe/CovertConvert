@@ -125,4 +125,11 @@ Update `templates/blog-post.js` author section:
 | Completed By | Claude Opus 4.5 |
 | Date | 2025-12-14 |
 | Status | COMPLETED |
-| Commit | ca4d30f |
+| Commit | ca4d30f (Tier 1), 2fc3d24 (Tier 2) |
+
+### Tier 2 Additions (same session)
+- Author byline + bio section on blog posts
+- WebSite schema with sitelinks search
+- BreadcrumbList schema on all page types
+- Terms of Service page
+- FAQPage schema already implemented on SEO pages
