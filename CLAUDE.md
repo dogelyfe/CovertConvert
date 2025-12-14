@@ -174,6 +174,20 @@ Before creating your successor handoff:
 - **NEVER proactively create documentation** unless explicitly requested.
 - **Read before you write.** Never propose changes to code you haven't read.
 - **Verify before you claim.** If you say something exists, prove it.
+- **Build on existing patterns.** Read templates, components, and related code before proposing new UI or architecture. Don't invent layouts or structures — discover what's already there and extend it.
+
+### Pattern Discovery Protocol
+
+**Before proposing any UI, layout, or architectural changes:**
+
+1. **Read the actual source.** Templates, components, stylesheets — not memory or assumptions.
+2. **Identify existing patterns.** How are similar features implemented? What's the established structure?
+3. **Propose extensions, not inventions.** New features should feel native to the existing codebase.
+4. **When uncertain, ask or read more.** Never guess at structure — verify it.
+
+**Anti-pattern:** Describing or diagramming layouts without reading the actual template files first. This leads to proposals that conflict with established patterns and wastes time.
+
+**Correct approach:** `Read templates/*.js` → understand actual structure → propose changes that fit.
 
 ### Code Quality Standards
 
@@ -253,4 +267,4 @@ When errors occur, structure your response:
 
 ---
 
-*Last Updated: 2025-12-11*
+*Last Updated: 2025-12-13*
