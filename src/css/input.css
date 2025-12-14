@@ -109,15 +109,39 @@ body {
 }
 
 .site-header__wordmark {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.site-header__wordmark:hover {
+  opacity: 0.8;
+}
+
+.site-header__wordmark .wordmark-covert {
+  color: var(--text-secondary);
+}
+
+.site-header__wordmark .wordmark-convert {
   color: var(--text-primary);
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-header__nav-link {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-.site-header__wordmark:hover {
-  color: var(--text-secondary);
+.site-header__nav-link:hover {
+  color: var(--text-primary);
 }
 
 /* ===== Theme Toggle Component ===== */
@@ -193,6 +217,55 @@ body {
 
 .theme-switch input:checked + .thumb {
   transform: translateX(1.25rem);
+}
+
+/* ===== Format Pill Toggle ===== */
+.format-pill {
+  display: inline-flex;
+  position: relative;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  padding: 0.25rem;
+}
+
+.format-pill__slider {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: calc(50% - 0.25rem);
+  height: calc(100% - 0.5rem);
+  background-color: var(--text-primary);
+  border-radius: 9999px;
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.format-pill[data-selected="png"] .format-pill__slider {
+  transform: translateX(100%);
+}
+
+.format-pill__option {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.format-pill__option[aria-pressed="true"] {
+  color: var(--bg-page);
+}
+
+.format-pill__option:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
 }
 
 /* ===== File Selector Component ===== */

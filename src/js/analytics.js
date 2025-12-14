@@ -55,8 +55,6 @@ function getPlatformName() {
  */
 function trackEvent(eventName, params = {}) {
   if (!isGtagAvailable()) {
-    // Log to console in development
-    console.log('[Analytics] Event:', eventName, params);
     return;
   }
 

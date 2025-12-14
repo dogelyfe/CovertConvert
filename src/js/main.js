@@ -83,8 +83,6 @@ function init() {
 
   // Preload HEIC codec on fast connections
   initPreload();
-
-  console.log('[CovertConvert] Initialized', { outputFormat: state.outputFormat });
 }
 
 /**
@@ -161,12 +159,6 @@ async function processFiles(files) {
   // Validate all files
   const { valid, invalid } = await validateFiles(files);
 
-  console.log('[CovertConvert] Validation complete:', {
-    valid: valid.length,
-    invalid: invalid.length,
-    formats: valid.map(v => v.format),
-  });
-
   // Track file selection (Story 5.1)
   const formats = valid.map(v => v.format);
   trackFileSelected(valid.length, formats);
@@ -226,8 +218,6 @@ async function startConversion(validatedFiles) {
     }
   });
 
-  console.log('[CovertConvert] Conversion complete:', result);
-
   // Calculate conversion duration
   const durationMs = Date.now() - startTime;
 
@@ -279,8 +269,6 @@ async function startConversion(validatedFiles) {
         // Show info message (e.g., mobile limits)
         showInfo(downloadResult.message);
       }
-
-      console.log('[CovertConvert] Download complete:', downloadResult);
 
       // Track download triggered (Story 5.1)
       if (downloadResult.ok) {
@@ -357,8 +345,6 @@ function handleFormatChange(format) {
 
   // Update quality slider visibility (Story 1.7)
   setQualityVisibility(format === 'jpeg');
-
-  console.log('[CovertConvert] Output format changed:', format);
 }
 
 /**
@@ -370,8 +356,6 @@ function handleQualityChange(e) {
 
   // Update display via ui.js (includes aria-valuenow fix)
   updateQualityDisplay(value);
-
-  console.log('[CovertConvert] Quality changed:', state.quality);
 }
 
 /**

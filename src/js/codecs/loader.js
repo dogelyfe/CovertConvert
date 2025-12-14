@@ -306,10 +306,8 @@ async function getCodec(format) {
  */
 function preloadCodec(format) {
   if (!loadedCodecs.has(format) && !loadingPromises.has(format)) {
-    getCodec(format).catch((err) => {
+    getCodec(format).catch(() => {
       // Silent preload failure is intentional - will retry on actual use
-      // Debug log helps with troubleshooting without alarming users
-      console.debug(`[CovertConvert] Preload failed for ${format} (will retry on use):`, err.message);
     });
   }
 }
@@ -324,9 +322,7 @@ function initPreload() {
   const isFastConnection = connection?.effectiveType === '4g' || !connection;
 
   if (isFastConnection) {
-    // Preload HEIC codec (most common use case)
     preloadCodec('heic');
-    console.log('[CovertConvert] Preloading HEIC codec (fast connection detected)');
   }
 }
 

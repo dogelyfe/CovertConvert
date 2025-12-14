@@ -446,19 +446,22 @@ function setQualityVisibility(show) {
 // ============================================================================
 
 /**
- * Update format button states
+ * Update format button states (pill toggle design)
  * @param {string} activeFormat - Currently selected format ('jpeg' or 'png')
  */
 function updateFormatButtons(activeFormat) {
   const el = getElements();
 
+  // Update pill container data attribute (controls slider position via CSS)
+  const pillContainer = document.querySelector('.format-pill');
+  if (pillContainer) {
+    pillContainer.dataset.selected = activeFormat;
+  }
+
+  // Update aria-pressed on buttons
   el.formatButtons?.forEach(btn => {
     const isActive = btn.dataset.format === activeFormat;
     btn.setAttribute('aria-pressed', isActive.toString());
-    btn.classList.toggle('bg-gray-900', isActive);
-    btn.classList.toggle('text-white', isActive);
-    btn.classList.toggle('bg-gray-200', !isActive);
-    btn.classList.toggle('text-gray-700', !isActive);
   });
 }
 
