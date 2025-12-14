@@ -29,8 +29,10 @@ This document provides the complete epic and story breakdown for CovertConvert, 
 | Epic 3: Landing Pages & SEO | COMPLETE | 2025-12-12 | 6/6 |
 | Epic 4: Trust & Transparency | COMPLETE | 2025-12-12 | 3/3 |
 | Epic 5: Analytics, Ads & Accessibility | COMPLETE | 2025-12-12 | 4/4 |
+| Epic 6: Target Filesize Optimization | NOT STARTED | — | 0/8 |
 
-**Total: 28 stories implemented**
+**MVP: 28 stories implemented**
+**Post-MVP: 8 stories planned (Epic 6)**
 
 ### Post-MVP Enhancements (2025-12-13)
 - Dark mode with localStorage persistence (default: dark)
@@ -1239,3 +1241,343 @@ So that **users on all supported browsers have a good experience**.
 **When** I review the output
 **Then** coverage includes: single file, batch, WASM formats, errors
 **And** all critical paths are verified
+
+---
+
+## Epic 6: Target Filesize Optimization (Post-MVP)
+
+A power user can set a target filesize constraint and have images automatically optimized via quality reduction and/or resize to meet that target.
+
+**Status:** NOT STARTED
+**Design Doc:** `docs/plans/2025-12-13-target-filesize-design.md`
+
+### Epic Overview
+
+This feature enables bulk processing workflows where consistent output size matters (email attachments, CMS uploads, form submissions with limits). It adds:
+
+- Target filesize constraint with slider + manual input
+- Image resize capability (new — not in MVP)
+- Lock quality / lock dimensions options
+- Smart optimization based on image type (photo vs graphic)
+- Conversion log panel (opt-in)
+- Manual start flow when target is active
+
+### Epic Dependencies
+
+```
+Epic 1-5 (MVP Complete) ← Foundation
+    ↓
+Epic 6 (Target Filesize) ← Extends converter with optimization
+```
+
+Epic 6 builds on:
+- Epic 1's converter.js architecture
+- Epic 2's batch processing and progress UI
+- Epic 5's UI patterns
+
+---
+
+### Story 6.1: Advanced Options Panel
+
+As a **power user**,
+I want **an expandable Advanced Options section**,
+So that **I can access optimization features without cluttering the main UI**.
+
+**Acceptance Criteria:**
+
+**Given** I am on any converter page
+**When** I view the settings area (below quality slider)
+**Then** I see a collapsed "▸ Advanced options" disclosure
+**And** the main UI remains clean and simple
+
+**Given** I click "Advanced options"
+**When** the section expands
+**Then** I see the target filesize controls
+**And** I see lock checkboxes
+**And** I see "Show conversion log" checkbox
+
+**Given** Advanced options is expanded
+**When** I click the header again
+**Then** the section collapses
+**And** my settings are preserved
+
+**Given** the Advanced options component
+**When** I inspect accessibility
+**Then** it is keyboard accessible (Enter/Space to toggle)
+**And** aria-expanded reflects current state
+
+---
+
+### Story 6.2: Target Filesize Slider
+
+As a **power user**,
+I want **to set a target filesize via slider or manual input**,
+So that **I can constrain output size for my workflow**.
+
+**Acceptance Criteria:**
+
+**Given** Advanced options is expanded
+**When** I view the target filesize control
+**Then** I see a slider with snap points: 100KB, 250KB, 500KB, 1MB, 2MB, 5MB
+**And** I see a manual input field (KB)
+
+**Given** I drag the slider to 500KB
+**When** I release
+**Then** the slider snaps to 500KB
+**And** the manual input shows "500"
+
+**Given** I type "750" in the manual input
+**When** I blur the field
+**Then** the slider updates to reflect 750KB position
+**And** the target is set to 750KB
+
+**Given** I clear the manual input
+**When** I blur the field
+**Then** target filesize is disabled
+**And** conversion returns to normal (no optimization)
+
+**Given** target filesize settings
+**When** I close and reopen the browser
+**Then** my settings are restored from localStorage
+
+---
+
+### Story 6.3: Quality and Dimension Locks
+
+As a **power user**,
+I want **to lock quality or dimensions**,
+So that **I can control which optimization lever is used**.
+
+**Acceptance Criteria:**
+
+**Given** Advanced options is expanded
+**When** I view the lock controls
+**Then** I see "☐ Lock quality (resize only)"
+**And** I see "☐ Lock dimensions (quality only)"
+
+**Given** I check "Lock quality"
+**When** optimization runs
+**Then** only resize is used to hit target
+**And** quality remains at current slider value
+
+**Given** I check "Lock dimensions"
+**When** optimization runs
+**Then** only quality reduction is used
+**And** image dimensions are preserved
+
+**Given** I try to check both locks
+**When** I check the second one
+**Then** the first one is automatically unchecked
+**And** only one lock can be active at a time
+
+**Given** neither lock is checked
+**When** optimization runs
+**Then** algorithm chooses based on image type (photo → quality, graphic → resize)
+
+---
+
+### Story 6.4: Manual Start Flow
+
+As a **power user with target set**,
+I want **to review settings before conversion starts**,
+So that **I can adjust parameters for my specific batch**.
+
+**Acceptance Criteria:**
+
+**Given** target filesize is set
+**When** I drop/select files
+**Then** files are queued (not auto-converted)
+**And** I see "X files ready" in the drop zone
+**And** I see a "Convert" button below settings
+
+**Given** files are queued
+**When** I adjust target, locks, or quality
+**Then** settings update immediately
+**And** files remain queued
+
+**Given** files are queued
+**When** I click "Convert"
+**Then** processing begins with current settings
+**And** "Convert" button is replaced with progress
+
+**Given** files are queued
+**When** I drop more files
+**Then** new files are added to the queue
+**And** count updates
+
+**Given** no target filesize is set
+**When** I drop files
+**Then** auto-conversion starts immediately (current behavior preserved)
+
+---
+
+### Story 6.5: Filesize Optimization Algorithm
+
+As a **system**,
+I want **to optimize images to hit target filesize**,
+So that **users get the smallest file that meets their constraint**.
+
+**Acceptance Criteria:**
+
+**Given** a file with target 500KB
+**When** initial encode is ≤ 500KB
+**Then** conversion completes immediately (no optimization needed)
+**And** result is returned
+
+**Given** a file exceeding target
+**When** optimization runs with quality available
+**Then** binary search adjusts quality (90→10 range)
+**And** each iteration encodes and checks size
+**And** stops when size ≤ target or quality floor (10%) reached
+
+**Given** a file exceeding target
+**When** optimization runs with resize available
+**Then** binary search adjusts scale (100%→25% range)
+**And** each iteration resizes, encodes, checks size
+**And** stops when size ≤ target or scale floor (25%) reached
+
+**Given** both levers available (no locks)
+**When** image is detected as photo (high color variance)
+**Then** quality reduction is tried first
+**And** resize is fallback if quality floor reached
+
+**Given** both levers available (no locks)
+**When** image is detected as graphic (low variance, sharp edges)
+**Then** resize is tried first
+**And** quality reduction is fallback
+
+**Given** target is impossible (e.g., 1KB)
+**When** all levers exhausted
+**Then** best achievable result is returned
+**And** result is marked as "best effort"
+
+**Given** optimization runs
+**When** iteration count reaches 8
+**Then** optimization stops (max iterations)
+**And** best result so far is returned
+
+---
+
+### Story 6.6: Conversion Log Panel
+
+As a **power user**,
+I want **to see detailed conversion results**,
+So that **I can verify which files hit target and which didn't**.
+
+**Acceptance Criteria:**
+
+**Given** "Show conversion log" is checked
+**When** conversion begins
+**Then** a slide-in panel appears from the right (desktop) or bottom (mobile)
+**And** panel has console-style appearance (monospace, dark background)
+
+**Given** the log panel is visible
+**When** a file converts successfully within target
+**Then** I see "✓ filename.heic → filename.jpg (487KB)"
+
+**Given** the log panel is visible
+**When** a file converts but exceeds target (best effort)
+**Then** I see "⚠ filename.heic → filename.jpg (847KB)"
+**And** below it: "  target: 500KB"
+
+**Given** batch completes
+**When** I view the log panel
+**Then** I see summary: "5 files • 4 on target • 1 best effort"
+
+**Given** no target filesize is set
+**When** conversion completes with log enabled
+**Then** I see "filename.heic → filename.jpg (1.2MB)" (no ✓/⚠)
+
+**Given** the log panel is open
+**When** I click the X or outside the panel
+**Then** the panel closes
+**And** I can reopen it
+
+**Given** I start a new conversion
+**When** the log panel is open
+**Then** previous log entries are cleared
+**And** new entries appear
+
+---
+
+### Story 6.7: Image Resize Implementation
+
+As a **system**,
+I want **to resize images using Canvas API**,
+So that **dimension reduction is available as an optimization lever**.
+
+**Acceptance Criteria:**
+
+**Given** an image needs resizing
+**When** resize is called with scale 0.5
+**Then** a new canvas is created at 50% dimensions
+**And** image is drawn with smoothing enabled
+**And** result maintains aspect ratio
+
+**Given** resize runs
+**When** dimensions are calculated
+**Then** both width and height are scaled proportionally
+**And** no distortion occurs
+
+**Given** a very large image (50+ megapixels)
+**When** resize reduces it significantly
+**Then** memory is released from original canvas
+**And** browser doesn't crash
+
+**Given** the resize function
+**When** I inspect the code
+**Then** it uses Canvas API (no external library)
+**And** it follows existing converter.js patterns
+
+---
+
+### Story 6.8: Image Type Detection
+
+As a **system**,
+I want **to detect if an image is a photo or graphic**,
+So that **smart optimization can choose the best lever**.
+
+**Acceptance Criteria:**
+
+**Given** an image is loaded
+**When** type detection runs
+**Then** it samples pixels (not full analysis)
+**And** completes in <50ms
+
+**Given** a photograph
+**When** type detection analyzes it
+**Then** it detects high color variance
+**And** returns "photo" classification
+
+**Given** a screenshot or graphic
+**When** type detection analyzes it
+**Then** it detects low color variance / sharp edges
+**And** returns "graphic" classification
+
+**Given** an ambiguous image
+**When** type detection is uncertain
+**Then** it defaults to "photo" (quality-first is safer)
+
+**Given** user has a lock set
+**When** optimization runs
+**Then** type detection is skipped (lock overrides)
+
+---
+
+## FR Coverage Map (Updated)
+
+| FR | Epic | Description |
+|----|------|-------------|
+| FR1-FR52 | Epic 1-5 | MVP requirements (complete) |
+| FR53+ | Epic 6 | Target filesize optimization (new) |
+
+### New Functional Requirements (Post-MVP)
+
+- **FR53:** Users can set a target filesize constraint
+- **FR54:** Users can lock quality (resize-only optimization)
+- **FR55:** Users can lock dimensions (quality-only optimization)
+- **FR56:** System can resize images to reduce filesize
+- **FR57:** System can detect image type (photo vs graphic)
+- **FR58:** Users can view conversion log with per-file results
+- **FR59:** System uses manual start flow when target is active
+- **FR60:** System marks results as "on target" or "best effort"

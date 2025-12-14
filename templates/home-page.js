@@ -176,6 +176,75 @@ export const homePage = () => `<!DOCTYPE html>
         </div>
       </div>
 
+      <!-- Advanced Options (Epic 6) -->
+      <div class="advanced-options" data-expanded="false" id="advanced-options">
+        <button
+          type="button"
+          class="advanced-options__toggle"
+          aria-expanded="false"
+          aria-controls="advanced-options-content"
+        >
+          <svg class="advanced-options__chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+          <span>Advanced options</span>
+        </button>
+        <div class="advanced-options__content" id="advanced-options-content">
+          <!-- Target Filesize -->
+          <div class="target-filesize">
+            <label class="target-filesize__label">Target filesize</label>
+            <div class="target-filesize__controls">
+              <input
+                type="range"
+                id="target-filesize-slider"
+                min="50"
+                max="5000"
+                value="500"
+                step="50"
+                class="target-filesize__slider"
+                aria-label="Target filesize"
+              >
+              <input
+                type="number"
+                id="target-filesize-input"
+                min="10"
+                max="10000"
+                placeholder="500"
+                class="target-filesize__input"
+                aria-label="Target filesize in KB"
+              >
+              <span class="target-filesize__unit">KB</span>
+            </div>
+            <div class="target-filesize__presets">
+              100KB • 250KB • 500KB • 1MB • 2MB • 5MB
+            </div>
+          </div>
+
+          <!-- Lock Options -->
+          <div class="lock-options">
+            <label class="lock-option">
+              <input type="checkbox" id="lock-quality" name="lock-quality">
+              <span>Lock quality (resize only)</span>
+            </label>
+            <label class="lock-option">
+              <input type="checkbox" id="lock-dimensions" name="lock-dimensions">
+              <span>Lock dimensions (quality only)</span>
+            </label>
+          </div>
+
+          <!-- Show Log Option -->
+          <label class="log-option">
+            <input type="checkbox" id="show-log" name="show-log">
+            <span>Show conversion log</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Convert Button (Manual Start - shown when target is set and files queued) -->
+      <button type="button" id="convert-button" class="convert-button" disabled>
+        Convert files
+      </button>
+
       <!-- Warning Container (Story 2.6 - hidden by default) -->
       <div id="warning-container" class="mt-6 hidden p-4 bg-warning-bg border border-warning rounded-lg" role="alert">
         <div class="flex items-start justify-between">
@@ -341,6 +410,20 @@ export const homePage = () => `<!DOCTYPE html>
       <p class="site-footer__copyright">&copy; 2025 CovertConvert. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Conversion Log Panel (Epic 6) -->
+  <div class="conversion-log" id="conversion-log" aria-label="Conversion log">
+    <div class="conversion-log__header">
+      <span>Conversion Log</span>
+      <button type="button" class="conversion-log__close" id="log-close" aria-label="Close log">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="conversion-log__body" id="log-body"></div>
+    <div class="conversion-log__footer" id="log-footer"></div>
+  </div>
 
   <script type="module" src="/js/main.js"></script>
   <script>

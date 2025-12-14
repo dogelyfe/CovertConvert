@@ -436,6 +436,60 @@ function isTier1Format(format) {
   return tier1.includes(format);
 }
 
+/**
+ * Epic 6: Decode image and return canvas for optimization
+ * Returns a NEW canvas (not the shared one) to allow optimization operations
+ * @param {object} fileInfo - Validated file info from detector
+ * @returns {Promise<HTMLCanvasElement|null>} Canvas with decoded image, or null on error
+ */
+async function getConvertedCanvas(fileInfo) {
+  try {
+    let img, imageData, width, height;
+
+    if (fileInfo.tier === 2) {
+      // Tier 2: Use WASM codec to decode
+      const codecResult = await getCodec(fileInfo.format);
+      if (!codecResult.ok) {
+        return null;
+      }
+
+      const codec = codecResult.data;
+      const decoded = await codec.decode(fileInfo.file);
+      imageData = decoded.imageData;
+      width = decoded.width;
+      height = decoded.height;
+    } else {
+      // Tier 1: Load via Image element
+      img = await loadImage(fileInfo.file);
+      width = img.naturalWidth;
+      height = img.naturalHeight;
+    }
+
+    // Create a new canvas (not shared, so optimizer can manipulate)
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return null;
+    }
+
+    if (imageData) {
+      // Tier 2: Put ImageData
+      ctx.putImageData(imageData, 0, 0);
+    } else if (img) {
+      // Tier 1: Draw image
+      ctx.drawImage(img, 0, 0);
+    }
+
+    return canvas;
+  } catch (error) {
+    console.error('[CovertConvert] getConvertedCanvas failed:', error);
+    return null;
+  }
+}
+
 // Named exports only (per architecture)
 export {
   getState,
@@ -447,6 +501,7 @@ export {
   convertAll,
   isTier1Format,
   generateOutputFilename,
+  getConvertedCanvas, // Epic 6
   JPEG_DEFAULT_QUALITY,
   SUPPORTED_OUTPUT_FORMATS,
 };

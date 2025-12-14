@@ -7,7 +7,7 @@
 
 import { validateFiles } from './detector.js';
 import { getUserMessage, getErrorGuidance, ERROR_TYPES } from './errors.js';
-import { setFiles, setOutputFormat, setQuality, convertAll, resetState } from './converter.js';
+import { setFiles, setOutputFormat, setQuality, convertAll, resetState, getConvertedCanvas } from './converter.js';
 import { triggerDownload } from './downloader.js';
 import { initPreload } from './codecs/loader.js';
 import { shouldWarnBatchSize, shouldWarnFileSize } from './platform.js';
@@ -19,6 +19,9 @@ import {
   trackBatchErrors,
   trackDownloadTriggered,
 } from './analytics.js';
+
+// Import optimizer (Epic 6)
+import { optimizeToSize } from './optimizer.js';
 
 // Import UI functions - single source of truth for DOM manipulation
 import {
@@ -42,6 +45,23 @@ import {
   updateQualityDisplay,
   setQualityVisibility,
   updateFormatButtons,
+  // Epic 6 UI functions
+  toggleAdvancedOptions,
+  getTargetFilesize,
+  syncTargetFilesize,
+  getLockStates,
+  enforceLockExclusivity,
+  isLogEnabled,
+  showQueuedState,
+  hideQueuedState,
+  isManualStartMode,
+  openLog,
+  closeLog,
+  clearLog,
+  addLogEntry,
+  updateLogSummary,
+  saveAdvancedSettings,
+  loadAdvancedSettings,
 } from './ui.js';
 
 // State (logic state - UI state handled by ui.js)
@@ -52,6 +72,11 @@ let state = {
   validatedFiles: [],
   status: 'idle',
   warningDismissed: false,
+  // Epic 6: Queue for manual start mode
+  queuedFiles: [],
+  queuedValidated: [],
+  // Epic 6: Log stats
+  logStats: { total: 0, onTarget: 0, bestEffort: 0 },
 };
 
 /**
@@ -80,6 +105,9 @@ function init() {
 
   // Update quality slider visibility
   setQualityVisibility(state.outputFormat === 'jpeg');
+
+  // Load saved advanced settings (Epic 6)
+  loadAdvancedSettings();
 
   // Preload HEIC codec on fast connections
   initPreload();
@@ -120,6 +148,57 @@ function bindEvents(elements) {
 
   // Warning dismiss button
   elements.warningDismiss?.addEventListener('click', dismissWarning);
+
+  // === Epic 6: Advanced options event bindings ===
+
+  // Advanced options toggle
+  elements.advancedToggle?.addEventListener('click', () => {
+    toggleAdvancedOptions();
+  });
+
+  // Target filesize slider
+  elements.targetFilesizeSlider?.addEventListener('input', (e) => {
+    syncTargetFilesize(parseInt(e.target.value, 10), 'slider');
+    saveAdvancedSettings();
+  });
+
+  // Target filesize input
+  elements.targetFilesizeInput?.addEventListener('change', (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value > 0) {
+      syncTargetFilesize(value, 'input');
+    }
+    saveAdvancedSettings();
+  });
+
+  // Lock quality checkbox
+  elements.lockQuality?.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      enforceLockExclusivity('quality');
+    }
+    saveAdvancedSettings();
+  });
+
+  // Lock dimensions checkbox
+  elements.lockDimensions?.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      enforceLockExclusivity('dimensions');
+    }
+    saveAdvancedSettings();
+  });
+
+  // Show log checkbox
+  elements.showLog?.addEventListener('change', () => {
+    saveAdvancedSettings();
+  });
+
+  // Convert button (manual start)
+  elements.convertButton?.addEventListener('click', handleConvertClick);
+
+  // Log close button
+  elements.logClose?.addEventListener('click', () => {
+    closeLog();
+  });
 }
 
 /**
@@ -133,7 +212,7 @@ async function handleFileSelect(e) {
 }
 
 /**
- * Process selected files - validate, warn, convert, and download
+ * Process selected files - validate, warn, convert (or queue), and download
  */
 async function processFiles(files) {
   // Reset state for new batch
@@ -186,8 +265,38 @@ async function processFiles(files) {
     showFileCount(valid.length);
   }
 
-  // Start conversion
+  // Epic 6: Check if in manual start mode (target filesize is set)
+  if (isManualStartMode()) {
+    // Add to queue instead of auto-converting
+    state.queuedFiles = [...state.queuedFiles, ...valid.map(v => v.file)];
+    state.queuedValidated = [...state.queuedValidated, ...valid];
+    showQueuedState(state.queuedValidated.length);
+    return;
+  }
+
+  // Start conversion (auto-start mode)
   await startConversion(valid);
+}
+
+/**
+ * Handle convert button click (Epic 6 - Manual Start)
+ */
+async function handleConvertClick() {
+  if (state.queuedValidated.length === 0) return;
+
+  // Move queued files to active state
+  state.validatedFiles = state.queuedValidated;
+  state.files = state.queuedFiles;
+
+  // Clear queue
+  state.queuedFiles = [];
+  state.queuedValidated = [];
+
+  // Hide queued state
+  hideQueuedState();
+
+  // Start conversion
+  await startConversion(state.validatedFiles);
 }
 
 /**
@@ -195,6 +304,16 @@ async function processFiles(files) {
  */
 async function startConversion(validatedFiles) {
   const total = validatedFiles.length;
+  const targetBytes = getTargetFilesize();
+  const hasTarget = targetBytes > 0;
+  const showLogPanel = isLogEnabled();
+
+  // Epic 6: Reset log stats and clear log
+  state.logStats = { total: 0, onTarget: 0, bestEffort: 0 };
+  if (showLogPanel) {
+    clearLog();
+    openLog();
+  }
 
   // Update UI to converting state
   showConverting(1, total);
@@ -210,16 +329,36 @@ async function startConversion(validatedFiles) {
   // Track conversion started (Story 5.1)
   trackConversionStarted(total, state.outputFormat);
 
-  // Run conversion with progress callback
-  const result = await convertAll((current, total, fileResult) => {
-    // Only show progress if conversion takes > 500ms
-    if (Date.now() - startTime > 500) {
-      updateProgress(current, total);
-    }
-  });
+  // Epic 6: If we have a target filesize, use optimized conversion
+  let result;
+  if (hasTarget) {
+    result = await convertWithOptimization(validatedFiles, targetBytes, startTime, showLogPanel);
+  } else {
+    // Standard conversion without optimization
+    result = await convertAll((current, total, fileResult) => {
+      // Only show progress if conversion takes > 500ms
+      if (Date.now() - startTime > 500) {
+        updateProgress(current, total);
+      }
+
+      // Epic 6: Add to log if enabled (no target)
+      if (showLogPanel && fileResult?.ok) {
+        const inputName = fileResult.originalName || `file_${current}`;
+        const outputName = fileResult.name;
+        const sizeBytes = fileResult.blob?.size || 0;
+        addLogEntry(inputName, outputName, sizeBytes, null, true);
+        state.logStats.total++;
+      }
+    });
+  }
 
   // Calculate conversion duration
   const durationMs = Date.now() - startTime;
+
+  // Update log summary if enabled
+  if (showLogPanel) {
+    updateLogSummary(state.logStats.total, state.logStats.onTarget, state.logStats.bestEffort);
+  }
 
   if (result.ok) {
     const { successful, failed, successCount, failCount } = result.data;
@@ -291,6 +430,99 @@ async function startConversion(validatedFiles) {
     const guidance = getErrorGuidance(ERROR_TYPES.DECODE_FAILED);
     showError(message, guidance);
   }
+}
+
+/**
+ * Epic 6: Convert files with filesize optimization
+ */
+async function convertWithOptimization(validatedFiles, targetBytes, startTime, showLogPanel) {
+  const { lockQuality, lockDimensions } = getLockStates();
+  const format = state.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+  const successful = [];
+  const failed = [];
+  const total = validatedFiles.length;
+
+  for (let i = 0; i < validatedFiles.length; i++) {
+    const validated = validatedFiles[i];
+    const current = i + 1;
+
+    // Update progress UI
+    showConverting(current, total);
+    if (Date.now() - startTime > 500) {
+      updateProgress(current, total);
+    }
+
+    try {
+      // First, decode the image to canvas using the existing converter
+      const canvas = await getConvertedCanvas(validated);
+
+      if (!canvas) {
+        failed.push({
+          file: validated.file,
+          error: { type: ERROR_TYPES.DECODE_FAILED },
+        });
+        continue;
+      }
+
+      // Run optimization
+      const optimized = await optimizeToSize(canvas, {
+        targetBytes,
+        format,
+        initialQuality: state.quality,
+        lockQuality,
+        lockDimensions,
+      });
+
+      // Create result object
+      const baseName = validated.file.name.replace(/\.[^.]+$/, '');
+      const ext = state.outputFormat === 'jpeg' ? 'jpg' : 'png';
+      const outputName = `${baseName}.${ext}`;
+
+      const fileResult = {
+        name: outputName,
+        originalName: validated.file.name,
+        blob: optimized.blob,
+        ok: true,
+      };
+
+      successful.push(fileResult);
+
+      // Update log stats and add entry
+      state.logStats.total++;
+      if (optimized.hitTarget) {
+        state.logStats.onTarget++;
+      } else {
+        state.logStats.bestEffort++;
+      }
+
+      if (showLogPanel) {
+        addLogEntry(
+          validated.file.name,
+          outputName,
+          optimized.blob.size,
+          targetBytes,
+          optimized.hitTarget
+        );
+      }
+    } catch (error) {
+      console.error(`[CovertConvert] Optimization failed for ${validated.file.name}:`, error);
+      failed.push({
+        file: validated.file,
+        error: { type: ERROR_TYPES.DECODE_FAILED },
+      });
+    }
+  }
+
+  return {
+    ok: successful.length > 0,
+    data: {
+      successful,
+      failed,
+      successCount: successful.length,
+      failCount: failed.length,
+      total,
+    },
+  };
 }
 
 /**
@@ -373,6 +605,10 @@ function resetToDefault() {
   // Reset UI via ui.js
   resetUI();
 
+  // Epic 6: Hide queued state and log
+  hideQueuedState();
+  closeLog();
+
   // Reset converter state
   resetState();
 
@@ -381,6 +617,10 @@ function resetToDefault() {
   state.validatedFiles = [];
   state.status = 'idle';
   state.warningDismissed = false;
+  // Epic 6: Clear queue
+  state.queuedFiles = [];
+  state.queuedValidated = [];
+  state.logStats = { total: 0, onTarget: 0, bestEffort: 0 };
 }
 
 // Initialize when DOM is ready

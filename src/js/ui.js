@@ -51,6 +51,22 @@ function initUI() {
     qualitySlider: document.querySelector('#quality-slider'),
     qualityValue: document.querySelector('#quality-value'),
 
+    // Advanced options (Epic 6)
+    advancedOptions: document.querySelector('#advanced-options'),
+    advancedToggle: document.querySelector('.advanced-options__toggle'),
+    targetFilesizeSlider: document.querySelector('#target-filesize-slider'),
+    targetFilesizeInput: document.querySelector('#target-filesize-input'),
+    lockQuality: document.querySelector('#lock-quality'),
+    lockDimensions: document.querySelector('#lock-dimensions'),
+    showLog: document.querySelector('#show-log'),
+    convertButton: document.querySelector('#convert-button'),
+
+    // Conversion log (Epic 6)
+    conversionLog: document.querySelector('#conversion-log'),
+    logClose: document.querySelector('#log-close'),
+    logBody: document.querySelector('#log-body'),
+    logFooter: document.querySelector('#log-footer'),
+
     // Other
     trustMessage: document.querySelector('.trust-message'),
     formatButtons: document.querySelectorAll('[data-format]'),
@@ -466,6 +482,299 @@ function updateFormatButtons(activeFormat) {
 }
 
 // ============================================================================
+// ADVANCED OPTIONS (Epic 6)
+// ============================================================================
+
+/**
+ * Toggle advanced options panel
+ * @param {boolean} [forceState] - Optional: force open (true) or closed (false)
+ */
+function toggleAdvancedOptions(forceState) {
+  const el = getElements();
+  if (!el.advancedOptions || !el.advancedToggle) return;
+
+  const currentState = el.advancedOptions.dataset.expanded === 'true';
+  const newState = forceState !== undefined ? forceState : !currentState;
+
+  el.advancedOptions.dataset.expanded = newState.toString();
+  el.advancedToggle.setAttribute('aria-expanded', newState.toString());
+}
+
+/**
+ * Get current target filesize in bytes (0 = disabled)
+ * @returns {number} Target in bytes, or 0 if disabled
+ */
+function getTargetFilesize() {
+  const el = getElements();
+  if (!el.targetFilesizeInput) return 0;
+
+  const value = parseInt(el.targetFilesizeInput.value, 10);
+  return isNaN(value) || value <= 0 ? 0 : value * 1024; // KB to bytes
+}
+
+/**
+ * Update target filesize slider and input to stay in sync
+ * @param {number} valueKB - Value in KB
+ * @param {'slider' | 'input'} source - Which control triggered the change
+ */
+function syncTargetFilesize(valueKB, source) {
+  const el = getElements();
+
+  if (source === 'slider' && el.targetFilesizeInput) {
+    el.targetFilesizeInput.value = valueKB;
+  } else if (source === 'input' && el.targetFilesizeSlider) {
+    // Clamp to slider range
+    const clamped = Math.min(5000, Math.max(50, valueKB));
+    el.targetFilesizeSlider.value = clamped;
+  }
+}
+
+/**
+ * Get lock states
+ * @returns {{lockQuality: boolean, lockDimensions: boolean}}
+ */
+function getLockStates() {
+  const el = getElements();
+  return {
+    lockQuality: el.lockQuality?.checked || false,
+    lockDimensions: el.lockDimensions?.checked || false,
+  };
+}
+
+/**
+ * Enforce mutual exclusivity of lock checkboxes
+ * @param {'quality' | 'dimensions'} checked - Which was just checked
+ */
+function enforceLockExclusivity(checked) {
+  const el = getElements();
+
+  if (checked === 'quality' && el.lockDimensions) {
+    el.lockDimensions.checked = false;
+  } else if (checked === 'dimensions' && el.lockQuality) {
+    el.lockQuality.checked = false;
+  }
+}
+
+/**
+ * Check if show log is enabled
+ * @returns {boolean}
+ */
+function isLogEnabled() {
+  const el = getElements();
+  return el.showLog?.checked || false;
+}
+
+// ============================================================================
+// MANUAL START FLOW (Epic 6)
+// ============================================================================
+
+/**
+ * Show queued state with file count
+ * @param {number} count - Number of files queued
+ */
+function showQueuedState(count) {
+  const el = getElements();
+
+  el.fileSelector?.classList.add('file-selector--queued');
+  el.fileSelector?.classList.remove('is-success', 'has-error', 'is-converting');
+
+  const text = count === 1 ? '1 file ready' : `${count} files ready`;
+  updateSelectorText(text);
+
+  // Show convert button
+  if (el.convertButton) {
+    el.convertButton.classList.add('convert-button--visible');
+    el.convertButton.disabled = false;
+    el.convertButton.textContent = count === 1 ? 'Convert file' : `Convert ${count} files`;
+  }
+}
+
+/**
+ * Hide queued state and convert button
+ */
+function hideQueuedState() {
+  const el = getElements();
+
+  el.fileSelector?.classList.remove('file-selector--queued');
+
+  if (el.convertButton) {
+    el.convertButton.classList.remove('convert-button--visible');
+    el.convertButton.disabled = true;
+  }
+}
+
+/**
+ * Check if we're in manual start mode (target filesize is set)
+ * @returns {boolean}
+ */
+function isManualStartMode() {
+  return getTargetFilesize() > 0;
+}
+
+// ============================================================================
+// CONVERSION LOG (Epic 6)
+// ============================================================================
+
+/**
+ * Open the conversion log panel
+ */
+function openLog() {
+  const el = getElements();
+  el.conversionLog?.classList.add('conversion-log--open');
+}
+
+/**
+ * Close the conversion log panel
+ */
+function closeLog() {
+  const el = getElements();
+  el.conversionLog?.classList.remove('conversion-log--open');
+}
+
+/**
+ * Clear the conversion log
+ */
+function clearLog() {
+  const el = getElements();
+  if (el.logBody) {
+    el.logBody.innerHTML = '';
+  }
+  if (el.logFooter) {
+    el.logFooter.textContent = '';
+  }
+}
+
+/**
+ * Add entry to conversion log
+ * @param {string} inputName - Original filename
+ * @param {string} outputName - Output filename
+ * @param {number} sizeBytes - Final size in bytes
+ * @param {number|null} targetBytes - Target size (null if no target)
+ * @param {boolean} hitTarget - Whether target was met
+ */
+function addLogEntry(inputName, outputName, sizeBytes, targetBytes, hitTarget) {
+  const el = getElements();
+  if (!el.logBody) return;
+
+  const sizeStr = formatSizeForLog(sizeBytes);
+  const hasTarget = targetBytes !== null && targetBytes > 0;
+
+  const entry = document.createElement('div');
+  entry.className = 'conversion-log__entry';
+
+  if (hasTarget) {
+    entry.classList.add(hitTarget ? 'conversion-log__entry--success' : 'conversion-log__entry--warning');
+    const icon = hitTarget ? '✓' : '⚠';
+    entry.textContent = `${icon} ${inputName} → ${outputName} (${sizeStr})`;
+
+    if (!hitTarget) {
+      const detail = document.createElement('div');
+      detail.className = 'conversion-log__entry-detail';
+      detail.textContent = `target: ${formatSizeForLog(targetBytes)}`;
+      el.logBody.appendChild(entry);
+      el.logBody.appendChild(detail);
+      return;
+    }
+  } else {
+    entry.textContent = `${inputName} → ${outputName} (${sizeStr})`;
+  }
+
+  el.logBody.appendChild(entry);
+  el.logBody.scrollTop = el.logBody.scrollHeight;
+}
+
+/**
+ * Update log footer with summary
+ * @param {number} total - Total files
+ * @param {number} onTarget - Files that hit target
+ * @param {number} bestEffort - Files that missed target
+ */
+function updateLogSummary(total, onTarget, bestEffort) {
+  const el = getElements();
+  if (!el.logFooter) return;
+
+  if (bestEffort > 0) {
+    el.logFooter.textContent = `${total} files • ${onTarget} on target • ${bestEffort} best effort`;
+  } else {
+    el.logFooter.textContent = `${total} files converted`;
+  }
+}
+
+/**
+ * Format bytes for log display
+ * @param {number} bytes
+ * @returns {string}
+ */
+function formatSizeForLog(bytes) {
+  if (bytes < 1024) {
+    return `${bytes}B`;
+  } else if (bytes < 1024 * 1024) {
+    return `${Math.round(bytes / 1024)}KB`;
+  } else {
+    return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+  }
+}
+
+// ============================================================================
+// SETTINGS PERSISTENCE (Epic 6)
+// ============================================================================
+
+const STORAGE_KEY = 'cc-advanced-settings';
+
+/**
+ * Save advanced settings to localStorage
+ */
+function saveAdvancedSettings() {
+  const el = getElements();
+
+  const settings = {
+    targetFilesize: el.targetFilesizeInput?.value || '',
+    lockQuality: el.lockQuality?.checked || false,
+    lockDimensions: el.lockDimensions?.checked || false,
+    showLog: el.showLog?.checked || false,
+  };
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  } catch (e) {
+    // localStorage not available, ignore
+  }
+}
+
+/**
+ * Load advanced settings from localStorage
+ */
+function loadAdvancedSettings() {
+  const el = getElements();
+
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+
+    const settings = JSON.parse(saved);
+
+    if (settings.targetFilesize && el.targetFilesizeInput) {
+      el.targetFilesizeInput.value = settings.targetFilesize;
+      syncTargetFilesize(parseInt(settings.targetFilesize, 10), 'input');
+    }
+
+    if (el.lockQuality) {
+      el.lockQuality.checked = settings.lockQuality || false;
+    }
+
+    if (el.lockDimensions) {
+      el.lockDimensions.checked = settings.lockDimensions || false;
+    }
+
+    if (el.showLog) {
+      el.showLog.checked = settings.showLog || false;
+    }
+  } catch (e) {
+    // Parse error or localStorage not available
+  }
+}
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -505,6 +814,30 @@ export {
 
   // Format buttons
   updateFormatButtons,
+
+  // Advanced options (Epic 6)
+  toggleAdvancedOptions,
+  getTargetFilesize,
+  syncTargetFilesize,
+  getLockStates,
+  enforceLockExclusivity,
+  isLogEnabled,
+
+  // Manual start (Epic 6)
+  showQueuedState,
+  hideQueuedState,
+  isManualStartMode,
+
+  // Conversion log (Epic 6)
+  openLog,
+  closeLog,
+  clearLog,
+  addLogEntry,
+  updateLogSummary,
+
+  // Settings persistence (Epic 6)
+  saveAdvancedSettings,
+  loadAdvancedSettings,
 
   // Constants
   PROGRESS_THRESHOLD_MS,
