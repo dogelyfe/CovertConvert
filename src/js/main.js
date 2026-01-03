@@ -189,7 +189,14 @@ function bindEvents(elements) {
   elements.fileSelector?.addEventListener('drop', handleDrop);
 
   // Click to open file picker
-  elements.fileSelector?.addEventListener('click', () => elements.fileInput?.click());
+  // Only trigger programmatically if click wasn't on the label (which triggers natively)
+  elements.fileSelector?.addEventListener('click', (e) => {
+    // If click is on or inside the label, let native behavior handle it
+    if (e.target.closest('label[for="file-input"]')) {
+      return;
+    }
+    elements.fileInput?.click();
+  });
 
   // Keyboard accessibility
   elements.fileSelector?.addEventListener('keydown', (e) => {
