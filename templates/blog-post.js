@@ -3,6 +3,24 @@
  * Markdown-based blog posts with Article schema
  */
 
+const BASE_URL = 'https://covertconvert.app';
+
+/**
+ * Generate hreflang tags for SEO
+ * @param {string} slug - Page slug
+ * @param {string[]} locales - Array of locale codes
+ * @param {string} defaultLocale - Default locale code
+ */
+const generateHreflang = (slug, locales, defaultLocale) => {
+  const path = `/blog/${slug}/`;
+  const tags = locales.map(l => {
+    const url = l === defaultLocale ? `${BASE_URL}${path}` : `${BASE_URL}/${l}${path}`;
+    return `<link rel="alternate" hreflang="${l}" href="${url}" />`;
+  });
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}${path}" />`);
+  return tags.join('\n  ');
+};
+
 // Map blog slugs to relevant tool CTAs
 const getToolCta = (slug) => {
   const ctas = {
@@ -65,7 +83,8 @@ export const blogPost = ({ slug, title, description, date, updated, content, aut
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} | CovertConvert Blog</title>
   <meta name="description" content="${description}">
-  <link rel="canonical" href="https://covertconvert.app/blog/${slug}/">
+  <link rel="canonical" href="${locale === defaultLocale ? BASE_URL : BASE_URL + '/' + locale}/blog/${slug}/" />
+  ${generateHreflang(slug, locales, defaultLocale)}
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0d0d0d">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-192.png">

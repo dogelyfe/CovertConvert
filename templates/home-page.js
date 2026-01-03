@@ -4,6 +4,25 @@
  * Epic 2: Batch warnings, quality slider
  */
 
+const BASE_URL = 'https://covertconvert.app';
+
+/**
+ * Generate hreflang tags for SEO
+ * @param {string} slug - Page slug (empty string for home page)
+ * @param {string[]} locales - Array of locale codes
+ * @param {string} defaultLocale - Default locale code
+ */
+const generateHreflang = (slug, locales, defaultLocale) => {
+  const path = slug ? `/${slug}/` : '/';
+  const tags = locales.map(l => {
+    const url = l === defaultLocale ? `${BASE_URL}${path}` : `${BASE_URL}/${l}${path}`;
+    return `<link rel="alternate" hreflang="${l}" href="${url}" />`;
+  });
+  // x-default points to the default locale version
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}${path}" />`);
+  return tags.join('\n  ');
+};
+
 export const homePage = ({ i18n = {}, locale = 'en', locales = ['en'], defaultLocale = 'en' } = {}) => `<!DOCTYPE html>
 <html lang="${locale}">
 <head>
@@ -16,6 +35,8 @@ export const homePage = ({ i18n = {}, locale = 'en', locales = ['en'], defaultLo
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-192.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
   <link rel="apple-touch-icon" href="/assets/icon-192.png">
+  <link rel="canonical" href="${locale === defaultLocale ? BASE_URL + '/' : BASE_URL + '/' + locale + '/'}" />
+  ${generateHreflang('', locales, defaultLocale)}
   <link rel="stylesheet" href="/css/styles.css">
 
   <!-- Theme initialization (prevents flash) -->

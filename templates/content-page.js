@@ -3,6 +3,24 @@
  * Epic 4: About, Privacy, How It Works
  */
 
+const BASE_URL = 'https://covertconvert.app';
+
+/**
+ * Generate hreflang tags for SEO
+ * @param {string} slug - Page slug
+ * @param {string[]} locales - Array of locale codes
+ * @param {string} defaultLocale - Default locale code
+ */
+const generateHreflang = (slug, locales, defaultLocale) => {
+  const path = `/${slug}/`;
+  const tags = locales.map(l => {
+    const url = l === defaultLocale ? `${BASE_URL}${path}` : `${BASE_URL}/${l}${path}`;
+    return `<link rel="alternate" hreflang="${l}" href="${url}" />`;
+  });
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}${path}" />`);
+  return tags.join('\n  ');
+};
+
 export const contentPage = ({ slug, title, description, h1, content, schema = null, updated = null, i18n = {}, locale = 'en', locales = ['en'], defaultLocale = 'en' }) => {
   // Format updated date if provided (shown to users)
   const formattedUpdated = updated ? new Date(updated).toLocaleDateString(locale, {
@@ -18,7 +36,8 @@ export const contentPage = ({ slug, title, description, h1, content, schema = nu
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
   <meta name="description" content="${description}">
-  <link rel="canonical" href="https://covertconvert.app/${slug}/">
+  <link rel="canonical" href="${locale === defaultLocale ? BASE_URL : BASE_URL + '/' + locale}/${slug}/" />
+  ${generateHreflang(slug, locales, defaultLocale)}
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0d0d0d">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-192.png">

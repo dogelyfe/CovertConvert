@@ -3,6 +3,23 @@
  * Lists all blog posts
  */
 
+const BASE_URL = 'https://covertconvert.app';
+
+/**
+ * Generate hreflang tags for SEO
+ * @param {string[]} locales - Array of locale codes
+ * @param {string} defaultLocale - Default locale code
+ */
+const generateHreflang = (locales, defaultLocale) => {
+  const path = '/blog/';
+  const tags = locales.map(l => {
+    const url = l === defaultLocale ? `${BASE_URL}${path}` : `${BASE_URL}/${l}${path}`;
+    return `<link rel="alternate" hreflang="${l}" href="${url}" />`;
+  });
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}${path}" />`);
+  return tags.join('\n  ');
+};
+
 export const blogIndex = ({ posts, i18n = {}, locale = 'en', locales = ['en'], defaultLocale = 'en' }) => {
   const postsList = posts
     .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -24,7 +41,8 @@ export const blogIndex = ({ posts, i18n = {}, locale = 'en', locales = ['en'], d
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog | CovertConvert - Image Conversion Tips & Guides</title>
   <meta name="description" content="Learn about image formats, conversion tips, and how to handle HEIC, WebP, AVIF, and other modern image formats.">
-  <link rel="canonical" href="https://covertconvert.app/blog/">
+  <link rel="canonical" href="${locale === defaultLocale ? BASE_URL + '/blog/' : BASE_URL + '/' + locale + '/blog/'}" />
+  ${generateHreflang(locales, defaultLocale)}
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0d0d0d">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-192.png">
