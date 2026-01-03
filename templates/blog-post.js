@@ -21,6 +21,29 @@ const generateHreflang = (slug, locales, defaultLocale) => {
   return tags.join('\n  ');
 };
 
+const LANG_NAMES = { en: 'English', es: 'Español', pt: 'Português', fr: 'Français', de: 'Deutsch' };
+
+const generateLangSwitcher = (slug, locale, locales, defaultLocale) => {
+  const path = `/blog/${slug}/`;
+  const options = locales.map(l => {
+    const href = l === defaultLocale ? path : `/${l}${path}`;
+    const isActive = l === locale;
+    return `<a href="${href}" class="lang-switcher__option${isActive ? ' is-active' : ''}">${LANG_NAMES[l] || l.toUpperCase()}</a>`;
+  }).join('\n          ');
+
+  return `<div class="lang-switcher" id="lang-switcher">
+        <button class="lang-switcher__toggle" aria-expanded="false" aria-haspopup="true">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+          </svg>
+          ${locale.toUpperCase()}
+        </button>
+        <div class="lang-switcher__dropdown">
+          ${options}
+        </div>
+      </div>`;
+};
+
 // Map blog slugs to relevant tool CTAs
 const getToolCta = (slug) => {
   const ctas = {
@@ -167,6 +190,7 @@ ${articleSchema}
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
         </svg>
       </div>
+      ${generateLangSwitcher(slug, locale, locales, defaultLocale)}
     </nav>
   </header>
 
@@ -265,6 +289,24 @@ ${articleSchema}
         } else {
           html.removeAttribute('data-theme');
           localStorage.setItem('cc-theme', 'light');
+        }
+      });
+    })();
+
+    // Language switcher toggle
+    (function() {
+      var switcher = document.getElementById('lang-switcher');
+      if (!switcher) return;
+      var toggle = switcher.querySelector('.lang-switcher__toggle');
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = switcher.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', isOpen);
+      });
+      document.addEventListener('click', function(e) {
+        if (!switcher.contains(e.target)) {
+          switcher.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
         }
       });
     })();
