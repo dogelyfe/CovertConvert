@@ -81,9 +81,6 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
     gtag('config', 'G-JKXZE02VCC');
   </script>
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8099101912328978" crossorigin="anonymous"></script>
-
   <!-- BreadcrumbList Schema -->
   <script type="application/ld+json">
 {
@@ -130,6 +127,10 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
     <a href="/" class="site-header__wordmark"><span class="wordmark-covert">Covert</span><span class="wordmark-convert">Convert</span></a>
     <nav class="site-header__nav">
       <a href="/blog/" class="site-header__nav-link">Blog</a>
+      <a href="/support/" class="site-header__nav-link site-header__nav-link--support">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        Support
+      </a>
       <div class="theme-toggle" role="group" aria-label="Theme switcher">
         <svg class="icon-sun" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
@@ -314,7 +315,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
         <svg class="w-4 h-4 inline-block mr-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
           <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
         </svg>
-        Your files never leave your device
+        Your files never leave your device · No ads · <a href="/support/" class="trust-message__link">Community supported</a>
       </p>
     </div>
 
@@ -348,33 +349,6 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
     </section>
       </main>
 
-      <!-- Desktop Sidebar Ad (hidden on mobile) -->
-      <aside class="tool-layout__sidebar hidden lg:block" aria-label="Advertisement">
-        <div class="ad-container ad-container--sidebar">
-          <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-8099101912328978"
-               data-ad-slot="XXXXXXXXXX"
-               data-ad-format="auto"
-               data-full-width-responsive="false"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Mobile Below-Fold Ad (hidden on desktop) -->
-    <div class="lg:hidden mt-12" aria-label="Advertisement">
-      <div class="ad-container ad-container--mobile mx-auto">
-        <!-- Ad unit placeholder - replace data-ad-slot with your AdSense slot ID -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-8099101912328978"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="horizontal"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
     </div>
   </div>
 
@@ -408,6 +382,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
           <li><a href="/terms/">Terms</a></li>
           <li><a href="/how-it-works/">How It Works</a></li>
           <li><a href="/contact/">Contact</a></li>
+          <li><a href="/support/" class="site-footer__support-link">♥ Support</a></li>
         </ul>
       </div>
     </div>

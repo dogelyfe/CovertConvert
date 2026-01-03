@@ -172,6 +172,24 @@ h3 {
   color: var(--text-primary);
 }
 
+.site-header__nav-link--support {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #FF5E5B;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.site-header__nav-link--support:hover {
+  color: #e54e4b;
+  transform: scale(1.05);
+}
+
+.site-header__nav-link--support svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* ===== Theme Toggle Component ===== */
 .theme-toggle {
   display: flex;
@@ -368,6 +386,26 @@ h3 {
   font-size: 0.875rem;
   margin-top: 1rem;
   color: var(--text-muted);
+}
+
+.trust-message__link {
+  color: #FF5E5B;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.trust-message__link:hover {
+  color: #e54e4b;
+  text-decoration: underline;
+}
+
+/* Footer support link styling */
+.site-footer__support-link {
+  color: #FF5E5B !important;
+}
+
+.site-footer__support-link:hover {
+  color: #e54e4b !important;
 }
 
 /* ===== Tool-centered layout ===== */
