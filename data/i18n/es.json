@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "language": "es",
+    "languageName": "Español",
+    "direction": "ltr"
+  },
+  "site": {
+    "name": "CovertConvert",
+    "tagline": "Convertidor de Imágenes Gratis",
+    "title": "CovertConvert - Convertidor de Imágenes Gratis | Privado e Instantáneo",
+    "description": "Convierte HEIC, WebP, AVIF, TIFF a JPG o PNG instantáneamente. Tus archivos nunca salen de tu dispositivo - 100% privado, sin subidas.",
+    "copyright": "© 2025 CovertConvert. Todos los derechos reservados."
+  },
+  "nav": {
+    "blog": "Blog",
+    "donate": "Donar",
+    "themeSwitcher": "Selector de tema",
+    "toggleDarkMode": "Cambiar modo oscuro"
+  },
+  "home": {
+    "title": "Convertidor de Imágenes Gratis",
+    "subtitle": "Convierte HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF a JPG o PNG"
+  },
+  "converter": {
+    "dropText": "Arrastra archivos aquí o haz clic para seleccionar",
+    "tapText": "Toca para seleccionar archivos",
+    "supportedFormats": "Soporta HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF",
+    "convertTo": "Convertir a:",
+    "formatJpg": "JPG",
+    "formatPng": "PNG",
+    "quality": "Calidad:",
+    "qualitySmaller": "Menor",
+    "qualityBetter": "Mejor",
+    "advancedOptions": "Opciones avanzadas",
+    "targetFilesize": "Tamaño objetivo",
+    "targetFilesizeUnit": "KB",
+    "targetFilesizePresets": "100KB • 250KB • 500KB • 1MB • 2MB • 5MB",
+    "lockQuality": "Bloquear calidad (solo redimensionar)",
+    "lockDimensions": "Bloquear dimensiones (solo calidad)",
+    "showLog": "Mostrar registro de conversión",
+    "convertButton": "Convertir archivos",
+    "convertButtonSingle": "Convertir archivo",
+    "convertButtonCount": "Convertir {count} archivos"
+  },
+  "fileSelector": {
+    "ariaLabel": "Arrastra archivos aquí o haz clic para seleccionar imágenes para conversión",
+    "fileSelected": "1 archivo seleccionado",
+    "filesSelected": "{count} archivos seleccionados",
+    "fileReady": "1 archivo listo",
+    "filesReady": "{count} archivos listos",
+    "converting": "Convirtiendo...",
+    "convertingProgress": "Convirtiendo {current} de {total}...",
+    "done": "¡Listo!",
+    "filesConverted": "¡{count} archivos convertidos!",
+    "convertedPartial": "Convertidos {success} de {total} archivos",
+    "complete": "¡Completo!",
+    "downloading": "Descargando {current} de {total}...",
+    "creatingZip": "Creando ZIP... {percent}%"
+  },
+  "trust": {
+    "message": "Tus archivos nunca salen de tu dispositivo · Sin anuncios · ",
+    "communitySupported": "Apoyado por la comunidad"
+  },
+  "explainer": {
+    "anyFormat": {
+      "title": "Cualquier Formato, Instantáneamente",
+      "text": "Convierte HEIC, WebP, AVIF, TIFF y más a JPG o PNG. Sin software que instalar."
+    },
+    "private": {
+      "title": "100% Privado",
+      "text": "Tus archivos nunca salen de tu dispositivo. Nunca vemos, almacenamos ni procesamos tus imágenes."
+    },
+    "fast": {
+      "title": "Rápido y Gratis",
+      "text": "Funciona completamente en tu navegador usando WebAssembly. Sin subidas, sin esperas."
+    },
+    "howItWorks": "Cómo funciona",
+    "privacyPolicy": "Política de privacidad"
+  },
+  "blog": {
+    "title": "Del Blog",
+    "allArticles": "Todos los artículos →"
+  },
+  "footer": {
+    "tools": "Herramientas",
+    "learn": "Aprender",
+    "company": "Empresa",
+    "moreTools": "Más herramientas →",
+    "allArticles": "Todos los artículos →"
+  },
+  "log": {
+    "title": "Registro de Conversión",
+    "close": "Cerrar registro",
+    "filesConverted": "{total} archivos convertidos",
+    "summary": "{total} archivos • {onTarget} en objetivo • {bestEffort} mejor esfuerzo",
+    "target": "objetivo: {size}"
+  },
+  "errors": {
+    "unsupportedFormat": "Este tipo de archivo no es compatible.",
+    "detectionFailed": "No se pudo leer este archivo.",
+    "decodeFailed": "No se pudo convertir este archivo.",
+    "encodeFailed": "No se pudo guardar el archivo convertido.",
+    "codecLoadFailed": "Por favor actualiza tu navegador.",
+    "memoryExceeded": "Este archivo es demasiado grande para tu navegador.",
+    "fileTooLarge": "Este archivo es muy grande y puede tardar un rato.",
+    "unknown": "Algo salió mal. Por favor intenta de nuevo."
+  },
+  "errorGuidance": {
+    "unsupportedFormat": "CovertConvert funciona con HEIC, WebP, AVIF, TIFF, PNG, BMP y GIF.",
+    "detectionFailed": "El archivo puede estar corrupto o incompleto.",
+    "decodeFailed": "El archivo puede estar corrupto o en una variante no soportada.",
+    "encodeFailed": "Intenta refrescar la página y convertir de nuevo.",
+    "codecLoadFailed": "Tu navegador no soporta este tipo de archivo. Prueba Chrome, Firefox, Safari o Edge.",
+    "memoryExceeded": "Intenta con un archivo más pequeño o cierra otras pestañas del navegador.",
+    "fileTooLarge": "Considera comprimir el archivo primero o convertir en escritorio.",
+    "unknown": "Si esto sigue pasando, prueba un navegador diferente."
+  },
+  "batchMessages": {
+    "singleConverted": "¡Archivo convertido!",
+    "allConverted": "¡Todos los {total} archivos convertidos!",
+    "singleFailed": "No se pudo convertir este archivo.",
+    "allFailed": "No se pudo convertir ningún archivo.",
+    "partialSuccess": "Convertidos {success} de {total} archivos."
+  },
+  "warnings": {
+    "largeBatch": "Lote grande — esto puede tomar un momento.",
+    "largeFile": "Archivo grande — la conversión puede tardar más.",
+    "mobileLimit": "Los lotes grandes funcionan mejor en escritorio",
+    "mobileLimitMax": "Para más archivos, continúa en escritorio"
+  },
+  "schema": {
+    "softwareDescription": "Convertidor de imágenes gratis que funciona en tu navegador. Convierte HEIC, WebP, AVIF, TIFF a JPG o PNG. Tus archivos nunca salen de tu dispositivo.",
+    "features": [
+      "Convertir HEIC a JPG o PNG",
+      "Convertir WebP a JPG o PNG",
+      "Convertir AVIF a JPG o PNG",
+      "Convertir TIFF a JPG o PNG",
+      "Conversión por lotes con descarga ZIP",
+      "100% privado - archivos nunca subidos",
+      "Funciona sin conexión después de la carga inicial"
+    ]
+  },
+  "accessibility": {
+    "jpegQuality": "Calidad JPEG",
+    "targetFilesizeKB": "Tamaño objetivo en KB",
+    "dismissWarning": "Descartar advertencia",
+    "outputFormat": "Formato de salida"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "language": "en",
+    "languageName": "English",
+    "direction": "ltr"
+  },
+  "site": {
+    "name": "CovertConvert",
+    "tagline": "Free Image Converter",
+    "title": "CovertConvert - Free Image Converter | Private & Instant",
+    "description": "Convert HEIC, WebP, AVIF, TIFF to JPG or PNG instantly. Your files never leave your device - 100% private, no uploads.",
+    "copyright": "© 2025 CovertConvert. All rights reserved."
+  },
+  "nav": {
+    "blog": "Blog",
+    "donate": "Donate",
+    "themeSwitcher": "Theme switcher",
+    "toggleDarkMode": "Toggle dark mode"
+  },
+  "home": {
+    "title": "Free Image Converter",
+    "subtitle": "Convert HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF to JPG or PNG"
+  },
+  "converter": {
+    "dropText": "Drop files here or click to select",
+    "tapText": "Tap to select files",
+    "supportedFormats": "Supports HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF",
+    "convertTo": "Convert to:",
+    "formatJpg": "JPG",
+    "formatPng": "PNG",
+    "quality": "Quality:",
+    "qualitySmaller": "Smaller",
+    "qualityBetter": "Better",
+    "advancedOptions": "Advanced options",
+    "targetFilesize": "Target filesize",
+    "targetFilesizeUnit": "KB",
+    "targetFilesizePresets": "100KB • 250KB • 500KB • 1MB • 2MB • 5MB",
+    "lockQuality": "Lock quality (resize only)",
+    "lockDimensions": "Lock dimensions (quality only)",
+    "showLog": "Show conversion log",
+    "convertButton": "Convert files",
+    "convertButtonSingle": "Convert file",
+    "convertButtonCount": "Convert {count} files"
+  },
+  "fileSelector": {
+    "ariaLabel": "Drop files here or click to select images for conversion",
+    "fileSelected": "1 file selected",
+    "filesSelected": "{count} files selected",
+    "fileReady": "1 file ready",
+    "filesReady": "{count} files ready",
+    "converting": "Converting...",
+    "convertingProgress": "Converting {current} of {total}...",
+    "done": "Done!",
+    "filesConverted": "{count} files converted!",
+    "convertedPartial": "Converted {success} of {total} files",
+    "complete": "Complete!",
+    "downloading": "Downloading {current} of {total}...",
+    "creatingZip": "Creating ZIP... {percent}%"
+  },
+  "trust": {
+    "message": "Your files never leave your device · No ads · ",
+    "communitySupported": "Community supported"
+  },
+  "explainer": {
+    "anyFormat": {
+      "title": "Any Format, Instantly",
+      "text": "Convert HEIC, WebP, AVIF, TIFF, and more to JPG or PNG. No software to install."
+    },
+    "private": {
+      "title": "100% Private",
+      "text": "Your files never leave your device. We never see, store, or process your images."
+    },
+    "fast": {
+      "title": "Fast & Free",
+      "text": "Runs entirely in your browser using WebAssembly. No uploads, no waiting."
+    },
+    "howItWorks": "How it works",
+    "privacyPolicy": "Privacy policy"
+  },
+  "blog": {
+    "title": "From the Blog",
+    "allArticles": "All articles →"
+  },
+  "footer": {
+    "tools": "Tools",
+    "learn": "Learn",
+    "company": "Company",
+    "moreTools": "More tools →",
+    "allArticles": "All articles →"
+  },
+  "log": {
+    "title": "Conversion Log",
+    "close": "Close log",
+    "filesConverted": "{total} files converted",
+    "summary": "{total} files • {onTarget} on target • {bestEffort} best effort",
+    "target": "target: {size}"
+  },
+  "errors": {
+    "unsupportedFormat": "This file type isn't supported.",
+    "detectionFailed": "Couldn't read this file.",
+    "decodeFailed": "Couldn't convert this file.",
+    "encodeFailed": "Couldn't save the converted file.",
+    "codecLoadFailed": "Please update your browser.",
+    "memoryExceeded": "This file is too large for your browser.",
+    "fileTooLarge": "This file is very large and may take a while.",
+    "unknown": "Something went wrong. Please try again."
+  },
+  "errorGuidance": {
+    "unsupportedFormat": "CovertConvert works with HEIC, WebP, AVIF, TIFF, PNG, BMP, and GIF.",
+    "detectionFailed": "The file may be corrupted or incomplete.",
+    "decodeFailed": "The file may be corrupted or in an unsupported variant.",
+    "encodeFailed": "Try refreshing the page and converting again.",
+    "codecLoadFailed": "Your browser doesn't support this file type. Try Chrome, Firefox, Safari, or Edge.",
+    "memoryExceeded": "Try a smaller file or close other browser tabs.",
+    "fileTooLarge": "Consider compressing the file first or converting on desktop.",
+    "unknown": "If this keeps happening, try a different browser."
+  },
+  "batchMessages": {
+    "singleConverted": "File converted!",
+    "allConverted": "All {total} files converted!",
+    "singleFailed": "Couldn't convert this file.",
+    "allFailed": "Couldn't convert any files.",
+    "partialSuccess": "Converted {success} of {total} files."
+  },
+  "warnings": {
+    "largeBatch": "Large batch — this may take a moment.",
+    "largeFile": "Large file — conversion may take longer.",
+    "mobileLimit": "Large batches work better on desktop",
+    "mobileLimitMax": "For more files, continue on desktop"
+  },
+  "schema": {
+    "softwareDescription": "Free image converter that works in your browser. Convert HEIC, WebP, AVIF, TIFF to JPG or PNG. Your files never leave your device.",
+    "features": [
+      "Convert HEIC to JPG or PNG",
+      "Convert WebP to JPG or PNG",
+      "Convert AVIF to JPG or PNG",
+      "Convert TIFF to JPG or PNG",
+      "Batch conversion with ZIP download",
+      "100% private - files never uploaded",
+      "Works offline after initial load"
+    ]
+  },
+  "accessibility": {
+    "jpegQuality": "JPEG quality",
+    "targetFilesizeKB": "Target filesize in KB",
+    "dismissWarning": "Dismiss warning",
+    "outputFormat": "Output format"
+  }
+}

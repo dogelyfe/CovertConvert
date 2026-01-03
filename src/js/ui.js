@@ -71,6 +71,11 @@ function initUI() {
     trustMessage: document.querySelector('.trust-message'),
     formatButtons: document.querySelectorAll('[data-format]'),
     converter: document.querySelector('#converter'),
+
+    // Donation banner
+    donationBanner: document.querySelector('#donation-banner'),
+    donationCta: document.querySelector('#donation-cta'),
+    donationDismiss: document.querySelector('#donation-dismiss'),
   };
 
   initialized = true;
@@ -775,6 +780,104 @@ function loadAdvancedSettings() {
 }
 
 // ============================================================================
+// DONATION BANNER
+// ============================================================================
+
+const DONATION_SHOWN_KEY = 'cc-donation-shown';
+
+/**
+ * Check if donation banner should be shown (not shown this session)
+ * @returns {boolean}
+ */
+function shouldShowDonationBanner() {
+  try {
+    return !sessionStorage.getItem(DONATION_SHOWN_KEY);
+  } catch {
+    return false; // sessionStorage not available
+  }
+}
+
+/**
+ * Mark donation banner as shown for this session
+ */
+function markDonationShown() {
+  try {
+    sessionStorage.setItem(DONATION_SHOWN_KEY, 'true');
+  } catch {
+    // Ignore - sessionStorage not available
+  }
+}
+
+/**
+ * Show donation banner (if not already shown this session)
+ */
+function showDonationBanner() {
+  const el = getElements();
+  if (!el.donationBanner || !shouldShowDonationBanner()) return;
+
+  el.donationBanner.classList.remove('hidden');
+  markDonationShown();
+}
+
+/**
+ * Hide donation banner
+ */
+function hideDonationBanner() {
+  const el = getElements();
+  if (el.donationBanner) {
+    el.donationBanner.classList.add('hidden');
+  }
+}
+
+/**
+ * Create and show Ko-fi modal with iframe
+ */
+function openKofiModal() {
+  // Don't create duplicate modals
+  if (document.querySelector('.kofi-modal')) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'kofi-modal';
+  modal.innerHTML = `
+    <div class="kofi-modal__content">
+      <button type="button" class="kofi-modal__close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <iframe
+        src="https://ko-fi.com/untraced/?hidefeed=true&widget=true&embed=true"
+        title="Support on Ko-fi"
+      ></iframe>
+    </div>
+  `;
+
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+
+  // Close on button click
+  modal.querySelector('.kofi-modal__close').addEventListener('click', () => {
+    modal.remove();
+  });
+
+  // Close on Escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      modal.remove();
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
+  document.addEventListener('keydown', handleEscape);
+
+  document.body.appendChild(modal);
+  hideDonationBanner();
+}
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -838,6 +941,11 @@ export {
   // Settings persistence (Epic 6)
   saveAdvancedSettings,
   loadAdvancedSettings,
+
+  // Donation banner
+  showDonationBanner,
+  hideDonationBanner,
+  openKofiModal,
 
   // Constants
   PROGRESS_THRESHOLD_MS,

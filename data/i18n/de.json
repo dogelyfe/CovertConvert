@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "language": "de",
+    "languageName": "Deutsch",
+    "direction": "ltr"
+  },
+  "site": {
+    "name": "CovertConvert",
+    "tagline": "Kostenloser Bildkonverter",
+    "title": "CovertConvert - Kostenloser Bildkonverter | Privat und Sofort",
+    "description": "Konvertieren Sie HEIC, WebP, AVIF, TIFF sofort in JPG oder PNG. Ihre Dateien verlassen nie Ihr Gerät - 100% privat, keine Uploads.",
+    "copyright": "© 2025 CovertConvert. Alle Rechte vorbehalten."
+  },
+  "nav": {
+    "blog": "Blog",
+    "donate": "Spenden",
+    "themeSwitcher": "Themenauswahl",
+    "toggleDarkMode": "Dunkelmodus umschalten"
+  },
+  "home": {
+    "title": "Kostenloser Bildkonverter",
+    "subtitle": "Konvertieren Sie HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF in JPG oder PNG"
+  },
+  "converter": {
+    "dropText": "Dateien hier ablegen oder klicken zum Auswählen",
+    "tapText": "Tippen zum Auswählen von Dateien",
+    "supportedFormats": "Unterstützt HEIC, WebP, AVIF, TIFF, PNG, BMP, GIF",
+    "convertTo": "Konvertieren zu:",
+    "formatJpg": "JPG",
+    "formatPng": "PNG",
+    "quality": "Qualität:",
+    "qualitySmaller": "Kleiner",
+    "qualityBetter": "Besser",
+    "advancedOptions": "Erweiterte Optionen",
+    "targetFilesize": "Zielgröße",
+    "targetFilesizeUnit": "KB",
+    "targetFilesizePresets": "100KB • 250KB • 500KB • 1MB • 2MB • 5MB",
+    "lockQuality": "Qualität sperren (nur Größe ändern)",
+    "lockDimensions": "Abmessungen sperren (nur Qualität)",
+    "showLog": "Konvertierungsprotokoll anzeigen",
+    "convertButton": "Dateien konvertieren",
+    "convertButtonSingle": "Datei konvertieren",
+    "convertButtonCount": "{count} Dateien konvertieren"
+  },
+  "fileSelector": {
+    "ariaLabel": "Dateien hier ablegen oder klicken zum Auswählen von Bildern zur Konvertierung",
+    "fileSelected": "1 Datei ausgewählt",
+    "filesSelected": "{count} Dateien ausgewählt",
+    "fileReady": "1 Datei bereit",
+    "filesReady": "{count} Dateien bereit",
+    "converting": "Konvertiere...",
+    "convertingProgress": "Konvertiere {current} von {total}...",
+    "done": "Fertig!",
+    "filesConverted": "{count} Dateien konvertiert!",
+    "convertedPartial": "{success} von {total} Dateien konvertiert",
+    "complete": "Abgeschlossen!",
+    "downloading": "Lade {current} von {total} herunter...",
+    "creatingZip": "Erstelle ZIP... {percent}%"
+  },
+  "trust": {
+    "message": "Ihre Dateien verlassen nie Ihr Gerät · Keine Werbung · ",
+    "communitySupported": "Von der Community unterstützt"
+  },
+  "explainer": {
+    "anyFormat": {
+      "title": "Jedes Format, Sofort",
+      "text": "Konvertieren Sie HEIC, WebP, AVIF, TIFF und mehr in JPG oder PNG. Keine Software zu installieren."
+    },
+    "private": {
+      "title": "100% Privat",
+      "text": "Ihre Dateien verlassen nie Ihr Gerät. Wir sehen, speichern oder verarbeiten Ihre Bilder nie."
+    },
+    "fast": {
+      "title": "Schnell und Kostenlos",
+      "text": "Läuft vollständig in Ihrem Browser mit WebAssembly. Keine Uploads, kein Warten."
+    },
+    "howItWorks": "So funktioniert es",
+    "privacyPolicy": "Datenschutzrichtlinie"
+  },
+  "blog": {
+    "title": "Aus dem Blog",
+    "allArticles": "Alle Artikel →"
+  },
+  "footer": {
+    "tools": "Werkzeuge",
+    "learn": "Lernen",
+    "company": "Unternehmen",
+    "moreTools": "Mehr Werkzeuge →",
+    "allArticles": "Alle Artikel →"
+  },
+  "log": {
+    "title": "Konvertierungsprotokoll",
+    "close": "Protokoll schließen",
+    "filesConverted": "{total} Dateien konvertiert",
+    "summary": "{total} Dateien • {onTarget} im Ziel • {bestEffort} bestmöglich",
+    "target": "Ziel: {size}"
+  },
+  "errors": {
+    "unsupportedFormat": "Dieser Dateityp wird nicht unterstützt.",
+    "detectionFailed": "Diese Datei konnte nicht gelesen werden.",
+    "decodeFailed": "Diese Datei konnte nicht konvertiert werden.",
+    "encodeFailed": "Die konvertierte Datei konnte nicht gespeichert werden.",
+    "codecLoadFailed": "Bitte aktualisieren Sie Ihren Browser.",
+    "memoryExceeded": "Diese Datei ist zu groß für Ihren Browser.",
+    "fileTooLarge": "Diese Datei ist sehr groß und kann eine Weile dauern.",
+    "unknown": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "errorGuidance": {
+    "unsupportedFormat": "CovertConvert funktioniert mit HEIC, WebP, AVIF, TIFF, PNG, BMP und GIF.",
+    "detectionFailed": "Die Datei könnte beschädigt oder unvollständig sein.",
+    "decodeFailed": "Die Datei könnte beschädigt oder in einer nicht unterstützten Variante sein.",
+    "encodeFailed": "Versuchen Sie, die Seite zu aktualisieren und erneut zu konvertieren.",
+    "codecLoadFailed": "Ihr Browser unterstützt diesen Dateityp nicht. Versuchen Sie Chrome, Firefox, Safari oder Edge.",
+    "memoryExceeded": "Versuchen Sie eine kleinere Datei oder schließen Sie andere Browser-Tabs.",
+    "fileTooLarge": "Erwägen Sie, die Datei zuerst zu komprimieren oder auf dem Desktop zu konvertieren.",
+    "unknown": "Wenn das weiterhin passiert, versuchen Sie einen anderen Browser."
+  },
+  "batchMessages": {
+    "singleConverted": "Datei konvertiert!",
+    "allConverted": "Alle {total} Dateien konvertiert!",
+    "singleFailed": "Diese Datei konnte nicht konvertiert werden.",
+    "allFailed": "Keine Datei konnte konvertiert werden.",
+    "partialSuccess": "{success} von {total} Dateien konvertiert."
+  },
+  "warnings": {
+    "largeBatch": "Große Menge — dies kann einen Moment dauern.",
+    "largeFile": "Große Datei — die Konvertierung kann länger dauern.",
+    "mobileLimit": "Große Mengen funktionieren besser auf dem Desktop",
+    "mobileLimitMax": "Für mehr Dateien, fahren Sie auf dem Desktop fort"
+  },
+  "schema": {
+    "softwareDescription": "Kostenloser Bildkonverter, der in Ihrem Browser funktioniert. Konvertieren Sie HEIC, WebP, AVIF, TIFF in JPG oder PNG. Ihre Dateien verlassen nie Ihr Gerät.",
+    "features": [
+      "HEIC in JPG oder PNG konvertieren",
+      "WebP in JPG oder PNG konvertieren",
+      "AVIF in JPG oder PNG konvertieren",
+      "TIFF in JPG oder PNG konvertieren",
+      "Stapelkonvertierung mit ZIP-Download",
+      "100% privat - Dateien werden nie hochgeladen",
+      "Funktioniert offline nach dem ersten Laden"
+    ]
+  },
+  "accessibility": {
+    "jpegQuality": "JPEG-Qualität",
+    "targetFilesizeKB": "Zielgröße in KB",
+    "dismissWarning": "Warnung schließen",
+    "outputFormat": "Ausgabeformat"
+  }
+}

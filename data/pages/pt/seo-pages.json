@@ -1,0 +1,436 @@
+{
+  "pages": [
+    {
+      "slug": "heic-to-jpg",
+      "title": "Conversor HEIC para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta fotos HEIC do iPhone para JPG instantaneamente. Seus arquivos nunca saem do seu dispositivo - 100% privado, sem uploads, sem limites.",
+      "h1": "Converter HEIC para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa de PNG em vez disso?",
+        "href": "/pt/heic-to-png/",
+        "linkText": "Converter para PNG"
+      },
+      "faqs": [
+        {
+          "q": "O que é um arquivo HEIC?",
+          "a": "HEIC (High Efficiency Image Container) é o formato de foto padrão da Apple desde o iOS 11. Oferece melhor compressão que JPG mantendo a qualidade da imagem, mas não é compatível com Windows e muitos aplicativos."
+        },
+        {
+          "q": "Por que não consigo abrir arquivos HEIC no meu computador?",
+          "a": "O Windows não suporta arquivos HEIC nativamente. Embora você possa instalar pacotes de codecs, converter para JPG geralmente é mais simples e garante que suas fotos funcionem em qualquer lugar."
+        },
+        {
+          "q": "Este conversor faz upload das minhas fotos?",
+          "a": "Não. Toda a conversão acontece no seu navegador usando WebAssembly. Suas fotos nunca saem do seu dispositivo. Você pode verificar isso conferindo a aba Rede nas ferramentas de desenvolvedor do seu navegador."
+        },
+        {
+          "q": "Qual é a qualidade do JPG convertido?",
+          "a": "Por padrão, usamos 92% de qualidade, que equilibra tamanho do arquivo e qualidade da imagem. Você pode ajustar isso usando o controle deslizante de qualidade antes de converter."
+        },
+        {
+          "q": "Posso converter múltiplos arquivos HEIC de uma vez?",
+          "a": "Sim! Selecione ou arraste múltiplos arquivos e todos serão convertidos. No desktop, você receberá um arquivo ZIP. No celular, os arquivos são baixados um por vez."
+        }
+      ]
+    },
+    {
+      "slug": "heic-to-png",
+      "title": "Conversor HEIC para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta fotos HEIC do iPhone para PNG com qualidade sem perdas. Sem uploads, sem registro - a conversão acontece no seu navegador.",
+      "h1": "Converter HEIC para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Prefere arquivos menores?",
+        "href": "/pt/heic-to-jpg/",
+        "linkText": "Converter para JPG"
+      },
+      "faqs": [
+        {
+          "q": "Quando devo escolher PNG em vez de JPG?",
+          "a": "Escolha PNG quando precisar de qualidade sem perdas (sem artefatos de compressão), suporte a transparência, ou planeja editar a imagem posteriormente. JPG é melhor quando o tamanho do arquivo importa."
+        },
+        {
+          "q": "A qualidade da minha foto será preservada ao converter para PNG?",
+          "a": "Sim. PNG é um formato sem perdas, então nenhuma qualidade é perdida durante a conversão. O arquivo será maior que um JPG, mas com preservação perfeita da qualidade."
+        },
+        {
+          "q": "O que é um arquivo HEIC?",
+          "a": "HEIC (High Efficiency Image Container) é o formato de foto padrão da Apple desde o iOS 11. Oferece melhor compressão que JPG mantendo a qualidade da imagem."
+        },
+        {
+          "q": "Funciona com fotos do iPhone com transparência?",
+          "a": "Fotos do iPhone normalmente não têm transparência, mas se seu HEIC contiver elementos transparentes, eles serão preservados na saída PNG."
+        }
+      ]
+    },
+    {
+      "slug": "webp-to-jpg",
+      "title": "Conversor WebP para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens WebP para JPG para compatibilidade universal. Nenhum upload necessário - a conversão roda inteiramente no seu navegador.",
+      "h1": "Converter WebP para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa de transparência?",
+        "href": "/pt/webp-to-png/",
+        "linkText": "Converter para PNG"
+      },
+      "faqs": [
+        {
+          "q": "O que é WebP?",
+          "a": "WebP é o formato de imagem moderno do Google que oferece tamanhos de arquivo menores que JPG e PNG. Muitos sites o usam, mas software antigo e alguns aplicativos não conseguem abrir arquivos WebP."
+        },
+        {
+          "q": "Por que converter WebP para JPG?",
+          "a": "JPG é universalmente suportado - todo dispositivo, aplicativo e site pode abri-lo. Se você baixou uma imagem WebP que não abre ou não pode ser enviada para algum lugar, converter para JPG resolve o problema."
+        },
+        {
+          "q": "Vou perder qualidade ao converter WebP para JPG?",
+          "a": "Pode haver perda mínima de qualidade já que JPG é um formato com perdas, mas com nossa configuração padrão de 92% de qualidade, a diferença é imperceptível na maioria das fotos."
+        },
+        {
+          "q": "Posso converter múltiplos arquivos WebP de uma vez?",
+          "a": "Sim! Selecione múltiplos arquivos e todos serão convertidos juntos. Usuários de desktop recebem um download ZIP conveniente."
+        }
+      ]
+    },
+    {
+      "slug": "webp-to-png",
+      "title": "Conversor WebP para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens WebP para PNG com qualidade sem perdas e transparência preservada. Sem uploads para servidor - roda no seu navegador.",
+      "h1": "Converter WebP para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Prefere arquivos menores?",
+        "href": "/pt/webp-to-jpg/",
+        "linkText": "Converter para JPG"
+      },
+      "faqs": [
+        {
+          "q": "A transparência será preservada?",
+          "a": "Sim. Se sua imagem WebP tiver áreas transparentes, elas serão preservadas na saída PNG. Esta é a principal razão para escolher PNG em vez de JPG."
+        },
+        {
+          "q": "O que é WebP?",
+          "a": "WebP é o formato de imagem do Google projetado para a web. Oferece arquivos menores que PNG e JPG, mas não é suportado por todo software."
+        },
+        {
+          "q": "Por que meu arquivo PNG é maior que o WebP?",
+          "a": "PNG é um formato sem perdas enquanto WebP usa compressão. O tamanho de arquivo maior significa que nenhuma qualidade é perdida - cada pixel é perfeitamente preservado."
+        },
+        {
+          "q": "Funciona offline?",
+          "a": "Depois que a página carrega uma vez, a conversão funciona sem conexão com a internet. Seu navegador guarda em cache o código de conversão."
+        }
+      ]
+    },
+    {
+      "slug": "avif-to-jpg",
+      "title": "Conversor AVIF para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens AVIF para JPG universalmente compatível. Conversão privada no seu navegador - sem uploads de arquivos.",
+      "h1": "Converter AVIF para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa de qualidade sem perdas?",
+        "href": "/pt/avif-to-png/",
+        "linkText": "Converter para PNG"
+      },
+      "faqs": [
+        {
+          "q": "O que é AVIF?",
+          "a": "AVIF é um formato de imagem de próxima geração baseado no codec de vídeo AV1. Oferece excelente compressão, mas ainda não é amplamente suportado por aplicativos e navegadores antigos."
+        },
+        {
+          "q": "Por que não consigo abrir meu arquivo AVIF?",
+          "a": "AVIF é relativamente novo (2019) e muitos programas ainda não adicionaram suporte. Converter para JPG garante que sua imagem funcione em qualquer lugar."
+        },
+        {
+          "q": "AVIF é melhor que JPG?",
+          "a": "AVIF oferece melhor compressão em níveis de qualidade similares, mas a compatibilidade universal do JPG o torna a escolha mais segura para compartilhar e arquivar."
+        },
+        {
+          "q": "Como funciona a conversão baseada em navegador?",
+          "a": "Usamos WebAssembly (WASM) para executar o decodificador AVIF diretamente no seu navegador. Nenhum servidor está envolvido - é como se você tivesse instalado um software conversor, mas sem a instalação."
+        }
+      ]
+    },
+    {
+      "slug": "avif-to-png",
+      "title": "Conversor AVIF para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens AVIF para PNG com qualidade perfeita. A conversão roda localmente no seu navegador - arquivos permanecem privados.",
+      "h1": "Converter AVIF para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Prefere arquivos menores?",
+        "href": "/pt/avif-to-jpg/",
+        "linkText": "Converter para JPG"
+      },
+      "faqs": [
+        {
+          "q": "Por que escolher PNG em vez de JPG para conversão AVIF?",
+          "a": "Escolha PNG quando precisar de qualidade sem perdas, suporte a transparência, ou planeja editar a imagem. PNG preserva cada detalhe sem artefatos de compressão."
+        },
+        {
+          "q": "O que é AVIF?",
+          "a": "AVIF (AV1 Image File Format) é um formato de imagem moderno com excelente compressão. É usado por alguns sites, mas carece de amplo suporte de software."
+        },
+        {
+          "q": "A transparência no meu AVIF será preservada?",
+          "a": "Sim. Se seu AVIF tiver áreas transparentes, elas serão mantidas na saída PNG."
+        },
+        {
+          "q": "É realmente privado?",
+          "a": "Sim. Abra as ferramentas de desenvolvedor do seu navegador, vá para a aba Rede e observe enquanto converte. Você verá que nada sai do seu dispositivo."
+        }
+      ]
+    },
+    {
+      "slug": "tiff-to-jpg",
+      "title": "Conversor TIFF para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens TIFF para JPG para compartilhar facilmente. Sem uploads, sem limites - a conversão acontece inteiramente no seu dispositivo.",
+      "h1": "Converter TIFF para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa de qualidade sem perdas?",
+        "href": "/pt/tiff-to-png/",
+        "linkText": "Converter para PNG"
+      },
+      "faqs": [
+        {
+          "q": "O que é um arquivo TIFF?",
+          "a": "TIFF (Tagged Image File Format) é um formato de imagem de alta qualidade comumente usado em fotografia, publicação e arquivamento. Os arquivos podem ser muito grandes e não são amigáveis para a web."
+        },
+        {
+          "q": "Por que converter TIFF para JPG?",
+          "a": "TIFFs geralmente são muito grandes para enviar por email ou fazer upload para sites. Converter para JPG reduz dramaticamente o tamanho do arquivo mantendo boa qualidade visual."
+        },
+        {
+          "q": "Quanto menor será meu JPG?",
+          "a": "Tipicamente 10-50 vezes menor. Um TIFF de 50MB pode se tornar um JPG de 1-5MB, dependendo do conteúdo da imagem e configuração de qualidade."
+        },
+        {
+          "q": "Posso ajustar a qualidade do JPG?",
+          "a": "Sim. Use o controle deslizante de qualidade para equilibrar tamanho do arquivo e qualidade da imagem. Maior qualidade = arquivo maior."
+        },
+        {
+          "q": "Funciona com TIFFs de múltiplas páginas?",
+          "a": "Atualmente, apenas a primeira página de um TIFF de múltiplas páginas é convertida. Para documentos, considere uma ferramenta PDF dedicada."
+        }
+      ]
+    },
+    {
+      "slug": "tiff-to-png",
+      "title": "Conversor TIFF para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens TIFF para PNG com qualidade sem perdas. Conversão privada baseada em navegador - nenhum upload para servidor necessário.",
+      "h1": "Converter TIFF para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Prefere arquivos menores?",
+        "href": "/pt/tiff-to-jpg/",
+        "linkText": "Converter para JPG"
+      },
+      "faqs": [
+        {
+          "q": "Quando devo escolher PNG em vez de JPG?",
+          "a": "Escolha PNG quando precisar de qualidade sem perdas (para edição), suporte a transparência, ou quando trabalhar com gráficos em vez de fotos."
+        },
+        {
+          "q": "O que é TIFF?",
+          "a": "TIFF (Tagged Image File Format) é um formato flexível de alta qualidade usado em fotografia profissional e publicação. Os arquivos são tipicamente muito grandes."
+        },
+        {
+          "q": "O PNG será menor que o TIFF?",
+          "a": "Geralmente sim, embora arquivos PNG ainda sejam grandes comparados a JPG. Se o tamanho do arquivo importa mais, considere JPG em vez disso."
+        },
+        {
+          "q": "A transparência é preservada?",
+          "a": "Se seu TIFF tiver um canal alfa (transparência), ele será preservado na saída PNG."
+        }
+      ]
+    },
+    {
+      "slug": "png-to-jpg",
+      "title": "Conversor PNG para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens PNG para JPG para tamanhos de arquivo menores. Nenhum upload necessário - a conversão roda no seu navegador.",
+      "h1": "Converter PNG para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa manter a transparência?",
+        "href": "/pt/",
+        "linkText": "Use nosso conversor universal"
+      },
+      "faqs": [
+        {
+          "q": "Por que converter PNG para JPG?",
+          "a": "Arquivos JPG são tipicamente muito menores que PNG. Converta quando precisar reduzir o tamanho do arquivo para email, upload web, ou armazenamento - especialmente para fotos."
+        },
+        {
+          "q": "O que acontece com a transparência?",
+          "a": "JPG não suporta transparência. Áreas transparentes no seu PNG se tornarão brancas (ou a cor de fundo) no JPG convertido."
+        },
+        {
+          "q": "Vou perder qualidade?",
+          "a": "JPG usa compressão com perdas, então há alguma redução de qualidade. Em 92% de qualidade (nosso padrão), geralmente é imperceptível em fotos, mas pode aparecer em gráficos com bordas afiadas."
+        },
+        {
+          "q": "Quanto menor será meu arquivo?",
+          "a": "Tipicamente 2-10 vezes menor, dependendo da imagem. Fotos comprimem bem; gráficos com cores sólidas comprimem menos eficientemente."
+        },
+        {
+          "q": "Posso converter múltiplos PNGs de uma vez?",
+          "a": "Sim! Selecione múltiplos arquivos e todos serão convertidos. Usuários de desktop recebem um único arquivo ZIP contendo todas as imagens convertidas."
+        }
+      ]
+    },
+    {
+      "slug": "gif-to-jpg",
+      "title": "Conversor GIF para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens GIF para JPG. Extrai o primeiro quadro de GIFs animados. Nota: áreas transparentes ficam pretas. Sem uploads - roda no seu navegador.",
+      "h1": "Converter GIF para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa manter a transparência?",
+        "href": "/pt/gif-to-png/",
+        "linkText": "Converter para PNG em vez disso"
+      },
+      "faqs": [
+        {
+          "q": "O que acontece com GIFs animados?",
+          "a": "Apenas o primeiro quadro é extraído. A animação é perdida. Se você precisa preservar a animação, mantenha o GIF original ou converta para formato de vídeo."
+        },
+        {
+          "q": "O que acontece com áreas transparentes?",
+          "a": "JPG não suporta transparência. Áreas transparentes no seu GIF se tornarão pretas no JPG convertido. Se você precisa preservar a transparência, converta para PNG em vez disso."
+        },
+        {
+          "q": "Por que eu converteria GIF para JPG?",
+          "a": "GIF suporta apenas 256 cores. Para fotografias ou imagens com gradientes, JPG geralmente fica melhor e produz arquivos menores. GIF é melhor para gráficos simples e animações."
+        },
+        {
+          "q": "O arquivo será menor?",
+          "a": "Geralmente sim, especialmente para fotos. O limite de 256 cores do GIF o torna ineficiente para imagens complexas. JPG lida com gradientes de cor muito melhor."
+        }
+      ]
+    },
+    {
+      "slug": "gif-to-png",
+      "title": "Conversor GIF para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta GIF para PNG com transparência preservada. Extrai o primeiro quadro de GIFs animados. Conversão privada baseada em navegador.",
+      "h1": "Converter GIF para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Não precisa de transparência?",
+        "href": "/pt/gif-to-jpg/",
+        "linkText": "Converter para JPG para arquivos menores"
+      },
+      "faqs": [
+        {
+          "q": "A transparência será preservada?",
+          "a": "Sim. Diferente da conversão para JPG, PNG mantém áreas transparentes intactas. Esta é a principal razão para escolher PNG em vez de JPG para conversão de GIF."
+        },
+        {
+          "q": "O que acontece com GIFs animados?",
+          "a": "Apenas o primeiro quadro é extraído. Dados de animação são perdidos. Para preservar a animação, mantenha o GIF original ou converta para formato de vídeo."
+        },
+        {
+          "q": "Por que converter GIF para PNG?",
+          "a": "PNG suporta milhões de cores vs as 256 do GIF. Imagens com gradientes ou muitas cores ficarão significativamente melhores como PNG. Além disso, a transparência é totalmente preservada."
+        },
+        {
+          "q": "O tamanho do arquivo vai mudar?",
+          "a": "Depende. Gráficos simples podem ficar similares ou menores. Imagens complexas com muitas cores serão maiores como PNG, mas ficarão muito melhores."
+        }
+      ]
+    },
+    {
+      "slug": "bmp-to-jpg",
+      "title": "Conversor BMP para JPG - Grátis, Privado, Instantâneo",
+      "description": "Converta imagens BMP para JPG para arquivos dramaticamente menores. Um BMP de 10MB fica abaixo de 1MB. Sem uploads - a conversão roda no seu navegador.",
+      "h1": "Converter BMP para JPG",
+      "outputFormat": "jpeg",
+      "crossLink": {
+        "text": "Precisa de qualidade sem perdas?",
+        "href": "/pt/bmp-to-png/",
+        "linkText": "Converter para PNG"
+      },
+      "faqs": [
+        {
+          "q": "Quanto menor será meu arquivo?",
+          "a": "Tipicamente 10-50 vezes menor. BMP armazena cada pixel sem compressão. Uma captura de tela BMP de 10MB frequentemente se torna 200-500KB como JPG sem perda de qualidade visível."
+        },
+        {
+          "q": "Por que arquivos BMP são tão enormes?",
+          "a": "BMP (Bitmap) é o formato de imagem original do Windows dos anos 1990. Armazena dados de pixels brutos, sem compressão. Ótimo para qualidade, péssimo para tamanho de arquivo."
+        },
+        {
+          "q": "De onde vêm arquivos BMP?",
+          "a": "Fontes comuns: capturas de tela antigas do Windows, scanners com configurações padrão, exportações de software legado e algumas operações de área de transferência. A maioria pode ser convertida para JPG com segurança."
+        },
+        {
+          "q": "Vou perder qualidade?",
+          "a": "JPG usa compressão com perdas, então tecnicamente sim. Em 92% de qualidade (nosso padrão), a diferença é invisível para fotos e capturas de tela. Para gráficos precisos, considere PNG."
+        }
+      ]
+    },
+    {
+      "slug": "bmp-to-png",
+      "title": "Conversor BMP para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta BMP para PNG para arquivos menores com zero perda de qualidade. Compressão PNG reduz o tamanho do arquivo mantendo cada pixel perfeito.",
+      "h1": "Converter BMP para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Quer arquivos ainda menores?",
+        "href": "/pt/bmp-to-jpg/",
+        "linkText": "Converter para JPG"
+      },
+      "faqs": [
+        {
+          "q": "Isso é realmente sem perdas?",
+          "a": "Sim. PNG usa compressão sem perdas. Cada pixel é preservado exatamente. O arquivo só ocupa menos espaço porque PNG comprime eficientemente."
+        },
+        {
+          "q": "Quanto menor será?",
+          "a": "Tipicamente 2-10 vezes menor que BMP. Não tão dramático quanto conversão para JPG, mas você mantém qualidade perfeita. Capturas de tela e gráficos comprimem especialmente bem."
+        },
+        {
+          "q": "Quando devo escolher PNG em vez de JPG?",
+          "a": "Escolha PNG quando precisar de preservação exata de pixels: capturas de tela com texto, gráficos com bordas afiadas, imagens que você editará depois, ou qualquer coisa onde qualidade importa mais que tamanho do arquivo."
+        },
+        {
+          "q": "E arquivos BMP de scanners?",
+          "a": "Documentos escaneados convertem bem para PNG. Você terá redução significativa de tamanho mantendo o escaneamento perfeitamente nítido para impressão ou arquivamento."
+        }
+      ]
+    },
+    {
+      "slug": "jpg-to-png",
+      "title": "Conversor JPG para PNG - Grátis, Privado, Instantâneo",
+      "description": "Converta JPG para PNG para fluxos de trabalho de edição. Previne mais perda de qualidade ao re-salvar. Nota: não pode restaurar detalhes perdidos pela compressão JPG.",
+      "h1": "Converter JPG para PNG",
+      "outputFormat": "png",
+      "crossLink": {
+        "text": "Precisa de arquivos menores?",
+        "href": "/pt/png-to-jpg/",
+        "linkText": "Converter PNG para JPG"
+      },
+      "faqs": [
+        {
+          "q": "Isso vai melhorar a qualidade da minha imagem?",
+          "a": "Não. Converter para PNG preserva o que está lá, mas não pode restaurar detalhes já perdidos pela compressão JPG. Previne mais degradação, não a reverte."
+        },
+        {
+          "q": "Por que converter JPG para PNG então?",
+          "a": "Razões principais: (1) Você está editando a imagem e não quer perda de qualidade ao re-salvar como JPG, (2) Você precisa de um formato que não degrade a cada salvamento, (3) Uma ferramenta ou fluxo de trabalho requer entrada PNG."
+        },
+        {
+          "q": "O arquivo ficará maior?",
+          "a": "Sim, geralmente 3-5 vezes maior. PNG é sem perdas, então armazena mais dados. Esse é o compromisso por prevenir perda de qualidade futura."
+        },
+        {
+          "q": "Posso adicionar transparência depois de converter?",
+          "a": "A conversão em si não adicionará transparência—seu JPG não tem áreas transparentes para preservar. Mas uma vez que é PNG, você pode editá-lo no Photoshop, GIMP ou ferramentas similares para adicionar transparência."
+        }
+      ]
+    }
+  ]
+}

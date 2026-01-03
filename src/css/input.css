@@ -408,6 +408,198 @@ h3 {
   color: #e54e4b !important;
 }
 
+/* ===== Donation Banner ===== */
+.donation-banner {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #fef2f2 0%, #fff1f2 100%);
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  text-align: center;
+  animation: donationSlideIn 0.3s ease-out;
+}
+
+.donation-banner.hidden {
+  display: none;
+}
+
+.donation-banner__headline {
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.donation-banner__subtext {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0.25rem 0 1rem;
+}
+
+.donation-banner__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.donation-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #FF5E5B;
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: background 0.2s, transform 0.1s;
+  border: none;
+  cursor: pointer;
+}
+
+.donation-banner__cta:hover {
+  background: #e54542;
+  transform: translateY(-1px);
+}
+
+.donation-banner__cta:active {
+  transform: translateY(0);
+}
+
+.donation-banner__dismiss {
+  color: #6b7280;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.donation-banner__dismiss:hover {
+  color: #374151;
+}
+
+@keyframes donationSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark mode donation banner */
+[data-theme="dark"] .donation-banner {
+  background: linear-gradient(135deg, #1c1917 0%, #292524 100%);
+  border-color: #44403c;
+}
+
+[data-theme="dark"] .donation-banner__headline {
+  color: #f5f5f4;
+}
+
+[data-theme="dark"] .donation-banner__subtext {
+  color: #a8a29e;
+}
+
+[data-theme="dark"] .donation-banner__dismiss {
+  color: #a8a29e;
+}
+
+[data-theme="dark"] .donation-banner__dismiss:hover {
+  color: #e7e5e4;
+}
+
+/* ===== Ko-fi Modal ===== */
+.kofi-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: kofiModalFadeIn 0.2s ease-out;
+}
+
+.kofi-modal__content {
+  background: white;
+  border-radius: 1rem;
+  max-width: 420px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.kofi-modal__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.kofi-modal__close:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.kofi-modal__close svg {
+  width: 1rem;
+  height: 1rem;
+  color: #6b7280;
+}
+
+.kofi-modal iframe {
+  width: 100%;
+  height: 650px;
+  border: none;
+}
+
+@keyframes kofiModalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Dark mode Ko-fi modal */
+[data-theme="dark"] .kofi-modal__content {
+  background: #1a1a1a;
+}
+
+[data-theme="dark"] .kofi-modal__close {
+  background: #262626;
+  border-color: #404040;
+}
+
+[data-theme="dark"] .kofi-modal__close:hover {
+  background: #333333;
+  border-color: #525252;
+}
+
+[data-theme="dark"] .kofi-modal__close svg {
+  color: #a3a3a3;
+}
+
 /* ===== Tool-centered layout ===== */
 .tool-layout {
   display: block;

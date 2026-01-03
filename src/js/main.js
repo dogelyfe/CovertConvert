@@ -62,6 +62,10 @@ import {
   updateLogSummary,
   saveAdvancedSettings,
   loadAdvancedSettings,
+  // Donation banner
+  showDonationBanner,
+  hideDonationBanner,
+  openKofiModal,
 } from './ui.js';
 
 // State (logic state - UI state handled by ui.js)
@@ -216,6 +220,10 @@ function bindEvents(elements) {
 
   // Warning dismiss button
   elements.warningDismiss?.addEventListener('click', dismissWarning);
+
+  // Donation banner handlers
+  elements.donationCta?.addEventListener('click', openKofiModal);
+  elements.donationDismiss?.addEventListener('click', hideDonationBanner);
 
   // === Epic 6: Advanced options event bindings ===
 
@@ -480,6 +488,9 @@ async function startConversion(validatedFiles) {
       // Track download triggered (Story 5.1)
       if (downloadResult.ok) {
         trackDownloadTriggered(downloadResult.type || 'single', successful.length);
+
+        // Show donation banner after successful download (once per session)
+        setTimeout(() => showDonationBanner(), 1500);
       }
     }
 
