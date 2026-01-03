@@ -10,6 +10,7 @@ import {
   isMobileViewport,
   getMobileDownloadLimits,
   getDownloadStrategy,
+  canShareFiles,
 } from './platform.js';
 
 // Success pause before auto-download (per UX spec)
@@ -157,6 +158,53 @@ async function downloadSequential(results, onProgress) {
 }
 
 /**
+ * Share files using Web Share API (mobile)
+ * Opens native share sheet allowing save to Photos, AirDrop, etc.
+ * @param {Array} results - Array of conversion results { blob, name }
+ * @returns {Promise<{ ok: boolean, shared: number, message: string|null }>}
+ */
+async function shareFiles(results) {
+  // Convert blobs to File objects for sharing
+  const files = results.map(result => {
+    const mimeType = result.name.endsWith('.png') ? 'image/png' : 'image/jpeg';
+    return new File([result.blob], result.name, { type: mimeType });
+  });
+
+  // Wait for success pause
+  await new Promise(resolve => setTimeout(resolve, DOWNLOAD_DELAY_MS));
+
+  try {
+    await navigator.share({
+      files,
+      title: files.length === 1 ? 'Converted Image' : `${files.length} Converted Images`,
+    });
+
+    return {
+      ok: true,
+      shared: files.length,
+      message: null,
+    };
+  } catch (error) {
+    // User cancelled share - not an error
+    if (error.name === 'AbortError') {
+      return {
+        ok: true,
+        shared: 0,
+        message: 'Share cancelled',
+      };
+    }
+
+    // Actual error - fall back to download
+    console.warn('[CovertConvert] Share failed, falling back to download:', error);
+    return {
+      ok: false,
+      shared: 0,
+      message: error.message,
+    };
+  }
+}
+
+/**
  * Calculate total size of results
  * @param {Array} results - Array of conversion results { blob }
  * @returns {number} Total size in bytes
@@ -222,6 +270,7 @@ async function downloadAsZip(results, onProgress) {
 
 /**
  * Trigger download based on platform and result count
+ * On mobile with Web Share support, uses native share sheet for saving to Photos
  * @param {Array} results - Array of conversion results
  * @param {object} callbacks - Callback functions
  * @param {Function} callbacks.onSequentialProgress - Progress callback for sequential downloads (current, total)
@@ -237,6 +286,23 @@ async function triggerDownload(results, callbacks = {}) {
   }
 
   const strategy = getDownloadStrategy(results.length);
+
+  // On mobile, try Web Share API first (enables save to Photos)
+  if (strategy.isMobile && canShareFiles()) {
+    const shareResult = await shareFiles(results);
+
+    if (shareResult.ok) {
+      return {
+        ok: true,
+        type: 'share',
+        downloaded: shareResult.shared,
+        message: shareResult.message,
+      };
+    }
+
+    // Share failed - fall through to regular download
+    console.log('[CovertConvert] Share failed, falling back to download');
+  }
 
   // Single file download
   if (strategy.type === 'single') {
@@ -286,6 +352,7 @@ export {
   downloadSingle,
   downloadSequential,
   downloadAsZip,
+  shareFiles,
   triggerDownload,
   loadJSZip,
   calculateTotalSize,

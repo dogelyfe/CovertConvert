@@ -36,6 +36,25 @@ function hasTouch() {
 }
 
 /**
+ * Check if Web Share API with files is supported
+ * This enables native share sheet on mobile (save to Photos, AirDrop, etc.)
+ * @returns {boolean}
+ */
+function canShareFiles() {
+  if (!navigator.share || !navigator.canShare) {
+    return false;
+  }
+
+  // Test if file sharing is supported with a dummy file
+  try {
+    const testFile = new File(['test'], 'test.png', { type: 'image/png' });
+    return navigator.canShare({ files: [testFile] });
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Get device memory if available (for memory warnings)
  * @returns {number|null} Memory in GB or null if unavailable
  */
@@ -116,6 +135,7 @@ function getDownloadStrategy(fileCount) {
 export {
   isMobileViewport,
   hasTouch,
+  canShareFiles,
   getDeviceMemory,
   shouldWarnBatchSize,
   shouldWarnFileSize,
