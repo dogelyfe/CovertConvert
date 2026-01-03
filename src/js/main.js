@@ -100,6 +100,9 @@ function init() {
   // Bind events
   bindEvents(elements);
 
+  // Bind mobile page lifecycle events (fixes iOS Safari file picker issue)
+  bindPageLifecycleEvents(elements);
+
   // Update UI for touch devices
   updateSelectorTextForTouch();
 
@@ -111,6 +114,64 @@ function init() {
 
   // Preload HEIC codec on fast connections
   initPreload();
+}
+
+/**
+ * Bind page lifecycle events for mobile browsers
+ * Fixes issue where file selection is lost when returning from native file picker
+ * @param {object} elements - Cached DOM elements
+ */
+function bindPageLifecycleEvents(elements) {
+  // Handle bfcache restoration (page restored from back-forward cache)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      // Page was restored from bfcache - check for pending files
+      checkForPendingFiles(elements);
+    }
+  });
+
+  // Handle visibility change (page becomes visible after being backgrounded)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && state.status === 'idle') {
+      // Small delay to allow file input to be populated
+      setTimeout(() => checkForPendingFiles(elements), 100);
+    }
+  });
+
+  // Handle window focus (fires when returning from file picker on mobile)
+  window.addEventListener('focus', () => {
+    if (state.status === 'idle') {
+      // Delay to ensure file input is populated after picker closes
+      setTimeout(() => checkForPendingFiles(elements), 150);
+    }
+  });
+}
+
+// Flag to prevent duplicate processing from multiple lifecycle events
+let isProcessingPending = false;
+
+/**
+ * Check if file input has files that weren't processed
+ * This handles the case where the page was backgrounded during file selection
+ * @param {object} elements - Cached DOM elements
+ */
+function checkForPendingFiles(elements) {
+  // Prevent duplicate processing
+  if (isProcessingPending) return;
+
+  const fileInput = elements.fileInput;
+  if (!fileInput) return;
+
+  const files = Array.from(fileInput.files || []);
+
+  // If there are files in the input and we haven't processed them yet
+  if (files.length > 0 && state.files.length === 0 && state.validatedFiles.length === 0) {
+    isProcessingPending = true;
+    console.log('[CovertConvert] Recovered files from file picker:', files.length);
+    processFiles(files).finally(() => {
+      isProcessingPending = false;
+    });
+  }
 }
 
 /**
