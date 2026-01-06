@@ -168,17 +168,17 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   <header class="site-header">
     <a href="/" class="site-header__wordmark"><span class="wordmark-covert">Covert</span><span class="wordmark-convert">Convert</span></a>
     <nav class="site-header__nav">
-      <a href="/blog/" class="site-header__nav-link">Blog</a>
+      <a href="/blog/" class="site-header__nav-link">${i18n.nav?.blog || 'Blog'}</a>
       <a href="/support/" class="site-header__nav-link site-header__nav-link--support">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        Donate
+        ${i18n.nav?.donate || 'Donate'}
       </a>
-      <div class="theme-toggle" role="group" aria-label="Theme switcher">
+      <div class="theme-toggle" role="group" aria-label="${i18n.nav?.themeSwitcher || 'Theme switcher'}">
         <svg class="icon-sun" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
         <label class="theme-switch">
-          <input type="checkbox" id="theme-checkbox" aria-label="Toggle dark mode">
+          <input type="checkbox" id="theme-checkbox" aria-label="${i18n.nav?.toggleDarkMode || 'Toggle dark mode'}">
           <span class="thumb"></span>
         </label>
         <svg class="icon-moon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -218,7 +218,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
           </svg>
           <span class="text-lg font-medium text-gray-700 block" id="selector-text">
-            Drop files here or click to select
+            ${i18n.converter?.dropText || 'Drop files here or click to select'}
           </span>
         </label>
       </div>
@@ -227,7 +227,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
       ${outputFormat === 'jpeg' ? `
       <div id="quality-container" class="mt-4 text-center">
         <label for="quality-slider" class="text-sm text-gray-500 block mb-2">
-          Quality: <span id="quality-value">92%</span>
+          ${i18n.converter?.quality || 'Quality:'} <span id="quality-value">92%</span>
         </label>
         <input
           type="range"
@@ -236,14 +236,14 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
           max="100"
           value="92"
           class="w-48 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-700"
-          aria-label="JPEG quality"
+          aria-label="${i18n.accessibility?.jpegQuality || 'JPEG quality'}"
           aria-valuemin="10"
           aria-valuemax="100"
           aria-valuenow="92"
         >
         <div class="flex justify-between w-48 mx-auto text-xs text-gray-600 mt-1">
-          <span>Smaller</span>
-          <span>Better</span>
+          <span>${i18n.converter?.qualitySmaller || 'Smaller file'}</span>
+          <span>${i18n.converter?.qualityBetter || 'Better quality'}</span>
         </div>
       </div>
       ` : ''}
@@ -259,12 +259,12 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
           <svg class="advanced-options__chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
-          <span>Advanced options</span>
+          <span>${i18n.converter?.advancedOptions || 'Advanced options'}</span>
         </button>
         <div class="advanced-options__content" id="advanced-options-content">
           <!-- Target Filesize -->
           <div class="target-filesize">
-            <label class="target-filesize__label">Target filesize</label>
+            <label class="target-filesize__label">${i18n.converter?.targetFilesize || 'Target filesize'}</label>
             <div class="target-filesize__controls">
               <input
                 type="range"
@@ -296,39 +296,39 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
           <div class="lock-options">
             <label class="lock-option">
               <input type="checkbox" id="lock-quality" name="lock-quality">
-              <span>Lock quality (resize only)</span>
+              <span>${i18n.converter?.lockQuality || 'Lock quality'}</span>
             </label>
             <label class="lock-option">
               <input type="checkbox" id="lock-dimensions" name="lock-dimensions">
-              <span>Lock dimensions (quality only)</span>
+              <span>${i18n.converter?.lockDimensions || 'Lock dimensions'}</span>
             </label>
           </div>
 
           <!-- Show Log Option -->
           <label class="log-option">
             <input type="checkbox" id="show-log" name="show-log">
-            <span>Show conversion log</span>
+            <span>${i18n.converter?.showLog || 'Show conversion log'}</span>
           </label>
         </div>
       </div>
 
       <!-- Convert Button (Manual Start - shown when target is set and files queued) -->
       <button type="button" id="convert-button" class="convert-button" disabled>
-        Convert files
+        ${i18n.converter?.convertButton || 'Convert files'}
       </button>
 
       <!-- Donation Banner (shown after successful conversion, once per session) -->
       <div id="donation-banner" class="donation-banner hidden" role="complementary" aria-label="Support CovertConvert">
-        <p class="donation-banner__headline">You just converted without ads or tracking.</p>
-        <p class="donation-banner__subtext">Every donation keeps one more developer away from the dark side.</p>
+        <p class="donation-banner__headline">${i18n.donation?.headline || 'You just converted without ads or tracking.'}</p>
+        <p class="donation-banner__subtext">${i18n.donation?.subtext || 'Every donation keeps one more developer away from the dark side.'}</p>
         <div class="donation-banner__actions">
           <button type="button" class="donation-banner__cta" id="donation-cta">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"/>
             </svg>
-            Buy me a coffee
+            ${i18n.donation?.cta || 'Buy me a coffee'}
           </button>
-          <button type="button" class="donation-banner__dismiss" id="donation-dismiss">Maybe later</button>
+          <button type="button" class="donation-banner__dismiss" id="donation-dismiss">${i18n.donation?.dismiss || 'Maybe later'}</button>
         </div>
       </div>
 
@@ -373,7 +373,7 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
         <svg class="w-4 h-4 inline-block mr-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
           <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
         </svg>
-        Your files never leave your device · No ads · <a href="/support/" class="trust-message__link">Community supported</a>
+        ${i18n.trust?.message || 'Your files never leave your device · No ads · '}<a href="/support/" class="trust-message__link">${i18n.trust?.communitySupported || 'Community supported'}</a>
       </p>
     </div>
 
@@ -413,47 +413,47 @@ export const seoPage = ({ slug, title, description, h1, outputFormat, crossLink,
   <footer class="site-footer">
     <div class="site-footer__grid">
       <div class="site-footer__section">
-        <h3>Tools</h3>
+        <h3>${i18n.footer?.tools || 'Tools'}</h3>
         <ul>
-          <li><a href="/heic-to-jpg/">HEIC to JPG</a></li>
-          <li><a href="/webp-to-jpg/">WebP to JPG</a></li>
-          <li><a href="/png-to-jpg/">PNG to JPG</a></li>
-          <li><a href="/avif-to-jpg/">AVIF to JPG</a></li>
+          <li><a href="/heic-to-jpg/">${i18n.links?.heicToJpg || 'HEIC to JPG'}</a></li>
+          <li><a href="/webp-to-jpg/">${i18n.links?.webpToJpg || 'WebP to JPG'}</a></li>
+          <li><a href="/png-to-jpg/">${i18n.links?.pngToJpg || 'PNG to JPG'}</a></li>
+          <li><a href="/avif-to-jpg/">${i18n.links?.avifToJpg || 'AVIF to JPG'}</a></li>
         </ul>
-        <a href="/heic-to-png/" class="site-footer__view-all">More tools &rarr;</a>
+        <a href="/heic-to-png/" class="site-footer__view-all">${i18n.footer?.moreTools || 'More tools →'}</a>
       </div>
       <div class="site-footer__section">
-        <h3>Learn</h3>
+        <h3>${i18n.footer?.learn || 'Learn'}</h3>
         <ul>
-          <li><a href="/blog/what-is-heic/">What is HEIC?</a></li>
-          <li><a href="/blog/heic-vs-jpg/">HEIC vs JPG</a></li>
-          <li><a href="/blog/is-online-converter-safe/">Is Online Converter Safe?</a></li>
-          <li><a href="/blog/convert-photos-without-uploading/">Convert Without Uploading</a></li>
+          <li><a href="/blog/what-is-heic/">${i18n.featuredArticles?.whatIsHeic || 'What is HEIC?'}</a></li>
+          <li><a href="/blog/heic-vs-jpg/">${i18n.featuredArticles?.heicVsJpg || 'HEIC vs JPG'}</a></li>
+          <li><a href="/blog/is-online-converter-safe/">${i18n.featuredArticles?.isOnlineSafe || 'Is Online Converter Safe?'}</a></li>
+          <li><a href="/blog/convert-photos-without-uploading/">${i18n.featuredArticles?.convertWithoutUploading || 'Convert Without Uploading'}</a></li>
         </ul>
-        <a href="/blog/" class="site-footer__view-all">All articles &rarr;</a>
+        <a href="/blog/" class="site-footer__view-all">${i18n.footer?.allArticles || 'All articles →'}</a>
       </div>
       <div class="site-footer__section">
-        <h3>Company</h3>
+        <h3>${i18n.footer?.company || 'Company'}</h3>
         <ul>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/privacy/">Privacy</a></li>
-          <li><a href="/terms/">Terms</a></li>
-          <li><a href="/how-it-works/">How It Works</a></li>
-          <li><a href="/contact/">Contact</a></li>
-          <li><a href="/support/" class="site-footer__support-link">♥  Donate</a></li>
+          <li><a href="/about/">${i18n.links?.about || 'About'}</a></li>
+          <li><a href="/privacy/">${i18n.links?.privacy || 'Privacy'}</a></li>
+          <li><a href="/terms/">${i18n.links?.terms || 'Terms'}</a></li>
+          <li><a href="/how-it-works/">${i18n.links?.howItWorks || 'How It Works'}</a></li>
+          <li><a href="/contact/">${i18n.links?.contact || 'Contact'}</a></li>
+          <li><a href="/support/" class="site-footer__support-link">♥  ${i18n.nav?.donate || 'Donate'}</a></li>
         </ul>
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">&copy; 2025 CovertConvert. All rights reserved.</p>
+      <p class="site-footer__copyright">${i18n.site?.copyright || '© 2025 CovertConvert. All rights reserved.'}</p>
     </div>
   </footer>
 
   <!-- Conversion Log Panel (Epic 6) -->
-  <div class="conversion-log" id="conversion-log" aria-label="Conversion log">
+  <div class="conversion-log" id="conversion-log" aria-label="${i18n.log?.title || 'Conversion log'}">
     <div class="conversion-log__header">
-      <span>Conversion Log</span>
-      <button type="button" class="conversion-log__close" id="log-close" aria-label="Close log">
+      <span>${i18n.log?.title || 'Conversion Log'}</span>
+      <button type="button" class="conversion-log__close" id="log-close" aria-label="${i18n.log?.close || 'Close log'}">
         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>

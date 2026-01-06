@@ -51,6 +51,10 @@ let state = {
   quality: JPEG_DEFAULT_QUALITY,
   status: 'idle', // idle | converting | done | error
   results: [],
+  // Resize settings
+  resizeMode: 'none', // none | long-side | short-side | width | height
+  resizeValue: null,  // target dimension in pixels
+  resizeNoUpscale: true, // don't enlarge smaller images
 };
 
 /**
@@ -91,6 +95,123 @@ function setQuality(quality) {
 }
 
 /**
+ * Set resize settings
+ * @param {object} settings - Resize settings
+ * @param {string} settings.mode - 'none' | 'long-side' | 'short-side' | 'width' | 'height'
+ * @param {number|null} settings.value - Target dimension in pixels
+ * @param {boolean} settings.noUpscale - Don't enlarge smaller images
+ */
+function setResizeSettings(settings) {
+  state.resizeMode = settings.mode || 'none';
+  state.resizeValue = settings.value || null;
+  state.resizeNoUpscale = settings.noUpscale ?? true;
+}
+
+/**
+ * Calculate new dimensions based on resize mode
+ * @param {number} originalWidth - Original image width
+ * @param {number} originalHeight - Original image height
+ * @param {string} mode - Resize mode
+ * @param {number} targetValue - Target dimension in pixels
+ * @param {boolean} noUpscale - Don't enlarge smaller images
+ * @returns {{width: number, height: number, scale: number}}
+ */
+function calculateResizeDimensions(originalWidth, originalHeight, mode, targetValue, noUpscale) {
+  if (mode === 'none' || !targetValue) {
+    return { width: originalWidth, height: originalHeight, scale: 1 };
+  }
+
+  const aspectRatio = originalWidth / originalHeight;
+  const isLandscape = originalWidth >= originalHeight;
+  const longSide = Math.max(originalWidth, originalHeight);
+  const shortSide = Math.min(originalWidth, originalHeight);
+
+  let newWidth, newHeight;
+
+  switch (mode) {
+    case 'long-side':
+      // Resize so the longer side equals targetValue
+      if (noUpscale && longSide <= targetValue) {
+        return { width: originalWidth, height: originalHeight, scale: 1 };
+      }
+      if (isLandscape) {
+        newWidth = targetValue;
+        newHeight = Math.round(targetValue / aspectRatio);
+      } else {
+        newHeight = targetValue;
+        newWidth = Math.round(targetValue * aspectRatio);
+      }
+      break;
+
+    case 'short-side':
+      // Resize so the shorter side equals targetValue
+      if (noUpscale && shortSide <= targetValue) {
+        return { width: originalWidth, height: originalHeight, scale: 1 };
+      }
+      if (isLandscape) {
+        newHeight = targetValue;
+        newWidth = Math.round(targetValue * aspectRatio);
+      } else {
+        newWidth = targetValue;
+        newHeight = Math.round(targetValue / aspectRatio);
+      }
+      break;
+
+    case 'width':
+      // Resize to specific width
+      if (noUpscale && originalWidth <= targetValue) {
+        return { width: originalWidth, height: originalHeight, scale: 1 };
+      }
+      newWidth = targetValue;
+      newHeight = Math.round(targetValue / aspectRatio);
+      break;
+
+    case 'height':
+      // Resize to specific height
+      if (noUpscale && originalHeight <= targetValue) {
+        return { width: originalWidth, height: originalHeight, scale: 1 };
+      }
+      newHeight = targetValue;
+      newWidth = Math.round(targetValue * aspectRatio);
+      break;
+
+    default:
+      return { width: originalWidth, height: originalHeight, scale: 1 };
+  }
+
+  // Ensure minimum dimensions
+  newWidth = Math.max(1, newWidth);
+  newHeight = Math.max(1, newHeight);
+
+  const scale = newWidth / originalWidth;
+  return { width: newWidth, height: newHeight, scale };
+}
+
+/**
+ * Apply resize to a canvas
+ * @param {HTMLCanvasElement} sourceCanvas - Source canvas
+ * @param {number} newWidth - Target width
+ * @param {number} newHeight - Target height
+ * @returns {HTMLCanvasElement} Resized canvas (new instance)
+ */
+function applyResize(sourceCanvas, newWidth, newHeight) {
+  if (newWidth === sourceCanvas.width && newHeight === sourceCanvas.height) {
+    return sourceCanvas;
+  }
+
+  const resizedCanvas = document.createElement('canvas');
+  resizedCanvas.width = newWidth;
+  resizedCanvas.height = newHeight;
+
+  const ctx = resizedCanvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(sourceCanvas, 0, 0, newWidth, newHeight);
+
+  return resizedCanvas;
+}
+
+/**
  * Reset state to initial values
  * Also releases canvas memory to prevent accumulation
  */
@@ -103,6 +224,9 @@ function resetState() {
     quality: JPEG_DEFAULT_QUALITY,
     status: 'idle',
     results: [],
+    resizeMode: 'none',
+    resizeValue: null,
+    resizeNoUpscale: true,
   };
 
   // Release canvas memory after batch completes
@@ -237,9 +361,38 @@ async function convertFileTier1(file, fileInfo, outputFormat, quality) {
   try {
     // Load image
     const img = await loadImage(file);
+    const originalWidth = img.naturalWidth;
+    const originalHeight = img.naturalHeight;
+
+    // Calculate resize dimensions
+    const resizeDims = calculateResizeDimensions(
+      originalWidth,
+      originalHeight,
+      state.resizeMode,
+      state.resizeValue,
+      state.resizeNoUpscale
+    );
+
+    // Create canvas from image, applying resize if needed
+    let canvas = document.createElement('canvas');
+    canvas.width = resizeDims.width;
+    canvas.height = resizeDims.height;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, resizeDims.width, resizeDims.height);
 
     // Encode to target format
-    const blob = await encodeToBlobFromImage(img, outputFormat, quality);
+    const mimeType = outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+    const encodingQuality = outputFormat === 'jpeg' ? quality : undefined;
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error('Failed to encode image'))),
+        mimeType,
+        encodingQuality
+      );
+    });
 
     // Generate output filename
     const outputName = generateOutputFilename(file.name, outputFormat);
@@ -253,8 +406,11 @@ async function convertFileTier1(file, fileInfo, outputFormat, quality) {
         inputFormat: fileInfo.format,
         outputFormat,
         size: blob.size,
-        width: img.naturalWidth,
-        height: img.naturalHeight,
+        width: resizeDims.width,
+        height: resizeDims.height,
+        originalWidth,
+        originalHeight,
+        resized: resizeDims.scale !== 1,
       },
     };
   } catch (error) {
@@ -300,15 +456,41 @@ async function convertFileTier2(file, fileInfo, outputFormat, quality) {
 
     // Decode using WASM codec
     const decoded = await codec.decode(file);
+    const originalWidth = decoded.width;
+    const originalHeight = decoded.height;
+
+    // Calculate resize dimensions
+    const resizeDims = calculateResizeDimensions(
+      originalWidth,
+      originalHeight,
+      state.resizeMode,
+      state.resizeValue,
+      state.resizeNoUpscale
+    );
+
+    // Create canvas from decoded ImageData
+    let canvas = document.createElement('canvas');
+    canvas.width = originalWidth;
+    canvas.height = originalHeight;
+    let ctx = canvas.getContext('2d');
+    ctx.putImageData(decoded.imageData, 0, 0);
+
+    // Apply resize if needed
+    if (resizeDims.scale !== 1) {
+      canvas = applyResize(canvas, resizeDims.width, resizeDims.height);
+    }
 
     // Encode to target format
-    const blob = await encodeToBlobFromImageData(
-      decoded.imageData,
-      decoded.width,
-      decoded.height,
-      outputFormat,
-      quality
-    );
+    const mimeType = outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+    const encodingQuality = outputFormat === 'jpeg' ? quality : undefined;
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error('Failed to encode image'))),
+        mimeType,
+        encodingQuality
+      );
+    });
 
     // Generate output filename
     const outputName = generateOutputFilename(file.name, outputFormat);
@@ -322,8 +504,11 @@ async function convertFileTier2(file, fileInfo, outputFormat, quality) {
         inputFormat: fileInfo.format,
         outputFormat,
         size: blob.size,
-        width: decoded.width,
-        height: decoded.height,
+        width: resizeDims.width,
+        height: resizeDims.height,
+        originalWidth,
+        originalHeight,
+        resized: resizeDims.scale !== 1,
       },
     };
   } catch (error) {
@@ -496,6 +681,7 @@ export {
   setFiles,
   setOutputFormat,
   setQuality,
+  setResizeSettings,
   resetState,
   convertFile,
   convertAll,

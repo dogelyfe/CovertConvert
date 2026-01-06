@@ -51,15 +51,13 @@ function initUI() {
     qualitySlider: document.querySelector('#quality-slider'),
     qualityValue: document.querySelector('#quality-value'),
 
-    // Advanced options (Epic 6)
+    // Settings panel
     advancedOptions: document.querySelector('#advanced-options'),
-    advancedToggle: document.querySelector('.advanced-options__toggle'),
-    targetFilesizeSlider: document.querySelector('#target-filesize-slider'),
-    targetFilesizeInput: document.querySelector('#target-filesize-input'),
-    lockQuality: document.querySelector('#lock-quality'),
-    lockDimensions: document.querySelector('#lock-dimensions'),
+    advancedToggle: document.querySelector('.settings-panel__toggle'),
     showLog: document.querySelector('#show-log'),
     convertButton: document.querySelector('#convert-button'),
+    sizeEstimate: document.querySelector('#size-estimate'),
+    sizeEstimateValue: document.querySelector('#size-estimate-value'),
 
     // Conversion log (Epic 6)
     conversionLog: document.querySelector('#conversion-log'),
@@ -76,6 +74,12 @@ function initUI() {
     donationBanner: document.querySelector('#donation-banner'),
     donationCta: document.querySelector('#donation-cta'),
     donationDismiss: document.querySelector('#donation-dismiss'),
+
+    // Resize options
+    resizeContainer: document.querySelector('#resize-container'),
+    resizeMode: document.querySelector('#resize-mode'),
+    resizeValue: document.querySelector('#resize-value'),
+    resizeNoUpscale: document.querySelector('#resize-no-upscale'),
   };
 
   initialized = true;
@@ -506,61 +510,6 @@ function toggleAdvancedOptions(forceState) {
 }
 
 /**
- * Get current target filesize in bytes (0 = disabled)
- * @returns {number} Target in bytes, or 0 if disabled
- */
-function getTargetFilesize() {
-  const el = getElements();
-  if (!el.targetFilesizeInput) return 0;
-
-  const value = parseInt(el.targetFilesizeInput.value, 10);
-  return isNaN(value) || value <= 0 ? 0 : value * 1024; // KB to bytes
-}
-
-/**
- * Update target filesize slider and input to stay in sync
- * @param {number} valueKB - Value in KB
- * @param {'slider' | 'input'} source - Which control triggered the change
- */
-function syncTargetFilesize(valueKB, source) {
-  const el = getElements();
-
-  if (source === 'slider' && el.targetFilesizeInput) {
-    el.targetFilesizeInput.value = valueKB;
-  } else if (source === 'input' && el.targetFilesizeSlider) {
-    // Clamp to slider range
-    const clamped = Math.min(5000, Math.max(50, valueKB));
-    el.targetFilesizeSlider.value = clamped;
-  }
-}
-
-/**
- * Get lock states
- * @returns {{lockQuality: boolean, lockDimensions: boolean}}
- */
-function getLockStates() {
-  const el = getElements();
-  return {
-    lockQuality: el.lockQuality?.checked || false,
-    lockDimensions: el.lockDimensions?.checked || false,
-  };
-}
-
-/**
- * Enforce mutual exclusivity of lock checkboxes
- * @param {'quality' | 'dimensions'} checked - Which was just checked
- */
-function enforceLockExclusivity(checked) {
-  const el = getElements();
-
-  if (checked === 'quality' && el.lockDimensions) {
-    el.lockDimensions.checked = false;
-  } else if (checked === 'dimensions' && el.lockQuality) {
-    el.lockQuality.checked = false;
-  }
-}
-
-/**
  * Check if show log is enabled
  * @returns {boolean}
  */
@@ -570,54 +519,7 @@ function isLogEnabled() {
 }
 
 // ============================================================================
-// MANUAL START FLOW (Epic 6)
-// ============================================================================
-
-/**
- * Show queued state with file count
- * @param {number} count - Number of files queued
- */
-function showQueuedState(count) {
-  const el = getElements();
-
-  el.fileSelector?.classList.add('file-selector--queued');
-  el.fileSelector?.classList.remove('is-success', 'has-error', 'is-converting');
-
-  const text = count === 1 ? '1 file ready' : `${count} files ready`;
-  updateSelectorText(text);
-
-  // Show convert button
-  if (el.convertButton) {
-    el.convertButton.classList.add('convert-button--visible');
-    el.convertButton.disabled = false;
-    el.convertButton.textContent = count === 1 ? 'Convert file' : `Convert ${count} files`;
-  }
-}
-
-/**
- * Hide queued state and convert button
- */
-function hideQueuedState() {
-  const el = getElements();
-
-  el.fileSelector?.classList.remove('file-selector--queued');
-
-  if (el.convertButton) {
-    el.convertButton.classList.remove('convert-button--visible');
-    el.convertButton.disabled = true;
-  }
-}
-
-/**
- * Check if we're in manual start mode (target filesize is set)
- * @returns {boolean}
- */
-function isManualStartMode() {
-  return getTargetFilesize() > 0;
-}
-
-// ============================================================================
-// CONVERSION LOG (Epic 6)
+// CONVERSION LOG
 // ============================================================================
 
 /**
@@ -727,15 +629,12 @@ function formatSizeForLog(bytes) {
 const STORAGE_KEY = 'cc-advanced-settings';
 
 /**
- * Save advanced settings to localStorage
+ * Save settings to localStorage
  */
 function saveAdvancedSettings() {
   const el = getElements();
 
   const settings = {
-    targetFilesize: el.targetFilesizeInput?.value || '',
-    lockQuality: el.lockQuality?.checked || false,
-    lockDimensions: el.lockDimensions?.checked || false,
     showLog: el.showLog?.checked || false,
   };
 
@@ -747,7 +646,7 @@ function saveAdvancedSettings() {
 }
 
 /**
- * Load advanced settings from localStorage
+ * Load settings from localStorage
  */
 function loadAdvancedSettings() {
   const el = getElements();
@@ -758,24 +657,166 @@ function loadAdvancedSettings() {
 
     const settings = JSON.parse(saved);
 
-    if (settings.targetFilesize && el.targetFilesizeInput) {
-      el.targetFilesizeInput.value = settings.targetFilesize;
-      syncTargetFilesize(parseInt(settings.targetFilesize, 10), 'input');
-    }
-
-    if (el.lockQuality) {
-      el.lockQuality.checked = settings.lockQuality || false;
-    }
-
-    if (el.lockDimensions) {
-      el.lockDimensions.checked = settings.lockDimensions || false;
-    }
-
     if (el.showLog) {
       el.showLog.checked = settings.showLog || false;
     }
   } catch (e) {
     // Parse error or localStorage not available
+  }
+}
+
+// ============================================================================
+// RESIZE OPTIONS
+// ============================================================================
+
+/**
+ * Get current resize settings
+ * @returns {{mode: string, value: number|null, noUpscale: boolean}}
+ */
+function getResizeSettings() {
+  const el = getElements();
+
+  const mode = el.resizeMode?.value || 'none';
+  const rawValue = el.resizeValue?.value;
+  const value = rawValue ? parseInt(rawValue, 10) : null;
+  const noUpscale = el.resizeNoUpscale?.checked ?? true;
+
+  return {
+    mode,
+    value: (mode !== 'none' && value && value > 0) ? value : null,
+    noUpscale,
+  };
+}
+
+/**
+ * Update resize input disabled state based on mode
+ */
+function updateResizeInputState() {
+  const el = getElements();
+  if (!el.resizeMode || !el.resizeValue) return;
+
+  const isDisabled = el.resizeMode.value === 'none';
+  el.resizeValue.disabled = isDisabled;
+}
+
+// ============================================================================
+// SIZE ESTIMATION
+// ============================================================================
+
+/**
+ * Format bytes to human readable string
+ * @param {number} bytes - Size in bytes
+ * @returns {string} Formatted size (e.g., "~1.2MB")
+ */
+function formatBytes(bytes) {
+  if (bytes < 1024) return `~${bytes}B`;
+  if (bytes < 1024 * 1024) return `~${Math.round(bytes / 1024)}KB`;
+  return `~${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+/**
+ * Estimate output size based on input files, quality, and resize settings
+ * @param {object} params - Estimation parameters
+ * @param {Array<{file: File, width?: number, height?: number}>} params.files - Input files with dimensions
+ * @param {number} params.quality - Quality (0-1)
+ * @param {string} params.format - Output format ('jpeg' | 'png')
+ * @param {object} params.resize - Resize settings
+ * @returns {string} Estimated size range
+ */
+function estimateOutputSize({ files, quality, format, resize }) {
+  if (!files || files.length === 0) return '';
+
+  // Calculate total estimated bytes
+  let totalMinBytes = 0;
+  let totalMaxBytes = 0;
+
+  for (const { file, width = 1920, height = 1080 } of files) {
+    // Calculate resize scale
+    let scale = 1;
+    if (resize?.mode !== 'none' && resize?.value) {
+      const targetDim = resize.value;
+      const longSide = Math.max(width, height);
+      const shortSide = Math.min(width, height);
+
+      switch (resize.mode) {
+        case 'long-side':
+          if (!resize.noUpscale || longSide > targetDim) {
+            scale = targetDim / longSide;
+          }
+          break;
+        case 'short-side':
+          if (!resize.noUpscale || shortSide > targetDim) {
+            scale = targetDim / shortSide;
+          }
+          break;
+        case 'width':
+          if (!resize.noUpscale || width > targetDim) {
+            scale = targetDim / width;
+          }
+          break;
+        case 'height':
+          if (!resize.noUpscale || height > targetDim) {
+            scale = targetDim / height;
+          }
+          break;
+      }
+    }
+
+    // Estimate output size based on format
+    const scaledPixels = width * height * scale * scale;
+
+    if (format === 'jpeg') {
+      // JPEG: roughly 0.1-0.5 bytes per pixel depending on quality
+      const bytesPerPixel = 0.1 + (quality * 0.4);
+      const estimated = scaledPixels * bytesPerPixel;
+      totalMinBytes += estimated * 0.7;
+      totalMaxBytes += estimated * 1.3;
+    } else {
+      // PNG: roughly 0.3-1.0 bytes per pixel (lossless, varies with content)
+      const estimated = scaledPixels * 0.5;
+      totalMinBytes += estimated * 0.5;
+      totalMaxBytes += estimated * 1.5;
+    }
+  }
+
+  // Format the range
+  if (totalMaxBytes < 1024) return '< 1KB';
+
+  const minStr = formatBytes(totalMinBytes);
+  const maxStr = formatBytes(totalMaxBytes);
+
+  // If min and max are similar, just show one value
+  if (minStr === maxStr) return minStr;
+
+  // Show range
+  return `${minStr} - ${maxStr}`;
+}
+
+/**
+ * Update size estimate display
+ * @param {object} params - Same params as estimateOutputSize
+ */
+function updateSizeEstimate(params) {
+  const el = getElements();
+  if (!el.sizeEstimate || !el.sizeEstimateValue) return;
+
+  const estimate = estimateOutputSize(params);
+
+  if (estimate) {
+    el.sizeEstimateValue.textContent = estimate;
+    el.sizeEstimate.classList.remove('hidden');
+  } else {
+    el.sizeEstimate.classList.add('hidden');
+  }
+}
+
+/**
+ * Hide size estimate display
+ */
+function hideSizeEstimate() {
+  const el = getElements();
+  if (el.sizeEstimate) {
+    el.sizeEstimate.classList.add('hidden');
   }
 }
 
@@ -918,20 +959,11 @@ export {
   // Format buttons
   updateFormatButtons,
 
-  // Advanced options (Epic 6)
+  // Settings panel
   toggleAdvancedOptions,
-  getTargetFilesize,
-  syncTargetFilesize,
-  getLockStates,
-  enforceLockExclusivity,
   isLogEnabled,
 
-  // Manual start (Epic 6)
-  showQueuedState,
-  hideQueuedState,
-  isManualStartMode,
-
-  // Conversion log (Epic 6)
+  // Conversion log
   openLog,
   closeLog,
   clearLog,
@@ -941,6 +973,14 @@ export {
   // Settings persistence (Epic 6)
   saveAdvancedSettings,
   loadAdvancedSettings,
+
+  // Resize options
+  getResizeSettings,
+  updateResizeInputState,
+
+  // Size estimation
+  updateSizeEstimate,
+  hideSizeEstimate,
 
   // Donation banner
   showDonationBanner,

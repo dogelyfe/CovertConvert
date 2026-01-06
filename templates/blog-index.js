@@ -120,17 +120,17 @@ export const blogIndex = ({ posts, i18n = {}, locale = 'en', locales = ['en'], d
   <header class="site-header">
     <a href="/" class="site-header__wordmark"><span class="wordmark-covert">Covert</span><span class="wordmark-convert">Convert</span></a>
     <nav class="site-header__nav">
-      <a href="/blog/" class="site-header__nav-link">Blog</a>
+      <a href="/blog/" class="site-header__nav-link">${i18n.nav?.blog || 'Blog'}</a>
       <a href="/support/" class="site-header__nav-link site-header__nav-link--support">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        Donate
+        ${i18n.nav?.donate || 'Donate'}
       </a>
-      <div class="theme-toggle" role="group" aria-label="Theme switcher">
+      <div class="theme-toggle" role="group" aria-label="${i18n.nav?.themeSwitcher || 'Theme switcher'}">
         <svg class="icon-sun" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
         <label class="theme-switch">
-          <input type="checkbox" id="theme-checkbox" aria-label="Toggle dark mode">
+          <input type="checkbox" id="theme-checkbox" aria-label="${i18n.nav?.toggleDarkMode || 'Toggle dark mode'}">
           <span class="thumb"></span>
         </label>
         <svg class="icon-moon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -157,39 +157,39 @@ export const blogIndex = ({ posts, i18n = {}, locale = 'en', locales = ['en'], d
   <footer class="site-footer">
     <div class="site-footer__grid">
       <div class="site-footer__section">
-        <h3>Tools</h3>
+        <h3>${i18n.footer?.tools || 'Tools'}</h3>
         <ul>
-          <li><a href="/heic-to-jpg/">HEIC to JPG</a></li>
-          <li><a href="/webp-to-jpg/">WebP to JPG</a></li>
-          <li><a href="/png-to-jpg/">PNG to JPG</a></li>
-          <li><a href="/avif-to-jpg/">AVIF to JPG</a></li>
+          <li><a href="/heic-to-jpg/">${i18n.links?.heicToJpg || 'HEIC to JPG'}</a></li>
+          <li><a href="/webp-to-jpg/">${i18n.links?.webpToJpg || 'WebP to JPG'}</a></li>
+          <li><a href="/png-to-jpg/">${i18n.links?.pngToJpg || 'PNG to JPG'}</a></li>
+          <li><a href="/avif-to-jpg/">${i18n.links?.avifToJpg || 'AVIF to JPG'}</a></li>
         </ul>
-        <a href="/heic-to-png/" class="site-footer__view-all">More tools &rarr;</a>
+        <a href="/heic-to-png/" class="site-footer__view-all">${i18n.footer?.moreTools || 'More tools →'}</a>
       </div>
       <div class="site-footer__section">
-        <h3>Learn</h3>
+        <h3>${i18n.footer?.learn || 'Learn'}</h3>
         <ul>
-          <li><a href="/blog/what-is-heic/">What is HEIC?</a></li>
-          <li><a href="/blog/heic-vs-jpg/">HEIC vs JPG</a></li>
-          <li><a href="/blog/is-online-converter-safe/">Is Online Converter Safe?</a></li>
-          <li><a href="/blog/convert-photos-without-uploading/">Convert Without Uploading</a></li>
+          <li><a href="/blog/what-is-heic/">${i18n.featuredArticles?.whatIsHeic || 'What is HEIC?'}</a></li>
+          <li><a href="/blog/heic-vs-jpg/">${i18n.featuredArticles?.heicVsJpg || 'HEIC vs JPG'}</a></li>
+          <li><a href="/blog/is-online-converter-safe/">${i18n.featuredArticles?.isOnlineSafe || 'Is Online Converter Safe?'}</a></li>
+          <li><a href="/blog/convert-photos-without-uploading/">${i18n.featuredArticles?.convertWithoutUploading || 'Convert Without Uploading'}</a></li>
         </ul>
-        <a href="/blog/" class="site-footer__view-all">All articles &rarr;</a>
+        <a href="/blog/" class="site-footer__view-all">${i18n.footer?.allArticles || 'All articles →'}</a>
       </div>
       <div class="site-footer__section">
-        <h3>Company</h3>
+        <h3>${i18n.footer?.company || 'Company'}</h3>
         <ul>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/privacy/">Privacy</a></li>
-          <li><a href="/terms/">Terms</a></li>
-          <li><a href="/how-it-works/">How It Works</a></li>
-          <li><a href="/contact/">Contact</a></li>
-          <li><a href="/support/" class="site-footer__support-link">♥  Donate</a></li>
+          <li><a href="/about/">${i18n.links?.about || 'About'}</a></li>
+          <li><a href="/privacy/">${i18n.links?.privacy || 'Privacy'}</a></li>
+          <li><a href="/terms/">${i18n.links?.terms || 'Terms'}</a></li>
+          <li><a href="/how-it-works/">${i18n.links?.howItWorks || 'How It Works'}</a></li>
+          <li><a href="/contact/">${i18n.links?.contact || 'Contact'}</a></li>
+          <li><a href="/support/" class="site-footer__support-link">♥  ${i18n.nav?.donate || 'Donate'}</a></li>
         </ul>
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">&copy; 2025 CovertConvert. All rights reserved.</p>
+      <p class="site-footer__copyright">${i18n.site?.copyright || '© 2025 CovertConvert. All rights reserved.'}</p>
     </div>
   </footer>
 
